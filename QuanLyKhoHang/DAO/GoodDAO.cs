@@ -144,21 +144,7 @@ namespace QuanLyKhoHang.DAL
             return list;
         }
 
-        public bool IsIDDuplicate(string id)
-        {
-            bool check = false;
-            List<string> list = GetListGoodID();
-            foreach (string s in list)
-            {
-                if (id == s)
-                {
-                    check = true;
-                    break;
-                }
-
-            }
-            return check;
-        }
+        
 
         public Good1 GetGoodByID(string id)
         {

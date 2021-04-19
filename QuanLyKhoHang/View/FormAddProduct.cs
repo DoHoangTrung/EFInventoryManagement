@@ -73,7 +73,7 @@ namespace QuanLyKhoHang
             bool isIDDuplicate = false;
 
             if (id.Length > 30 || id.Length == 0) return checkLength = false;
-            isIDDuplicate = GoodDAO.Instance.IsIDDuplicate(id);
+            isIDDuplicate = ProductDAO.Instance.IsIDDuplicate(id);
 
             return checkLength && (!isIDDuplicate);
         }
@@ -106,7 +106,7 @@ namespace QuanLyKhoHang
         private void comboBoxIDGood_TextUpdate(object sender, EventArgs e)
         {
             string id = comboBoxIDGood.Text;
-            bool isIDDuplicate = GoodDAO.Instance.IsIDDuplicate(id);
+            bool isIDDuplicate = ProductDAO.Instance.IsIDDuplicate(id);
 
             if (id.Length > 30)
             {

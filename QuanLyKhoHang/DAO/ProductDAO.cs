@@ -93,5 +93,21 @@ namespace QuanLyKhoHang.DAO
                                 select p.ID).ToList();
             return IDs;
         }
+
+        public bool IsIDDuplicate(string id)
+        {
+            bool check = false;
+            List<string> list = GetListProductID();
+            foreach (string s in list)
+            {
+                if (id == s)
+                {
+                    check = true;
+                    break;
+                }
+
+            }
+            return check;
+        }
     }
 }
