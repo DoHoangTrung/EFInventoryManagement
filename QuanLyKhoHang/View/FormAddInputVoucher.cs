@@ -1,5 +1,7 @@
 ﻿using QuanLyKhoHang.DAL;
+using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.DAT;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +16,7 @@ namespace QuanLyKhoHang
 {
     public partial class FormAddInputVoucher : Form
     {
+        
         public FormAddInputVoucher()
         {
             InitializeComponent();
@@ -23,21 +26,22 @@ namespace QuanLyKhoHang
         private void FormAddInputVoucher_Load(object sender, EventArgs e)
         {
             LoadSupplierCombobox();
-            LoadGoodCombobox();
-            LoadIDInputVoucherComboBox();
+            LoadProductCombobox();
+            LoadComboBoxReceiveVoucherID();
 
             //create datagridview
-            dataGridViewGood.Columns.Add("idGood", "ID");
-            dataGridViewGood.Columns.Add("nameGood", "Tên sản phẩm");
-            dataGridViewGood.Columns.Add("count", "Số lượng nhập");
-            dataGridViewGood.Columns.Add("inputPrice", "Giá nhập");
-            dataGridViewGood.Columns.Add("outputPrice", "Giá xuất");
+            dataGridViewProduct.Columns.Add("productID", "ID");
+            dataGridViewProduct.Columns.Add("productName", "Tên sản phẩm");
+            dataGridViewProduct.Columns.Add("quantityInput", "Số lượng nhập");
+            dataGridViewProduct.Columns.Add("inputPrice", "Giá nhập");
+            dataGridViewProduct.Columns.Add("outputPrice", "Giá xuất");
+            dataGridViewProduct.Columns.Add("note", "Ghi chú");
 
         }
 
         void LoadSupplierCombobox()
         {
-            List<Supplier1> suppliers = SupplierDAO.Instance.GetListSupplier1();
+            List<Supplier> suppliers = SupplierDAO.Instance.GetListSupplier();
             comboBoxIDSupplier.DataSource = suppliers;
             comboBoxIDSupplier.DisplayMember = "ID";
 
@@ -46,30 +50,31 @@ namespace QuanLyKhoHang
 
         }
 
-        void LoadGoodCombobox()
+        void LoadProductCombobox()
         {
-            List<Good1> goods = GoodDAO.Instance.GetListGoods();
-            comboBoxIDGood.DataSource = goods;
-            comboBoxIDGood.DisplayMember = "ID";
+            List<Product> products = ProductDAO.Instance.GetListProduct();
+            var sortedProducts = products.OrderBy(p => p.ID).ToList();
+            comboBoxProductID.DataSource = sortedProducts;
+            comboBoxProductID.DisplayMember = "ID";
 
-            comboBoxNameGood.DataSource = goods;
-            comboBoxNameGood.DisplayMember = "Name";
+            comboBoxProductName.DataSource = sortedProducts;
+            comboBoxProductName.DisplayMember = "Name";
         }
 
-        void LoadGoodCombobox(List<Good1> goods)
+        void LoadProductCombobox(List<Product> products)
         {
-            var sortedGoods = goods.OrderBy(g => g.ID).ToList();
-            comboBoxIDGood.DataSource = sortedGoods;
-            comboBoxIDGood.DisplayMember = "ID";
+            var sortedProducts = products.OrderBy(p => p.ID).ToList();
+            comboBoxProductID.DataSource = sortedProducts;
+            comboBoxProductID.DisplayMember = "ID";
             
-            comboBoxNameGood.DataSource = sortedGoods;
-            comboBoxNameGood.DisplayMember = "Name";
+            comboBoxProductName.DataSource = sortedProducts;
+            comboBoxProductName.DisplayMember = "Name";
         }
 
 
-        void LoadIDInputVoucherComboBox()
+        void LoadComboBoxReceiveVoucherID()
         {
-            List<string> listID = InputVoucherDAO.Instance.GetListID();
+            List<string> listID = ReceiveVoucherDAO.Instance.GetListID();
             comboBoxIDInputVoucher.DataSource = listID;
             comboBoxIDInputVoucher.AutoCompleteMode = AutoCompleteMode.Suggest;
             comboBoxIDInputVoucher.AutoCompleteSource = AutoCompleteSource.ListItems;
@@ -83,7 +88,7 @@ namespace QuanLyKhoHang
         private void comboBoxIDInputVoucher_TextChanged(object sender, EventArgs e)
         {
             string id = comboBoxIDInputVoucher.Text;
-            if (InputVoucherDAO.Instance.CheckID(id))
+            if (ReceiveVoucherDAO.Instance.CheckID(id))
             {
                 labelInputVoucherIDNotification.Text = "ID không quá 30 kí tự\nKHÔNG trùng với ID trong danh sách";
                 labelInputVoucherIDNotification.ForeColor = System.Drawing.Color.Black;
@@ -95,48 +100,52 @@ namespace QuanLyKhoHang
             }
         }
 
-        private void buttonAddGood_Click(object sender, EventArgs e)
+        private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            string id, name;
+            string id, name, note;
             int count, inputPrice, outputPrice;
-            id = comboBoxIDGood.Text;
-            name = comboBoxNameGood.Text;
-            count = (int)numericUpDownInputCount.Value;
+            id = comboBoxProductID.Text;
+            name = comboBoxProductName.Text;
+            count = (int)numericUpDownInputQuatity.Value;
             inputPrice = (int)numericUpDownInputPrice.Value;
             outputPrice = (int)numericUpDownOutputPrice.Value;
-
+            note = textBoxNote.Text;
             if (count > 0)
             {
-                dataGridViewGood.Rows.Add(id, name, count, inputPrice, outputPrice);
+                dataGridViewProduct.Rows.Add(id, name, count, inputPrice, outputPrice,note);
             }
             else
             {
                 MessageBox.Show("Bạn chưa nhập số lượng");
             }
 
-            //after add good, remove id of that good from combobox (id good can't dupplication)
-            var goods =comboBoxIDGood.Items.Cast<Good1>().ToList();
-            goods.RemoveAt(comboBoxIDGood.SelectedIndex);
-            LoadGoodCombobox(goods);
+            //after add good: remove id of that good from combobox (id good can't dupplication)
+            //  and clear textboxNote
+            var products =comboBoxProductID.Items.Cast<Product>().ToList();
+            products.RemoveAt(comboBoxProductID.SelectedIndex);
+            textBoxNote.Clear();
+
+            LoadProductCombobox(products);
         }
 
-        private void buttonDeleteGood_Click(object sender, EventArgs e)
+        private void buttonDeleteProduct_Click(object sender, EventArgs e)
         {
-            int indexRow = dataGridViewGood.SelectedRows[0].Index;
-            int lastRowIndex = dataGridViewGood.Rows.Count - 1;
+            int indexRow = dataGridViewProduct.SelectedRows[0].Index;
+            int lastRowIndex = dataGridViewProduct.Rows.Count - 1;
             if (indexRow < lastRowIndex)
             {
-                string idGoodRemove = dataGridViewGood.Rows[indexRow].Cells["idGood"].Value.ToString();
-                DialogResult result = MessageBox.Show($"Hãy xác nhận bạn muốn xóa id: {idGoodRemove}", "Thông báo", MessageBoxButtons.OKCancel);
+                string idProductRemove = dataGridViewProduct.Rows[indexRow].Cells["productID"].Value.ToString();
+                string nameProductRemove = dataGridViewProduct.Rows[indexRow].Cells["productName"].Value.ToString();
+                DialogResult result = MessageBox.Show($"Hãy xác nhận bạn muốn xóa sản phẩm:\n{nameProductRemove}\nID:{idProductRemove}", "Thông báo", MessageBoxButtons.OKCancel);
                 if (result == DialogResult.OK)
                 {
                     //before delete good, add that good's id into combobox id good
-                    var goods = comboBoxIDGood.Items.Cast<Good1>().ToList();
-                    Good1 goodRemoved = GoodDAO.Instance.GetGoodByID(idGoodRemove);
-                    goods.Add(goodRemoved);
-                    LoadGoodCombobox(goods);
+                    var products = comboBoxProductID.Items.Cast<Product>().ToList();
+                    Product proRemoved = ProductDAO.Instance.GetProductByID(idProductRemove);
+                    products.Add(proRemoved);
+                    LoadProductCombobox(products);
 
-                    dataGridViewGood.Rows.RemoveAt(indexRow);
+                    dataGridViewProduct.Rows.RemoveAt(indexRow);
                 }
             }
         }
@@ -146,44 +155,68 @@ namespace QuanLyKhoHang
             this.Close();
         }
 
-        private void buttonOK_Click(object sender, EventArgs e)
+        private int InsertReceiveVoucherAndInfo()
         {
-            string idVoucher, idSupplier, idGood;
-            int inputCount, inputPrice, outputPrice;
+            ReceiveVoucher voucher = new ReceiveVoucher();
+            List<ReceicveVoucherInfo> listVoucherInfo = new List<ReceicveVoucherInfo>();
+
+            string idVoucher, idSupplier, idProduct, note;
+            int inputQuatity, inputPrice, outputPrice;
+            const int outputQuantity = 0;
             DateTime inputDate;
+
             idVoucher = comboBoxIDInputVoucher.Text;
             inputDate = dateTimePickerInputDate.Value;
             idSupplier = comboBoxIDSupplier.Text;
-            if (InputVoucherDAO.Instance.CheckID(idVoucher))
+
+            int rowAffected = 0;
+
+            if (ReceiveVoucherDAO.Instance.CheckID(idVoucher))
             {
-                //an input report include: inputvoucher and inputvoucher informations about good
-                InputVoucherDAO.Instance.InsertInputVoucher(idVoucher, idSupplier, inputDate);
+                //step1:insert receive voucher
 
-                int indexLastRow = dataGridViewGood.Rows.Count - 1;
-                for (int i = 0; i < indexLastRow; i++)
+                rowAffected = ReceiveVoucherDAO.Instance.InserReceivetVoucher(idVoucher,inputDate,idSupplier);
+                if(rowAffected<=0)
                 {
-                    idGood = dataGridViewGood.Rows[i].Cells["idGood"].Value.ToString();
-                    inputCount = (int)dataGridViewGood.Rows[i].Cells["count"].Value;
-                    inputPrice = (int)dataGridViewGood.Rows[i].Cells["inputPrice"].Value;
-                    outputPrice = (int)dataGridViewGood.Rows[i].Cells["outputPrice"].Value;
+                    MessageBox.Show("khong them duoc phieu nhap");
+                }
+                else
+                {
+                    //step2: insert receive voucher information
+                    int indexLastRow = dataGridViewProduct.Rows.Count - 1;
+                    for (int i = 0; i < indexLastRow; i++)
+                    {
+                        idProduct = dataGridViewProduct.Rows[i].Cells["ProductID"].Value.ToString();
+                        inputQuatity = (int)dataGridViewProduct.Rows[i].Cells["quantityInput"].Value;
+                        inputPrice = (int)dataGridViewProduct.Rows[i].Cells["inputPrice"].Value;
+                        outputPrice = (int)dataGridViewProduct.Rows[i].Cells["outputPrice"].Value;
+                        note = dataGridViewProduct.Rows[i].Cells["note"].Value.ToString();
 
-                    int rowAffected = InputVoucherDAO.Instance.InsertInputVoucherInfor(idVoucher, idGood, inputCount, inputPrice, outputPrice);
-                    if (rowAffected > 0)
-                    {
-                        MessageBox.Show("Thêm thành công");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Không thành công");
+                        rowAffected = ReceiveVoucherInfoDAO.Instance.InsertReceiveVoucherInfo(idProduct, idVoucher, inputQuatity, inputPrice, outputQuantity, outputPrice, note);
                     }
                 }
+                
+            }
+            return rowAffected;
+        }
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            int rowAffected = InsertReceiveVoucherAndInfo();
+            if (rowAffected > 0)
+            {
+                MessageBox.Show("Thêm thành công");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Không thành công");
             }
         }
 
         private void comboBoxIDInputVoucher_TextChanged_1(object sender, EventArgs e)
         {
             string id = comboBoxIDInputVoucher.Text;
-            if (InputVoucherDAO.Instance.CheckID(id))
+            if (ReceiveVoucherDAO.Instance.CheckID(id))
             {
                 labelInputVoucherIDNotification.Text = "ID không quá 30 kí tự\nKhông trùng với ID trong danh sách";
                 labelInputVoucherIDNotification.ForeColor = System.Drawing.Color.Black;
@@ -197,7 +230,7 @@ namespace QuanLyKhoHang
 
         private void comboBoxIDSupplier_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Supplier1 supplierSelected = comboBoxIDSupplier.SelectedItem as Supplier1;
+            Supplier supplierSelected = comboBoxIDSupplier.SelectedItem as Supplier;
             labelAddressSupplier.Text = "Địa chỉ: "+supplierSelected.Address;
         }
 
@@ -214,7 +247,7 @@ namespace QuanLyKhoHang
             FormAddProduct fAddGood = new FormAddProduct();
             fAddGood.ShowDialog();
 
-            LoadGoodCombobox();
+            LoadProductCombobox();
         }
     }
 }

@@ -56,30 +56,7 @@ namespace QuanLyKhoHang.DAL
             return listID;
         }
 
-        public bool CheckID(string _id)
-        {
-            bool result = true;
-
-            bool checkLength = true;
-            if(_id.Length ==0 || _id.Length > 30)
-            {
-                checkLength = false;
-            }
-
-            bool notDuplicate = true;
-            List<string> listID = GetListID();
-            foreach (string id in listID)
-            {
-                if (_id == id)
-                {
-                    notDuplicate = false;
-                    break;
-                }
-            }
-
-            result = checkLength && notDuplicate;
-            return result;
-        }
+        
 
         public int InsertInputVoucher(string idVoucher, string idSupplier, DateTime inputDate)
         {

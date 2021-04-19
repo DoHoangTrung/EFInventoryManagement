@@ -81,6 +81,8 @@
     <Compile Include="DAO\OutputReportDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\ProductTypeDAO.cs" />
+    <Compile Include="DAO\ReceiveVoucherDAO.cs" />
+    <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DTO\Customer1.cs" />
     <Compile Include="DTO\Good1.cs" />

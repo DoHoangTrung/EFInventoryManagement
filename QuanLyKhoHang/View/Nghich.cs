@@ -14,6 +14,7 @@ namespace QuanLyKhoHang.View
 {
     public partial class Nghich : Form
     {
+        DateTime dt;
         public Nghich()
         {
             InitializeComponent();
@@ -24,7 +25,12 @@ namespace QuanLyKhoHang.View
             InventoryContext db = new InventoryContext();
             //db.Customers.Load();
 
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dt = dateTimePicker1.Value;
+            label1.Text = dt.ToString();
         }
     }
 }

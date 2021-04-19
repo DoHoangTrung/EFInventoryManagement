@@ -78,6 +78,7 @@ namespace QuanLyKhoHang
 
             List<ProductAndType> products = ProductDAO.Instance.GetListProductAndType();
 
+            
             foreach (ProductAndType p in products)
             {
                 ListViewItem lvwItem = new ListViewItem(p.ProductField.ID);
@@ -122,7 +123,7 @@ namespace QuanLyKhoHang
             listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
-        private void ReLoadListViewInputVoucher()
+        private void ReLoadListViewReceiveVoucher()
         {
             listViewGeneral.Clear();
 
@@ -134,7 +135,8 @@ namespace QuanLyKhoHang
             listViewGeneral.Columns.Add(CreateListViewHeader("Ngay"));
             listViewGeneral.Columns.Add(CreateListViewHeader("So luong nhap"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Gia nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("So luong xuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Gia xuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Ghi chú"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Nha cung cap"));
             listViewGeneral.Columns.Add(CreateListViewHeader("DC"));
             listViewGeneral.Columns.Add(CreateListViewHeader("SDT"));
@@ -143,26 +145,36 @@ namespace QuanLyKhoHang
 
             listViewGeneral.ListViewItemSorter = lvwColumnSorter;
 
-            List<InputVoucher1> listVoucher = InputVoucherDAO.Instance.GetListInputVoucher();
-            listVoucher = listVoucher.OrderByDescending(o => o.NgayNhap).ToList();
+            List<ReceiveVoucher> listVoucher = ReceiveVoucherDAO.Instance.GetListReceiveVoucher();
+            listVoucher = listVoucher.OrderByDescending(o => o.Date).ToList();
 
-            foreach (InputVoucher1 voucher in listVoucher)
+            foreach (ReceiveVoucher voucher in listVoucher)
             {
-                ListViewItem lvwItem = new ListViewItem(voucher.IDPhieuNhap);
-                lvwItem.SubItems.Add(voucher.IDSanPham);
-                lvwItem.SubItems.Add(voucher.TenSanPham);
-                lvwItem.SubItems.Add(voucher.DonVi);
-                lvwItem.SubItems.Add(voucher.NgayNhap.ToString("dd-MM-yyyy"));
-                lvwItem.SubItems.Add(voucher.SoLuongNhap.ToString());
-                lvwItem.SubItems.Add(voucher.GiaNhap.ToString());
-                lvwItem.SubItems.Add(voucher.SoLuongXuat.ToString());
-                lvwItem.SubItems.Add(voucher.TenNCC);
-                lvwItem.SubItems.Add(voucher.DiaChi);
-                lvwItem.SubItems.Add(voucher.Sdt);
-                lvwItem.SubItems.Add(voucher.Email);
-                lvwItem.SubItems.Add(voucher.IDNCC);
+                Supplier supplierInVoucher = voucher.Supplier;
 
-                listViewGeneral.Items.Add(lvwItem);
+                List<ReceicveVoucherInfo> voucherInfos = voucher.ReceicveVoucherInfoes.ToList();
+                foreach (var vouInfo in voucherInfos)
+                {
+                    Product productInVoucher = vouInfo.Product;
+
+                    ListViewItem lvwItem = new ListViewItem(voucher.ID);
+                    lvwItem.SubItems.Add(productInVoucher.ID);
+                    lvwItem.SubItems.Add(productInVoucher.Name);
+                    lvwItem.SubItems.Add(productInVoucher.Unit);
+                    lvwItem.SubItems.Add(voucher.Date.ToString());
+                    lvwItem.SubItems.Add(vouInfo.QuatityInput.ToString());
+                    lvwItem.SubItems.Add(vouInfo.PriceInput.ToString());
+                    lvwItem.SubItems.Add(vouInfo.PriceOutput.ToString());
+                    lvwItem.SubItems.Add(vouInfo.Note);
+                    lvwItem.SubItems.Add(supplierInVoucher.Name);
+                    lvwItem.SubItems.Add(supplierInVoucher.Address);
+                    lvwItem.SubItems.Add(supplierInVoucher.Phone);
+                    lvwItem.SubItems.Add(supplierInVoucher.Email);
+                    lvwItem.SubItems.Add(supplierInVoucher.ID);
+
+                    listViewGeneral.Items.Add(lvwItem);
+                }
+                
             }
         }
 
@@ -366,7 +378,7 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryInputVoucher)
             {
-                ReLoadListViewInputVoucher();
+                ReLoadListViewReceiveVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryOutputVoucher)
@@ -406,7 +418,7 @@ namespace QuanLyKhoHang
                 FormAddInputVoucher fAddInputVoucher = new FormAddInputVoucher();
                 fAddInputVoucher.ShowDialog();
 
-                ReLoadListViewInputVoucher();
+                ReLoadListViewReceiveVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryOutputVoucher)

@@ -146,12 +146,6 @@ namespace QuanLyKhoHang.DAL
 
         
 
-        public Good1 GetGoodByID(string id)
-        {
-            string query = $"SELECT * FROM SanPham WHERE ID = '{id}'";
-            DataTable dt = DataProvider.Instance.ExecuteQuery(query);
-            Good1 Good1 = new Good1(dt.Rows[0]);
-            return Good1;
-        }
+        
     }
 }
