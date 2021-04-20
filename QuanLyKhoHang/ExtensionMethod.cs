@@ -4,10 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace QuanLyKhoHang
 {
-    public static class StringExtension
+    public static class ExtensionMethod
     {
         public static string LowerCaseAndRemoveAccents(this string text)
         { 
@@ -23,5 +24,7 @@ namespace QuanLyKhoHang
 
             return s.ToString();
         }
+
+
     }
 }

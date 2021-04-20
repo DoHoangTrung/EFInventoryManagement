@@ -33,7 +33,6 @@ namespace QuanLyKhoHang
             this.côngCụToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.càiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.labelTest = new System.Windows.Forms.Label();
             this.buttonCategoryCustomer = new System.Windows.Forms.Button();
             this.buttonCategorySupplier = new System.Windows.Forms.Button();
             this.buttonCategoryProduct = new System.Windows.Forms.Button();
@@ -84,7 +83,6 @@ namespace QuanLyKhoHang
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.labelTest);
             this.panel1.Controls.Add(this.buttonCategoryCustomer);
             this.panel1.Controls.Add(this.buttonCategorySupplier);
             this.panel1.Controls.Add(this.buttonCategoryProduct);
@@ -94,15 +92,6 @@ namespace QuanLyKhoHang
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(419, 557);
             this.panel1.TabIndex = 3;
-            // 
-            // labelTest
-            // 
-            this.labelTest.AutoSize = true;
-            this.labelTest.Location = new System.Drawing.Point(204, 247);
-            this.labelTest.Name = "labelTest";
-            this.labelTest.Size = new System.Drawing.Size(46, 17);
-            this.labelTest.TabIndex = 3;
-            this.labelTest.Text = "label3";
             // 
             // buttonCategoryCustomer
             // 
@@ -290,7 +279,6 @@ namespace QuanLyKhoHang
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -320,6 +308,5 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Button buttonCategorySupplier;
         private System.Windows.Forms.Button buttonCategoryCustomer;
         internal System.Windows.Forms.ListView listViewGeneral;
-        private System.Windows.Forms.Label labelTest;
     }
 }

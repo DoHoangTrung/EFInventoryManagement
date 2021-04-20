@@ -14,16 +14,16 @@ using System.Windows.Forms;
 
 namespace QuanLyKhoHang
 {
-    public partial class FormAddInputVoucher : Form
+    public partial class FormAddReceiveVoucher : Form
     {
         
-        public FormAddInputVoucher()
+        public FormAddReceiveVoucher()
         {
             InitializeComponent();
 
         }
 
-        private void FormAddInputVoucher_Load(object sender, EventArgs e)
+        private void FormAddReceiveVoucher_Load(object sender, EventArgs e)
         {
             LoadSupplierCombobox();
             LoadProductCombobox();
@@ -80,11 +80,6 @@ namespace QuanLyKhoHang
             comboBoxIDInputVoucher.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
 
-        private void AddInputVoucher()
-        {
-
-        }
-
         private void comboBoxIDInputVoucher_TextChanged(object sender, EventArgs e)
         {
             string id = comboBoxIDInputVoucher.Text;
@@ -103,16 +98,16 @@ namespace QuanLyKhoHang
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
             string id, name, note;
-            int count, inputPrice, outputPrice;
+            int inputQuatity, inputPrice, outputPrice;
             id = comboBoxProductID.Text;
             name = comboBoxProductName.Text;
-            count = (int)numericUpDownInputQuatity.Value;
+            inputQuatity = (int)numericUpDownInputQuatity.Value;
             inputPrice = (int)numericUpDownInputPrice.Value;
             outputPrice = (int)numericUpDownOutputPrice.Value;
             note = textBoxNote.Text;
-            if (count > 0)
+            if (inputQuatity > 0)
             {
-                dataGridViewProduct.Rows.Add(id, name, count, inputPrice, outputPrice,note);
+                dataGridViewProduct.Rows.Add(id, name, inputQuatity, inputPrice, outputPrice,note);
             }
             else
             {

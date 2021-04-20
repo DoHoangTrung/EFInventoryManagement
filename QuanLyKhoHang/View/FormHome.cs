@@ -128,7 +128,7 @@ namespace QuanLyKhoHang
             listViewGeneral.Clear();
 
             //create list view input voucher
-            listViewGeneral.Columns.Add(CreateListViewHeader("ID phieu nhap"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDReceiveVoucher","ID phieu nhap"));
             listViewGeneral.Columns.Add(CreateListViewHeader("ID san pham"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Ten san pham"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Don vi"));
@@ -361,7 +361,6 @@ namespace QuanLyKhoHang
             buttonDelete.Tag = categoryButton;
         }
 
-
         private void buttonShow_Click(object sender, EventArgs e)
         {
             Button categoryButtonTagged = buttonShow.Tag as Button;
@@ -415,7 +414,7 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryInputVoucher)
             {
-                FormAddInputVoucher fAddInputVoucher = new FormAddInputVoucher();
+                FormAddReceiveVoucher fAddInputVoucher = new FormAddReceiveVoucher();
                 fAddInputVoucher.ShowDialog();
 
                 ReLoadListViewReceiveVoucher();
@@ -477,10 +476,15 @@ namespace QuanLyKhoHang
             {
                 if (listViewGeneral.Tag != null)
                 {
-                    string idInputVoucher = listViewGeneral.Tag.ToString();
-                    FormUpdateInputVoucher fUpdate = new FormUpdateInputVoucher();
-                    fUpdate.idInputVoucher = idInputVoucher;
-                    fUpdate.ShowDialog();
+                    ReceiveVoucher voucherTagged = listViewGeneral.Tag as ReceiveVoucher;
+                    if(voucherTagged != null)
+                    {
+                        FormUpdateReceiveVoucher fUpdate = new FormUpdateReceiveVoucher();
+                        fUpdate.receiveVoucher = voucherTagged;
+                        this.Hide();
+                        fUpdate.ShowDialog();
+                        this.Show();
+                    }
                 }
                 else
                 {
@@ -633,28 +637,12 @@ namespace QuanLyKhoHang
 
                 if (btnCatgory == buttonCategoryInputVoucher)
                 {
-                    /*string iDSanPham, tenSanPham, donVi, tenNCC, diaChi, sdt, email, iDNCC, iDPhieuNhap;
-                    DateTime ngayNhap;
-                    int soLuongNhap, giaNhap, soLuongXuat;
+                    int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDReceiveVoucher");
+                    string idReceiveVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
 
-                    iDSanPham = lvwItem.SubItems["ID san pham"].Text;
-                    tenSanPham = lvwItem.SubItems["Ten san pham"].Text;
-                    donVi = lvwItem.SubItems["Don vi"].Text;
-                    ngayNhap = Convert.ToDateTime(lvwItem.SubItems["Ngay"].Text);
-                    soLuongNhap = Convert.ToInt32(lvwItem.SubItems["So luong nhap"]);
-                    giaNhap = Convert.ToInt32(lvwItem.SubItems["Gia nhap"]);
-                    soLuongXuat = Convert.ToInt32(lvwItem.SubItems["So luong xuat"]);
-                    tenNCC = lvwItem.SubItems["Nha cung cap"].Text;
-                    diaChi = lvwItem.SubItems["DC"].Text;
-                    sdt = lvwItem.SubItems["SDT"].Text;
-                    email = lvwItem.SubItems["Email"].Text;
-                    iDNCC = lvwItem.SubItems["ID NCC"].Text;
-                    iDPhieuNhap = lvwItem.SubItems["ID phieu nhap"].Text;*/
+                    ReceiveVoucher receiveVoucher = ReceiveVoucherDAO.Instance.GetReceiveVoucherAllInfoByID(idReceiveVoucher);
 
-
-                    int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("ID phieu nhap");
-                    string idInputVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
-                    listViewGeneral.Tag = idInputVoucher as object;
+                    listViewGeneral.Tag = receiveVoucher as object;
                 }
             }
         }

@@ -27,10 +27,5 @@ namespace QuanLyKhoHang.View
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            dt = dateTimePicker1.Value;
-            label1.Text = dt.ToString();
-        }
-    }
+        
 }

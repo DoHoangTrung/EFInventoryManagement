@@ -19,6 +19,7 @@ namespace QuanLyKhoHang.DAO
             set { }
         }
 
+        #region method
         public List<ReceiveVoucher> GetListReceiveVoucher()
         {
             List<ReceiveVoucher> receiveVouchers = db.ReceiveVouchers.ToList();
@@ -93,5 +94,28 @@ namespace QuanLyKhoHang.DAO
 
             return rowAffected;
         }
+
+        public ReceiveVoucher GetReceiveVoucherAllInfoByID(string id)
+        {
+            ReceiveVoucher voucher = db.ReceiveVouchers.Find(id);
+            //a receive voucher has a supplier
+            voucher.Supplier = db.Suppliers.Find(voucher.IDSupplier);
+
+            //a receive voucher has a list of infomation
+            voucher.ReceicveVoucherInfoes = (from i in db.ReceicveVoucherInfoes
+                                                      where i.IDReceiveVoucher == voucher.ID
+                                                      select i).ToList();
+            foreach (var vInfo in voucher.ReceicveVoucherInfoes)
+            {
+                //in a voucher information has a product 
+                vInfo.Product = db.Products.Find(vInfo.IDProduct);
+            }
+
+            return voucher;
+        }
+
+        
+
+        #endregion
     }
 }

@@ -27,9 +27,7 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\EntityFramew
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\EntityFramework.xml
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\InventoryManagement.csprojAssemblyReference.cache
-C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateInputVoucher.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddCustomer.resources
-C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddInputVoucher.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddSupplier.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormDeleteCustomer.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormDeleteSupplier.resources
@@ -56,3 +54,6 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\InventoryManagement\QuanLyKhoHang\bi
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\InventoryManagement\QuanLyKhoHang\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\InventoryManagement\QuanLyKhoHang\obj\Debug\InventoryManagement.csproj.CopyComplete
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddProduct.resources
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddReceiveVoucher.resources
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateReceiveInfo.resources
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateReceiveVoucher.resources
