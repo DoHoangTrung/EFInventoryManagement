@@ -18,7 +18,6 @@ namespace QuanLyKhoHang.Entity
         [StringLength(30)]
         public string ID { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime? Date { get; set; }
 
         [StringLength(30)]
