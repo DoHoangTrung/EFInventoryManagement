@@ -47,14 +47,14 @@ CREATE TABLE ReceiveVoucher
 
 GO
 
-CREATE TABLE ReceicveVoucherInfo
+CREATE TABLE ReceiveVoucherInfo
 (
 	IDProduct VARCHAR(30) REFERENCES Product(ID),
 	IDReceiveVoucher VARCHAR(30) REFERENCES ReceiveVoucher(ID),
-	QuatityInput INT DEFAULT(1),
+	QuantityInput INT DEFAULT(1),
 	PriceInput INT DEFAULT(1),
 	PriceOutput INT,
-	QuatityOutput INT DEFAULT (0),
+	QuantityOutput INT DEFAULT (0),
 	Note nvarchar(200),
 	CONSTRAINT PK_ReceicveVoucherInfo PRIMARY KEY (IDProduct,IDReceiveVoucher)
 )
@@ -72,7 +72,7 @@ CREATE TABLE DeliveryVoucherInfo
 (
 	IDProduct VARCHAR(30) REFERENCES Product(ID),
 	IDDeliveryVoucher VARCHAR(30) REFERENCES DeliveryVoucher(ID),
-	Quatity INT,
+	Quantity INT,
 	Note nvarchar (200),
 	CONSTRAINT PK_DeliveryVoucherInfo PRIMARY KEY(IDProduct,IDDeliveryVoucher)
 )
@@ -183,7 +183,7 @@ VALUES
 GO
 
 --Thong tin phieu nhap
-INSERT INTO ReceicveVoucherInfo(IDReceiveVoucher,IDProduct,QuatityInput,PriceInput,PriceOutput)
+INSERT INTO ReceiveVoucherInfo(IDReceiveVoucher,IDProduct,QuantityInput,PriceInput,PriceOutput)
 VALUES
 ('PN001','SPBXS100', 988,16600,19000),
 ('PN002','SPS6',1067,16700,19200),
@@ -207,7 +207,7 @@ VALUES
 GO
 
 --THONG TIN PHIEU XUAT
-INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quatity)
+INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity)
 VALUES
 ('PX001','SPBXS100',700),
 ('PX001','SPS6',1000),
@@ -434,7 +434,7 @@ BEGIN
 	IF @DATE_FROMDATE < @DATE_toDATE
 	BEGIN
 		SELECT sp.ID AS [ID san pham], sp.Name AS [Name san pham],sp.Unit AS [Don vi],
-			sum(ttn.QuatityInput) AS [tong nhap], sum (ttx.Quatity) AS [tong xuat]
+			sum(ttn.QuantityInput) AS [tong nhap], sum (ttx.Quantity) AS [tong xuat]
 		FROM Product AS sp 
 		join ReceicveVoucherInfo AS ttn ON sp.ID = ttn.IDProduct
 		join DeliveryVoucherInfo AS ttx ON ttx.IDProduct = sp.ID
@@ -471,16 +471,16 @@ go
 create proc InsertReceiveVoucherInfo
 	@idPhieu varchar(30),
 	@IDProduct varchar(30),
-	@QuatityInput int,
+	@QuantityInput int,
 	@PriceInput int,
 	@PriceOutput int
 as
 begin
-	insert into ReceicveVoucherInfo (IDProduct,IDReceiveVoucher,QuatityInput,PriceInput,PriceOutput)
-	values(@IDProduct,@idPhieu,@QuatityInput,@PriceInput,@PriceOutput)
+	insert into ReceicveVoucherInfo (IDProduct,IDReceiveVoucher,QuantityInput,PriceInput,PriceOutput)
+	values(@IDProduct,@idPhieu,@QuantityInput,@PriceInput,@PriceOutput)
 end
 GO
---exec dbo.InsertThongTinPhieuNhap @idPhieu = 'PN011' ,@IDProduct='001',@QuatityInput = 2,@PriceInput = 10000,@PriceOutput = 20000
+--exec dbo.InsertThongTinPhieuNhap @idPhieu = 'PN011' ,@IDProduct='001',@QuantityInput = 2,@PriceInput = 10000,@PriceOutput = 20000
 
 
 ------------------------------18)hien thi ReceiveVoucher va ReceicveVoucherInfo va Supplier
@@ -492,9 +492,9 @@ BEGIN
 		sp.Name AS [Name San pham],
 		sp.Unit,
 		pn.Date,
-		ttn.QuatityInput,
+		ttn.QuantityInput,
 		ttn.PriceInput,
-		ttn.QuatityOutput,
+		ttn.QuantityOutput,
 		ncc.Name AS [Nha cung cap],
 		ncc.Address,
 		ncc.Phone,
@@ -516,13 +516,13 @@ CREATE PROC AddInputVoucher
 	@IDSupplier VARCHAR(30),
 	@ngayNhap DATE,
 	@IDSanPham VARCHAR(30),
-	@QuatityInput INT,
+	@QuantityInput INT,
 	@PriceInput INT,
 	@PriceOutput INT
 AS
 BEGIN
 	INSERT INTO ReceiveVoucher(ID, IDSupplier, Date) VALUES(@IDReceiveVoucher,@IDSupplier,@ngayNhap)
-	INSERT INTO ReceicveVoucherInfo(IDReceiveVoucher,IDProduct,QuatityInput,PriceInput,PriceOutput) VALUES(@IDReceiveVoucher,@IDSanPham,@QuatityInput,@PriceInput,@PriceOutput)
+	INSERT INTO ReceicveVoucherInfo(IDReceiveVoucher,IDProduct,QuantityInput,PriceInput,PriceOutput) VALUES(@IDReceiveVoucher,@IDSanPham,@QuantityInput,@PriceInput,@PriceOutput)
 END
 GO
 
@@ -533,7 +533,7 @@ AS
 BEGIN
 	SELECT 
 		sp.Name AS [TenSanPham], 
-		sp.Unit,ttx.Quatity AS [QuatityOutput],
+		sp.Unit,ttx.Quantity AS [QuantityOutput],
 		px.Date AS [NgayXuat], 
 		k.Name AS[TenKhachHang], 
 		k.Address, k.Phone ,
@@ -557,9 +557,9 @@ begin
 	select 
 		ttn.IDProduct,
 		sp.Name as [Name san pham],
-		ttn.QuatityInput,
+		ttn.QuantityInput,
 		ttn.PriceInput,
-		ttn.QuatityOutput, 
+		ttn.QuantityOutput, 
 		ttn.PriceOutput
 	from ReceicveVoucherInfo ttn
 		join Product sp on sp.ID = ttn.IDProduct
