@@ -71,7 +71,7 @@ namespace QuanLyKhoHang.View
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.20465F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.57821F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 9.314587F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 334F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 336F));
             this.tableLayoutPanel1.Controls.Add(this.label17, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 1);
@@ -111,7 +111,7 @@ namespace QuanLyKhoHang.View
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(513, 138);
+            this.label17.Location = new System.Drawing.Point(512, 138);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(42, 39);
             this.label17.TabIndex = 48;
@@ -209,7 +209,7 @@ namespace QuanLyKhoHang.View
             // 
             // numericUpDownInputQuantity
             // 
-            this.numericUpDownInputQuantity.Location = new System.Drawing.Point(565, 141);
+            this.numericUpDownInputQuantity.Location = new System.Drawing.Point(564, 141);
             this.numericUpDownInputQuantity.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -232,7 +232,7 @@ namespace QuanLyKhoHang.View
             // 
             // numericUpDownInputPrice
             // 
-            this.numericUpDownInputPrice.Location = new System.Drawing.Point(565, 210);
+            this.numericUpDownInputPrice.Location = new System.Drawing.Point(564, 210);
             this.numericUpDownInputPrice.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -244,7 +244,7 @@ namespace QuanLyKhoHang.View
             // 
             // numericUpDownOutputPrice
             // 
-            this.numericUpDownOutputPrice.Location = new System.Drawing.Point(565, 279);
+            this.numericUpDownOutputPrice.Location = new System.Drawing.Point(564, 279);
             this.numericUpDownOutputPrice.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -256,7 +256,7 @@ namespace QuanLyKhoHang.View
             // 
             // textBoxNote
             // 
-            this.textBoxNote.Location = new System.Drawing.Point(565, 417);
+            this.textBoxNote.Location = new System.Drawing.Point(564, 417);
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.Size = new System.Drawing.Size(325, 22);
             this.textBoxNote.TabIndex = 42;
@@ -301,7 +301,7 @@ namespace QuanLyKhoHang.View
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(513, 207);
+            this.label14.Location = new System.Drawing.Point(512, 207);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(42, 39);
             this.label14.TabIndex = 45;
@@ -311,7 +311,7 @@ namespace QuanLyKhoHang.View
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(513, 276);
+            this.label13.Location = new System.Drawing.Point(512, 276);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(42, 39);
             this.label13.TabIndex = 44;
@@ -321,7 +321,7 @@ namespace QuanLyKhoHang.View
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(513, 414);
+            this.label16.Location = new System.Drawing.Point(512, 414);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(42, 39);
             this.label16.TabIndex = 47;
@@ -373,9 +373,6 @@ namespace QuanLyKhoHang.View
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(19, 30);
             this.toolStripStatusLabel1.Text = " ";
             // 
-            // toolTip1
-            // 
-            // 
             // FormUpdateReceiveVoucherInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -386,6 +383,7 @@ namespace QuanLyKhoHang.View
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FormUpdateReceiveVoucherInfo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormUpdateReceiveInfo";
             this.Load += new System.EventHandler(this.FormUpdateReceiveVoucherInfo_Load);
             this.tableLayoutPanel1.ResumeLayout(false);

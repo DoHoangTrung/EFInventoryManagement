@@ -103,6 +103,12 @@
     <Compile Include="Entity\ReceiveVoucherInfo.cs" />
     <Compile Include="Entity\Supplier.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="View\FormDeleteReceiveVoucher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormDeleteReceiveVoucher.Designer.cs">
+      <DependentUpon>FormDeleteReceiveVoucher.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FormUpdateReceiveVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -203,6 +209,9 @@
     <Compile Include="View\Nghich.Designer.cs">
       <DependentUpon>Nghich.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\FormDeleteReceiveVoucher.resx">
+      <DependentUpon>FormDeleteReceiveVoucher.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FormUpdateReceiveVoucher.resx">
       <DependentUpon>FormUpdateReceiveVoucher.cs</DependentUpon>
     </EmbeddedResource>

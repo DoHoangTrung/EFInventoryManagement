@@ -57,3 +57,4 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHan
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddReceiveVoucher.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateReceiveVoucher.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateReceiveVoucherInfo.resources
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormDeleteReceiveVoucher.resources

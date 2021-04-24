@@ -99,7 +99,7 @@ namespace QuanLyKhoHang
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(8, 83);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(111, 17);
+            this.label6.Size = new System.Drawing.Size(139, 21);
             this.label6.TabIndex = 23;
             this.label6.Text = "ID nhà cung cấp";
             // 

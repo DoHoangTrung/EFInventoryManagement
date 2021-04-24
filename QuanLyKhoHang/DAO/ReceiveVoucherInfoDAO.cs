@@ -111,5 +111,14 @@ namespace QuanLyKhoHang.DAO
             rowAffected = db.SaveChanges();
             return rowAffected;
         }
+
+        public int RemoveReceiveVoucherInfoByID(string idProduct,string idReceiveVoucher)
+        {
+            ReceiveVoucherInfo info = db.ReceiveVoucherInfoes.Find(idProduct, idReceiveVoucher);
+            db.ReceiveVoucherInfoes.Remove(info);
+            int rowAffected = db.SaveChanges();
+            return rowAffected;
+        }
+
     }
 }

@@ -158,5 +158,11 @@ namespace QuanLyKhoHang.DAL
             ANDCondition = checkLenght && !Duplicate;
             return ANDCondition;
         }
+
+        public string GetNameByID(string idSupplier)
+        {
+            Supplier supplier = db.Suppliers.Find(idSupplier);
+            return supplier.Name;
+        }
     }
 }

@@ -16,6 +16,7 @@ using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.DAT;
 using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.View;
 
 namespace QuanLyKhoHang
 {
@@ -153,6 +154,11 @@ namespace QuanLyKhoHang
                 Supplier supplierInVoucher = voucher.Supplier;
 
                 List<ReceiveVoucherInfo> voucherInfos = voucher.ReceiveVoucherInfoes.ToList();
+                if(voucherInfos.Count == 0 )
+                {
+                    ListViewItem lvwItem = new ListViewItem(voucher.ID);
+                    listViewGeneral.Items.Add(lvwItem);
+                }
                 foreach (var vouInfo in voucherInfos)
                 {
                     Product productInVoucher = vouInfo.Product;
@@ -559,6 +565,30 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryInputVoucher)
             {
+                ReceiveVoucher voucherTagged = listViewGeneral.Tag as ReceiveVoucher;
+                if (voucherTagged != null)
+                {
+                    if (ReceiveVoucherDAO.Instance.HaveTheProductBeenSold(voucherTagged.ID))
+                    {
+                        MessageBox.Show("Phiếu nhập hàng này đã có sản phẩm được xuất kho. Bạn không thể xóa");
+                    }
+                    else
+                    {
+                        FormDeleteReceiveVoucher f = new FormDeleteReceiveVoucher();
+                        f.voucherTagged = voucherTagged;
+                        this.Hide();
+                        f.ShowDialog();
+
+                        ReLoadListViewReceiveVoucher();
+
+                        this.Show();
+                        
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Hãy chọn dòng thông tin bạn muốn xóa");
+                }
             }
 
             if (categoryButtonTagged == buttonCategoryOutputVoucher)

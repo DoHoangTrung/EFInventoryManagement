@@ -97,30 +97,33 @@ namespace QuanLyKhoHang
 
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            string id, name, note;
-            int inputQuantity, inputPrice, outputPrice;
-            id = comboBoxProductID.Text;
-            name = comboBoxProductName.Text;
-            inputQuantity = (int)numericUpDownInputQuantity.Value;
-            inputPrice = (int)numericUpDownInputPrice.Value;
-            outputPrice = (int)numericUpDownOutputPrice.Value;
-            note = textBoxNote.Text;
-            if (inputQuantity > 0)
+            if (comboBoxProductID.Items.Count > 0)
             {
-                dataGridViewProduct.Rows.Add(id, name, inputQuantity, inputPrice, outputPrice,note);
-            }
-            else
-            {
-                MessageBox.Show("Bạn chưa nhập số lượng");
-            }
+                string id, name, note;
+                int inputQuantity, inputPrice, outputPrice;
+                id = comboBoxProductID.Text;
+                name = comboBoxProductName.Text;
+                inputQuantity = (int)numericUpDownInputQuantity.Value;
+                inputPrice = (int)numericUpDownInputPrice.Value;
+                outputPrice = (int)numericUpDownOutputPrice.Value;
+                note = textBoxNote.Text;
+                if (inputQuantity > 0)
+                {
+                    dataGridViewProduct.Rows.Add(id, name, inputQuantity, inputPrice, outputPrice, note);
+                }
+                else
+                {
+                    MessageBox.Show("Bạn chưa nhập số lượng");
+                }
 
-            //after add good: remove id of that good from combobox (id good can't dupplication)
-            //  and clear textboxNote
-            var products =comboBoxProductID.Items.Cast<Product>().ToList();
-            products.RemoveAt(comboBoxProductID.SelectedIndex);
-            textBoxNote.Clear();
+                //after add good: remove id of that good from combobox (id good can't dupplication)
+                //  and clear textboxNote
+                var products = comboBoxProductID.Items.Cast<Product>().ToList();
+                products.RemoveAt(comboBoxProductID.SelectedIndex);
+                textBoxNote.Clear();
 
-            LoadProductCombobox(products);
+                LoadProductCombobox(products);
+            }
         }
 
         private void buttonDeleteProduct_Click(object sender, EventArgs e)
