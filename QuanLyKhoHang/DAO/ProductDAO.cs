@@ -117,7 +117,7 @@ namespace QuanLyKhoHang.DAO
 
         public List<Product> GetListProductOutOfReceiveVoucher(string idReceiveVoucher)
         {
-            List<string> iDProductsInVoucher = (from v in db.ReceicveVoucherInfoes
+            List<string> iDProductsInVoucher = (from v in db.ReceiveVoucherInfoes
                                               where v.IDReceiveVoucher == idReceiveVoucher
                                               select v.IDProduct).ToList();
 
@@ -125,6 +125,14 @@ namespace QuanLyKhoHang.DAO
             List<Product> products = db.Products.Where(p => !iDProductsInVoucher.Contains(p.ID)).ToList();
 
             return products;
+        }
+
+        public string GetNameByID(string idProduct)
+        {
+            string name = (from p in db.Products
+                           where p.ID == idProduct
+                           select p.Name).FirstOrDefault();
+            return name;
         }
     }
 }

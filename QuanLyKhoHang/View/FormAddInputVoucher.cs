@@ -98,16 +98,16 @@ namespace QuanLyKhoHang
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
             string id, name, note;
-            int inputQuatity, inputPrice, outputPrice;
+            int inputQuantity, inputPrice, outputPrice;
             id = comboBoxProductID.Text;
             name = comboBoxProductName.Text;
-            inputQuatity = (int)numericUpDownInputQuatity.Value;
+            inputQuantity = (int)numericUpDownInputQuantity.Value;
             inputPrice = (int)numericUpDownInputPrice.Value;
             outputPrice = (int)numericUpDownOutputPrice.Value;
             note = textBoxNote.Text;
-            if (inputQuatity > 0)
+            if (inputQuantity > 0)
             {
-                dataGridViewProduct.Rows.Add(id, name, inputQuatity, inputPrice, outputPrice,note);
+                dataGridViewProduct.Rows.Add(id, name, inputQuantity, inputPrice, outputPrice,note);
             }
             else
             {
@@ -152,11 +152,8 @@ namespace QuanLyKhoHang
 
         private int InsertReceiveVoucherAndInfo()
         {
-            ReceiveVoucher voucher = new ReceiveVoucher();
-            List<ReceicveVoucherInfo> listVoucherInfo = new List<ReceicveVoucherInfo>();
-
             string idVoucher, idSupplier, idProduct, note;
-            int inputQuatity, inputPrice, outputPrice;
+            int inputQuantity, inputPrice, outputPrice;
             const int outputQuantity = 0;
             DateTime inputDate;
 
@@ -182,12 +179,12 @@ namespace QuanLyKhoHang
                     for (int i = 0; i < indexLastRow; i++)
                     {
                         idProduct = dataGridViewProduct.Rows[i].Cells["ProductID"].Value.ToString();
-                        inputQuatity = (int)dataGridViewProduct.Rows[i].Cells["quantityInput"].Value;
+                        inputQuantity = (int)dataGridViewProduct.Rows[i].Cells["quantityInput"].Value;
                         inputPrice = (int)dataGridViewProduct.Rows[i].Cells["inputPrice"].Value;
                         outputPrice = (int)dataGridViewProduct.Rows[i].Cells["outputPrice"].Value;
                         note = dataGridViewProduct.Rows[i].Cells["note"].Value.ToString();
 
-                        rowAffected = ReceiveVoucherInfoDAO.Instance.InsertReceiveVoucherInfo(idProduct, idVoucher, inputQuatity, inputPrice, outputQuantity, outputPrice, note);
+                        rowAffected = ReceiveVoucherInfoDAO.Instance.InsertReceiveVoucherInfo(idProduct, idVoucher, inputQuantity, inputPrice, outputPrice, outputQuantity, note);
                     }
                 }
                 

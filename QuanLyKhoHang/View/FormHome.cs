@@ -152,7 +152,7 @@ namespace QuanLyKhoHang
             {
                 Supplier supplierInVoucher = voucher.Supplier;
 
-                List<ReceicveVoucherInfo> voucherInfos = voucher.ReceicveVoucherInfoes.ToList();
+                List<ReceiveVoucherInfo> voucherInfos = voucher.ReceiveVoucherInfoes.ToList();
                 foreach (var vouInfo in voucherInfos)
                 {
                     Product productInVoucher = vouInfo.Product;
@@ -162,7 +162,7 @@ namespace QuanLyKhoHang
                     lvwItem.SubItems.Add(productInVoucher.Name);
                     lvwItem.SubItems.Add(productInVoucher.Unit);
                     lvwItem.SubItems.Add(voucher.Date.ToString());
-                    lvwItem.SubItems.Add(vouInfo.QuatityInput.ToString());
+                    lvwItem.SubItems.Add(vouInfo.QuantityInput.ToString());
                     lvwItem.SubItems.Add(vouInfo.PriceInput.ToString());
                     lvwItem.SubItems.Add(vouInfo.PriceOutput.ToString());
                     lvwItem.SubItems.Add(vouInfo.Note);
@@ -480,10 +480,12 @@ namespace QuanLyKhoHang
                     if(voucherTagged != null)
                     {
                         FormUpdateReceiveVoucher fUpdate = new FormUpdateReceiveVoucher();
-                        fUpdate.receiveVoucher = voucherTagged;
+                        fUpdate.receiveVoucherTagged = voucherTagged;
                         this.Hide();
                         fUpdate.ShowDialog();
                         this.Show();
+
+                        ReLoadListViewReceiveVoucher();
                     }
                 }
                 else

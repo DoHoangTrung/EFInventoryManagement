@@ -6,8 +6,8 @@ namespace QuanLyKhoHang.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ReceicveVoucherInfo")]
-    public partial class ReceicveVoucherInfo
+    [Table("ReceiveVoucherInfo")]
+    public partial class ReceiveVoucherInfo
     {
         [Key]
         [Column(Order = 0)]
@@ -19,13 +19,13 @@ namespace QuanLyKhoHang.Entity
         [StringLength(30)]
         public string IDReceiveVoucher { get; set; }
 
-        public int? QuatityInput { get; set; }
+        public int? QuantityInput { get; set; }
 
         public int? PriceInput { get; set; }
 
         public int? PriceOutput { get; set; }
 
-        public int? QuatityOutput { get; set; }
+        public int? QuantityOutput { get; set; }
 
         [StringLength(200)]
         public string Note { get; set; }

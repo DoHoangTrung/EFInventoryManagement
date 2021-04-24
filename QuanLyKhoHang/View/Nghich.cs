@@ -14,18 +14,22 @@ namespace QuanLyKhoHang.View
 {
     public partial class Nghich : Form
     {
+        InventoryContext db = new InventoryContext();
         DateTime dt;
         public Nghich()
         {
             InitializeComponent();
         }
-
+        ToolTip toolTip = new ToolTip();
         private void Nghich_Load(object sender, EventArgs e)
         {
-            InventoryContext db = new InventoryContext();
-            //db.Customers.Load();
+            toolStripStatusLabel1.Text = "helleo";
+            toolTip.InitialDelay = 10;
+            toolTip.ReshowDelay = 100000;
+            
+            toolTip.SetToolTip(label1, "this is label 1");
 
         }
 
-        
+    }
 }

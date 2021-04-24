@@ -50,7 +50,7 @@ namespace QuanLyKhoHang
             this.dataGridViewProduct = new System.Windows.Forms.DataGridView();
             this.numericUpDownOutputPrice = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownInputPrice = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDownInputQuatity = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownInputQuantity = new System.Windows.Forms.NumericUpDown();
             this.comboBoxProductName = new System.Windows.Forms.ComboBox();
             this.comboBoxProductID = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -69,7 +69,7 @@ namespace QuanLyKhoHang
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutputPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputPrice)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputQuatity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputQuantity)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -193,6 +193,7 @@ namespace QuanLyKhoHang
             // 
             // dateTimePickerInputDate
             // 
+            this.dateTimePickerInputDate.Enabled = false;
             this.dateTimePickerInputDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePickerInputDate.Location = new System.Drawing.Point(177, 126);
             this.dateTimePickerInputDate.Name = "dateTimePickerInputDate";
@@ -225,7 +226,7 @@ namespace QuanLyKhoHang
             this.panel2.Controls.Add(this.dataGridViewProduct);
             this.panel2.Controls.Add(this.numericUpDownOutputPrice);
             this.panel2.Controls.Add(this.numericUpDownInputPrice);
-            this.panel2.Controls.Add(this.numericUpDownInputQuatity);
+            this.panel2.Controls.Add(this.numericUpDownInputQuantity);
             this.panel2.Controls.Add(this.comboBoxProductName);
             this.panel2.Controls.Add(this.comboBoxProductID);
             this.panel2.Controls.Add(this.label9);
@@ -304,18 +305,18 @@ namespace QuanLyKhoHang
             this.numericUpDownInputPrice.Size = new System.Drawing.Size(120, 22);
             this.numericUpDownInputPrice.TabIndex = 10;
             // 
-            // numericUpDownInputQuatity
+            // numericUpDownInputQuantity
             // 
-            this.numericUpDownInputQuatity.Location = new System.Drawing.Point(217, 124);
-            this.numericUpDownInputQuatity.Maximum = new decimal(new int[] {
+            this.numericUpDownInputQuantity.Location = new System.Drawing.Point(217, 124);
+            this.numericUpDownInputQuantity.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
-            this.numericUpDownInputQuatity.Name = "numericUpDownInputQuatity";
-            this.numericUpDownInputQuatity.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDownInputQuatity.TabIndex = 9;
-            this.numericUpDownInputQuatity.Value = new decimal(new int[] {
+            this.numericUpDownInputQuantity.Name = "numericUpDownInputQuantity";
+            this.numericUpDownInputQuantity.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownInputQuantity.TabIndex = 9;
+            this.numericUpDownInputQuantity.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -343,7 +344,7 @@ namespace QuanLyKhoHang
             "6",
             "7",
             "8"});
-            this.comboBoxProductID.Location = new System.Drawing.Point(151, 30);
+            this.comboBoxProductID.Location = new System.Drawing.Point(151, 26);
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductID.TabIndex = 6;
@@ -441,6 +442,7 @@ namespace QuanLyKhoHang
             this.buttonOK.TabIndex = 24;
             this.buttonOK.Text = "Xác nhận";
             this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // FormUpdateReceiveVoucher
             // 
@@ -464,7 +466,7 @@ namespace QuanLyKhoHang
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutputPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputPrice)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputQuatity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputQuantity)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -489,7 +491,7 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.DataGridView dataGridViewProduct;
         private System.Windows.Forms.NumericUpDown numericUpDownOutputPrice;
         private System.Windows.Forms.NumericUpDown numericUpDownInputPrice;
-        private System.Windows.Forms.NumericUpDown numericUpDownInputQuatity;
+        private System.Windows.Forms.NumericUpDown numericUpDownInputQuantity;
         private System.Windows.Forms.ComboBox comboBoxProductName;
         private System.Windows.Forms.ComboBox comboBoxProductID;
         private System.Windows.Forms.Label label9;

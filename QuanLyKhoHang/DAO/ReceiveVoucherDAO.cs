@@ -27,7 +27,7 @@ namespace QuanLyKhoHang.DAO
             foreach (var voucher in receiveVouchers)
             {
                 // a receive voucher has a list receiveVoucherInfos, a receiveVoucherInfos has a product
-                List<ReceicveVoucherInfo> voucherInfos = (from info in db.ReceicveVoucherInfoes
+                List<ReceiveVoucherInfo> voucherInfos = (from info in db.ReceiveVoucherInfoes
                                                    where info.IDReceiveVoucher == voucher.ID
                                                    select info).ToList();
 
@@ -37,7 +37,7 @@ namespace QuanLyKhoHang.DAO
                     vInfo.Product = product;
                 }
                 
-                voucher.ReceicveVoucherInfoes = voucherInfos;
+                voucher.ReceiveVoucherInfoes = voucherInfos;
 
                 // a receive voucher have a supplier
                 Supplier supplier = db.Suppliers.Find(voucher.IDSupplier);
@@ -102,10 +102,10 @@ namespace QuanLyKhoHang.DAO
             voucher.Supplier = db.Suppliers.Find(voucher.IDSupplier);
 
             //a receive voucher has a list of infomation
-            voucher.ReceicveVoucherInfoes = (from i in db.ReceicveVoucherInfoes
+            voucher.ReceiveVoucherInfoes = (from i in db.ReceiveVoucherInfoes
                                                       where i.IDReceiveVoucher == voucher.ID
                                                       select i).ToList();
-            foreach (var vInfo in voucher.ReceicveVoucherInfoes)
+            foreach (var vInfo in voucher.ReceiveVoucherInfoes)
             {
                 //in a voucher information has a product 
                 vInfo.Product = db.Products.Find(vInfo.IDProduct);
@@ -114,7 +114,19 @@ namespace QuanLyKhoHang.DAO
             return voucher;
         }
 
-        
+        public int UpdateReceiveVoucher(ReceiveVoucher voucherUpdate)
+        {
+            int rowAffected = 0;
+            string idVoucher = voucherUpdate.ID;
+
+            ReceiveVoucher voucher = db.ReceiveVouchers.Find(idVoucher);
+            voucher.IDSupplier = voucherUpdate.IDSupplier;
+            voucher.Date = voucherUpdate.Date;
+
+            rowAffected = db.SaveChanges();
+
+            return rowAffected;
+        }
 
         #endregion
     }

@@ -99,8 +99,8 @@
     <Compile Include="Entity\InventoryContext.cs" />
     <Compile Include="Entity\Product.cs" />
     <Compile Include="Entity\ProductType.cs" />
-    <Compile Include="Entity\ReceicveVoucherInfo.cs" />
     <Compile Include="Entity\ReceiveVoucher.cs" />
+    <Compile Include="Entity\ReceiveVoucherInfo.cs" />
     <Compile Include="Entity\Supplier.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="View\FormUpdateReceiveVoucher.cs">
@@ -181,11 +181,11 @@
     <Compile Include="View\FormUpdateProduct.Designer.cs">
       <DependentUpon>FormUpdateProduct.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\FormUpdateReceiveInfo.cs">
+    <Compile Include="View\FormUpdateReceiveVoucherInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormUpdateReceiveInfo.Designer.cs">
-      <DependentUpon>FormUpdateReceiveInfo.cs</DependentUpon>
+    <Compile Include="View\FormUpdateReceiveVoucherInfo.Designer.cs">
+      <DependentUpon>FormUpdateReceiveVoucherInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormUpdateSupplier.cs">
       <SubType>Form</SubType>
@@ -242,8 +242,8 @@
     <EmbeddedResource Include="View\FormUpdateProduct.resx">
       <DependentUpon>FormUpdateProduct.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\FormUpdateReceiveInfo.resx">
-      <DependentUpon>FormUpdateReceiveInfo.cs</DependentUpon>
+    <EmbeddedResource Include="View\FormUpdateReceiveVoucherInfo.resx">
+      <DependentUpon>FormUpdateReceiveVoucherInfo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormUpdateSupplier.resx">
       <DependentUpon>FormUpdateSupplier.cs</DependentUpon>

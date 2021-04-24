@@ -19,7 +19,7 @@ namespace QuanLyKhoHang.Entity
         [StringLength(30)]
         public string IDDeliveryVoucher { get; set; }
 
-        public int? Quatity { get; set; }
+        public int? Quantity { get; set; }
 
         [StringLength(200)]
         public string Note { get; set; }

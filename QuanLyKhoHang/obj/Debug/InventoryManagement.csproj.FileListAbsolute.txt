@@ -55,5 +55,5 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\InventoryManagement\QuanLyKhoHang\bi
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\InventoryManagement\QuanLyKhoHang\obj\Debug\InventoryManagement.csproj.CopyComplete
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddProduct.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddReceiveVoucher.resources
-C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateReceiveInfo.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateReceiveVoucher.resources
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateReceiveVoucherInfo.resources

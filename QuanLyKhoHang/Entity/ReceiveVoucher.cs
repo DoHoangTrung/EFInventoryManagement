@@ -12,7 +12,7 @@ namespace QuanLyKhoHang.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ReceiveVoucher()
         {
-            ReceicveVoucherInfoes = new HashSet<ReceicveVoucherInfo>();
+            ReceiveVoucherInfoes = new HashSet<ReceiveVoucherInfo>();
         }
 
         [StringLength(30)]
@@ -24,7 +24,7 @@ namespace QuanLyKhoHang.Entity
         public string IDSupplier { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReceicveVoucherInfo> ReceicveVoucherInfoes { get; set; }
+        public virtual ICollection<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
 
         public virtual Supplier Supplier { get; set; }
     }

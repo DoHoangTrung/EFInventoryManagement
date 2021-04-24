@@ -19,8 +19,8 @@ namespace QuanLyKhoHang.Entity
         public virtual DbSet<DeliveryVoucherInfo> DeliveryVoucherInfoes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<ProductType> ProductTypes { get; set; }
-        public virtual DbSet<ReceicveVoucherInfo> ReceicveVoucherInfoes { get; set; }
         public virtual DbSet<ReceiveVoucher> ReceiveVouchers { get; set; }
+        public virtual DbSet<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -105,7 +105,7 @@ namespace QuanLyKhoHang.Entity
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
-                .HasMany(e => e.ReceicveVoucherInfoes)
+                .HasMany(e => e.ReceiveVoucherInfoes)
                 .WithRequired(e => e.Product)
                 .HasForeignKey(e => e.IDProduct)
                 .WillCascadeOnDelete(false);
@@ -119,14 +119,6 @@ namespace QuanLyKhoHang.Entity
                 .WithOptional(e => e.ProductType)
                 .HasForeignKey(e => e.IdType);
 
-            modelBuilder.Entity<ReceicveVoucherInfo>()
-                .Property(e => e.IDProduct)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ReceicveVoucherInfo>()
-                .Property(e => e.IDReceiveVoucher)
-                .IsUnicode(false);
-
             modelBuilder.Entity<ReceiveVoucher>()
                 .Property(e => e.ID)
                 .IsUnicode(false);
@@ -136,10 +128,18 @@ namespace QuanLyKhoHang.Entity
                 .IsUnicode(false);
 
             modelBuilder.Entity<ReceiveVoucher>()
-                .HasMany(e => e.ReceicveVoucherInfoes)
+                .HasMany(e => e.ReceiveVoucherInfoes)
                 .WithRequired(e => e.ReceiveVoucher)
                 .HasForeignKey(e => e.IDReceiveVoucher)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ReceiveVoucherInfo>()
+                .Property(e => e.IDProduct)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ReceiveVoucherInfo>()
+                .Property(e => e.IDReceiveVoucher)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Supplier>()
                 .Property(e => e.ID)

@@ -13,7 +13,7 @@ namespace QuanLyKhoHang.Entity
         public Product()
         {
             DeliveryVoucherInfoes = new HashSet<DeliveryVoucherInfo>();
-            ReceicveVoucherInfoes = new HashSet<ReceicveVoucherInfo>();
+            ReceiveVoucherInfoes = new HashSet<ReceiveVoucherInfo>();
         }
 
         [StringLength(30)]
@@ -35,6 +35,6 @@ namespace QuanLyKhoHang.Entity
         public virtual ProductType ProductType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReceicveVoucherInfo> ReceicveVoucherInfoes { get; set; }
+        public virtual ICollection<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
     }
 }
