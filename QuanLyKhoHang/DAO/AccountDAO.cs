@@ -22,9 +22,11 @@ namespace QuanLyKhoHang.DAL
 
         public bool Login(string userName, string passWord)
         {
-            string query = "exec dbo.GetAccountByUserName @userName , @passWord";
+            bool check = true;
+            /*string query = "exec dbo.GetAccountByUserName @userName , @passWord";
             DataTable data = DataProvider.Instance.ExecuteQuery(query, userName, passWord);
-            return data.Rows.Count > 0;
+            return data.Rows.Count > 0;*/
+            return check;
         }
     }
 }

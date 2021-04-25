@@ -73,24 +73,12 @@
   <ItemGroup>
     <Compile Include="DAO\AccountDAO.cs" />
     <Compile Include="DAO\CustomerDAO.cs" />
-    <Compile Include="DAO\DataProvider.cs" />
-    <Compile Include="DAO\GoodDAO.cs" />
-    <Compile Include="DAO\InputVoucherDAO.cs" />
-    <Compile Include="DAO\InventoryReportDAO.cs" />
-    <Compile Include="DAO\MyDataBase.cs" />
-    <Compile Include="DAO\OutputReportDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\ProductTypeDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
-    <Compile Include="DTO\Customer1.cs" />
-    <Compile Include="DTO\Good1.cs" />
-    <Compile Include="DTO\InputVoucher1.cs" />
-    <Compile Include="DTO\OutputReport1.cs" />
-    <Compile Include="DTO\InventoryReport1.cs" />
     <Compile Include="DTO\ProductAndType.cs" />
-    <Compile Include="DTO\Supplier1.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\AccountType.cs" />
     <Compile Include="Entity\Customer.cs" />
@@ -127,11 +115,11 @@
     <Compile Include="View\FormAddProduct.Designer.cs">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\FormAddInputVoucher.cs">
+    <Compile Include="View\FormAddReceiveVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormAddInputVoucher.Designer.cs">
-      <DependentUpon>FormAddInputVoucher.cs</DependentUpon>
+    <Compile Include="View\FormAddReceiveVoucher.Designer.cs">
+      <DependentUpon>FormAddReceiveVoucher.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormAddSupplier.cs">
       <SubType>Form</SubType>
@@ -168,12 +156,6 @@
     </Compile>
     <Compile Include="View\FormHome.Designer.cs">
       <DependentUpon>FormHome.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FormData.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FormData.Designer.cs">
-      <DependentUpon>FormData.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormUpdateCustomer.cs">
       <SubType>Form</SubType>
@@ -221,8 +203,8 @@
     <EmbeddedResource Include="View\FormAddProduct.resx">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\FormAddInputVoucher.resx">
-      <DependentUpon>FormAddInputVoucher.cs</DependentUpon>
+    <EmbeddedResource Include="View\FormAddReceiveVoucher.resx">
+      <DependentUpon>FormAddReceiveVoucher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormAddSupplier.resx">
       <DependentUpon>FormAddSupplier.cs</DependentUpon>
@@ -241,9 +223,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormHome.resx">
       <DependentUpon>FormHome.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormData.resx">
-      <DependentUpon>FormData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormUpdateCustomer.resx">
       <DependentUpon>FormUpdateCustomer.cs</DependentUpon>

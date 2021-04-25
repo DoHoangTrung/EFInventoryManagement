@@ -33,7 +33,6 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHan
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormDeleteSupplier.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormLogin.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormHome.resources
-C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormData.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateCustomer.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateSupplier.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.Properties.Resources.resources
