@@ -64,7 +64,8 @@ CREATE TABLE DeliveryVoucher
 (
 	ID VARCHAR(30) PRIMARY KEY,
 	Date DATETIME DEFAULT GETDATE(),
-	IDCustomer VARCHAR(30) REFERENCES Customer(ID)
+	IDCustomer VARCHAR(30) REFERENCES Customer(ID),
+	Note varchar(500)
 )
 GO
 
@@ -73,8 +74,8 @@ CREATE TABLE DeliveryVoucherInfo
 	IDProduct VARCHAR(30) REFERENCES Product(ID),
 	IDDeliveryVoucher VARCHAR(30) REFERENCES DeliveryVoucher(ID),
 	Quantity INT,
-	Note nvarchar (200),
 	CONSTRAINT PK_DeliveryVoucherInfo PRIMARY KEY(IDProduct,IDDeliveryVoucher)
+	IDReceiveVoucher VARCHAR(30) REFERENCES ReceiveVoucher(ID)
 )
 
 GO
