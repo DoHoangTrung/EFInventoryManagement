@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
-using QuanLyKhoHang.DAT;
 using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using QuanLyKhoHang.View;
