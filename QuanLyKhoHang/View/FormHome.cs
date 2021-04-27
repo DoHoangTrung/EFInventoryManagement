@@ -136,7 +136,6 @@ namespace QuanLyKhoHang
             listViewGeneral.Columns.Add(CreateListViewHeader("Ngay"));
             listViewGeneral.Columns.Add(CreateListViewHeader("So luong nhap"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Gia nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Gia xuat"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Ghi chú"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Nha cung cap"));
             listViewGeneral.Columns.Add(CreateListViewHeader("DC"));
@@ -170,7 +169,6 @@ namespace QuanLyKhoHang
                     lvwItem.SubItems.Add(voucher.Date.ToString());
                     lvwItem.SubItems.Add(vouInfo.QuantityInput.ToString());
                     lvwItem.SubItems.Add(vouInfo.PriceInput.ToString());
-                    lvwItem.SubItems.Add(vouInfo.PriceOutput.ToString());
                     lvwItem.SubItems.Add(vouInfo.Note);
                     lvwItem.SubItems.Add(supplierInVoucher.Name);
                     lvwItem.SubItems.Add(supplierInVoucher.Address);

@@ -38,7 +38,6 @@ namespace QuanLyKhoHang.View
                 dataGridViewVoucherInfo.Columns.Add("productName", "Tên sản phẩm");
                 dataGridViewVoucherInfo.Columns.Add("quantityInput", "Số lượng nhập");
                 dataGridViewVoucherInfo.Columns.Add("inputPrice", "Giá nhập");
-                dataGridViewVoucherInfo.Columns.Add("outputPrice", "Giá xuất");
                 dataGridViewVoucherInfo.Columns.Add("quantityOutput", "Số lượng xuất");
                 dataGridViewVoucherInfo.Columns.Add("note", "Ghi chú");
 
@@ -56,11 +55,10 @@ namespace QuanLyKhoHang.View
                     name = productInVoucherInfo.Name;
                     quantityInput = voucherInfo.QuantityInput;
                     inputPrice = voucherInfo.PriceInput;
-                    outputPrice = voucherInfo.PriceOutput;
                     quantityOutput = voucherInfo.QuantityOutput;
                     note = voucherInfo.Note;
 
-                    dataGridViewVoucherInfo.Rows.Add(id, name, quantityInput, inputPrice, outputPrice, quantityOutput, note);
+                    dataGridViewVoucherInfo.Rows.Add(id, name, quantityInput, inputPrice, quantityOutput, note);
                 }
         }
 

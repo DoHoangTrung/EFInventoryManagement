@@ -157,7 +157,6 @@ namespace QuanLyKhoHang
             voucherInfo.IDProduct = dataGridViewProduct.Rows[rowIndex].Cells["productID"].Value.ToString();
             voucherInfo.QuantityInput = (int)dataGridViewProduct.Rows[rowIndex].Cells["quantityInput"].Value;
             voucherInfo.PriceInput = (int)dataGridViewProduct.Rows[rowIndex].Cells["inputPrice"].Value;
-            voucherInfo.PriceOutput = (int)dataGridViewProduct.Rows[rowIndex].Cells["outputPrice"].Value;
             voucherInfo.QuantityOutput = (int)dataGridViewProduct.Rows[rowIndex].Cells["quantityOutput"].Value;
             if (dataGridViewProduct.Rows[rowIndex].Cells["note"].Value == null)
             {
@@ -178,7 +177,6 @@ namespace QuanLyKhoHang
             dataGridViewProduct.Rows[rowIndex].Cells["productName"].Value = ProductDAO.Instance.GetNameByID(voucherInfo.IDProduct);
             dataGridViewProduct.Rows[rowIndex].Cells["quantityInput"].Value = voucherInfo.QuantityInput;
             dataGridViewProduct.Rows[rowIndex].Cells["inputPrice"].Value = voucherInfo.PriceInput;
-            dataGridViewProduct.Rows[rowIndex].Cells["outputPrice"].Value = voucherInfo.PriceOutput;
             dataGridViewProduct.Rows[rowIndex].Cells["quantityOutput"].Value = voucherInfo.QuantityOutput;
             dataGridViewProduct.Rows[rowIndex].Cells["note"].Value = voucherInfo.Note;
         }
@@ -202,17 +200,16 @@ namespace QuanLyKhoHang
                 Product productInVoucherInfo = voucherInfo.Product;
 
                 string id, name, note;
-                int? quantityInput, inputPrice, outputPrice, quantityOutput;
+                int? quantityInput, inputPrice, quantityOutput;
 
                 id = productInVoucherInfo.ID;
                 name = productInVoucherInfo.Name;
                 quantityInput = voucherInfo.QuantityInput;
                 inputPrice = voucherInfo.PriceInput;
-                outputPrice = voucherInfo.PriceOutput;
                 quantityOutput = voucherInfo.QuantityOutput;
                 note = voucherInfo.Note;
                 
-                dataGridViewProduct.Rows.Add(id, name, quantityInput, inputPrice, outputPrice, quantityOutput, note);
+                dataGridViewProduct.Rows.Add(id, name, quantityInput, inputPrice, quantityOutput, note);
             }
 
         }

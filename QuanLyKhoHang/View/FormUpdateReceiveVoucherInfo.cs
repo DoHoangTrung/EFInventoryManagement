@@ -29,13 +29,11 @@ namespace QuanLyKhoHang.View
 
             labelInputQuantity.Text = receiveVoucherInfoTransfer.QuantityInput.ToString();
             labelInputPrice.Text = receiveVoucherInfoTransfer.PriceInput.ToString();
-            labelOutputPrice.Text = receiveVoucherInfoTransfer.PriceOutput.ToString();
             labelQuantityOutput.Text = receiveVoucherInfoTransfer.QuantityOutput.ToString();
             labelNote.Text = receiveVoucherInfoTransfer.Note;
 
             numericUpDownInputQuantity.Value = (decimal)receiveVoucherInfoTransfer.QuantityInput;
             numericUpDownInputPrice.Value = (decimal)receiveVoucherInfoTransfer.PriceInput;
-            numericUpDownOutputPrice.Value = (decimal)receiveVoucherInfoTransfer.PriceOutput;
             textBoxNote.Text = receiveVoucherInfoTransfer.Note;
 
             FieldCantChangeIfProductSold();
@@ -60,7 +58,7 @@ namespace QuanLyKhoHang.View
                 outputPrice = (int)numericUpDownOutputPrice.Value;
                 note = textBoxNote.Text;
 
-                receiveVoucherInfoTransfer = ReceiveVoucherInfoDAO.Instance.InitReceiveVoucherInfo(idProduct, "", quantityInput, inputPrice, outputPrice, quantityOutput, note);
+                receiveVoucherInfoTransfer = ReceiveVoucherInfoDAO.Instance.InitReceiveVoucherInfo(idProduct, "", quantityInput, inputPrice, quantityOutput, note);
 
                 this.Close();
             }

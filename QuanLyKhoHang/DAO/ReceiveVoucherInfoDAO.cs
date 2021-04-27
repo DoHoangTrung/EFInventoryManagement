@@ -21,7 +21,7 @@ namespace QuanLyKhoHang.DAO
 
         InventoryContext db = new InventoryContext();
 
-        public int InsertReceiveVoucherInfo(string idProduct,string idVoucher, int quantityInput, int priceInput, int priceOutput, int quantityOutput, string note)
+        public int InsertReceiveVoucherInfo(string idProduct,string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
         {
             int rowAffected = 0;
 
@@ -31,7 +31,6 @@ namespace QuanLyKhoHang.DAO
             voucherInfo.QuantityInput = quantityInput;
             voucherInfo.PriceInput = priceInput;
             voucherInfo.QuantityOutput = quantityOutput;
-            voucherInfo.PriceOutput = priceOutput;
             voucherInfo.Note = note;
 
             db.ReceiveVoucherInfoes.Add(voucherInfo);
@@ -64,7 +63,7 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public ReceiveVoucherInfo InitReceiveVoucherInfo(string idProduct, string idVoucher, int quantityInput, int priceInput, int priceOutput, int quantityOutput, string note)
+        public ReceiveVoucherInfo InitReceiveVoucherInfo(string idProduct, string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
         {
             ReceiveVoucherInfo voucherInfo = new ReceiveVoucherInfo();
             voucherInfo.IDProduct = idProduct;
@@ -72,7 +71,6 @@ namespace QuanLyKhoHang.DAO
             voucherInfo.QuantityInput = quantityInput;
             voucherInfo.PriceInput = priceInput;
             voucherInfo.QuantityOutput = quantityOutput;
-            voucherInfo.PriceOutput = priceOutput;
             voucherInfo.Note = note;
 
             return voucherInfo;
@@ -88,7 +86,6 @@ namespace QuanLyKhoHang.DAO
             ReceiveVoucherInfo voucherInfoUpdate = db.ReceiveVoucherInfoes.Find(idProduct, idVoucher);
             voucherInfoUpdate.PriceInput = voucherInfo.PriceInput;
             voucherInfoUpdate.QuantityInput = voucherInfo.QuantityInput;
-            voucherInfoUpdate.PriceOutput = voucherInfo.PriceOutput;
             voucherInfoUpdate.QuantityOutput = voucherInfo.QuantityOutput;
             voucherInfoUpdate.Note = voucherInfo.Note;
 
