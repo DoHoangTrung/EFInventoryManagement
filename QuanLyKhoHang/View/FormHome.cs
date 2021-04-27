@@ -158,31 +158,47 @@ namespace QuanLyKhoHang
         {
             listViewGeneral.Clear();
 
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDDeliveryVoucher", "ID phiếu xuất"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("NgayXuat"));
             listViewGeneral.Columns.Add(CreateListViewHeader("TenSanPham"));
             listViewGeneral.Columns.Add(CreateListViewHeader("DonVi"));
             listViewGeneral.Columns.Add(CreateListViewHeader("SoLuongXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("NgayXuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("GiaXuat"));
             listViewGeneral.Columns.Add(CreateListViewHeader("TenKhachHang"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("DiaChi"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Sdt"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDPhieuXuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDSanPham"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDKhachHang"));
 
             listViewGeneral.ListViewItemSorter = lvwColumnSorter;
 
-            /*List<OutputReport1> listVoucher = OutputReportDAO.Instance.GetlistOutputVoucher();
-            foreach (OutputReport1 voucher in listVoucher)
+            List<DeliveryVoucher> listVoucher = DeliveryVoucherDAO.Instance.GetDeliveryVouchersAllInfo();
+            foreach (var voucher in listVoucher)
             {
-                ListViewItem lvwItem = new ListViewItem(voucher.TenSanPham);
-                lvwItem.SubItems.Add(voucher.DonVi);
-                lvwItem.SubItems.Add(voucher.SoLuongXuat.ToString());
-                lvwItem.SubItems.Add(voucher.NgayXuat.ToString("dd-MM-yyyy"));
-                lvwItem.SubItems.Add(voucher.TenKhachHang);
-                lvwItem.SubItems.Add(voucher.DiaChi);
-                lvwItem.SubItems.Add(voucher.Sdt);
-                lvwItem.SubItems.Add(voucher.IDPhieuXuat);
+                List<DeliveryVoucherInfo> voucherInfoes = voucher.DeliveryVoucherInfoes.ToList();
 
-                listViewGeneral.Items.Add(lvwItem);
-            }*/
+                //add value to dtgv genenral type delivery voucher 
+                if (voucherInfoes.Count == 0)
+                {
+                    ListViewItem lvwItem = new ListViewItem(voucher.ID);
+                    listViewGeneral.Items.Add(lvwItem);
+                }
+                else if (voucherInfoes.Count > 0)
+                {
+                    foreach (var info in voucherInfoes)
+                    {
+                        ListViewItem lvwItem = new ListViewItem(voucher.ID);
+                        lvwItem.SubItems.Add(voucher.Date.ToString());
+                        lvwItem.SubItems.Add(info.Product.Name);
+                        lvwItem.SubItems.Add(info.Product.Unit);
+                        lvwItem.SubItems.Add(info.Quantity.ToString());
+                        lvwItem.SubItems.Add(info.PriceOutput.ToString());
+                        lvwItem.SubItems.Add(voucher.Customer.Name);
+                        lvwItem.SubItems.Add(info.Product.ID);
+                        lvwItem.SubItems.Add(voucher.Customer.ID);
+
+                        listViewGeneral.Items.Add(lvwItem);
+                    }
+                }
+            }
         }
 
         private void ReLoadListViewCustomer()
@@ -285,13 +301,13 @@ namespace QuanLyKhoHang
 
         private void buttonCategoryInputVoucher_Click(object sender, EventArgs e)
         {
-            TagThisCategoryButtomToActionButton(buttonCategoryInputVoucher);
+            TagThisCategoryButtomToActionButton(buttonCategoryReceiveVoucher);
             ChangeColorCategoryButtonWhenClicked(sender as Button);
         }
 
         private void buttonCategoryOutputVoucher_Click(object sender, EventArgs e)
         {
-            TagThisCategoryButtomToActionButton(buttonCategoryOutputVoucher);
+            TagThisCategoryButtomToActionButton(buttonCategoryDeliveryVoucher);
             ChangeColorCategoryButtonWhenClicked(sender as Button);
         }
 
@@ -305,8 +321,8 @@ namespace QuanLyKhoHang
         {
             buttonCategoryProduct.BackColor = default;
             buttonCategorySupplier.BackColor = default;
-            buttonCategoryInputVoucher.BackColor = default;
-            buttonCategoryOutputVoucher.BackColor = default;
+            buttonCategoryReceiveVoucher.BackColor = default;
+            buttonCategoryDeliveryVoucher.BackColor = default;
 
             if (button == buttonCategoryProduct)
             {
@@ -318,14 +334,14 @@ namespace QuanLyKhoHang
                 buttonCategorySupplier.BackColor = colorButtonCategoryWhenClicked;
             }
 
-            if (button == buttonCategoryInputVoucher)
+            if (button == buttonCategoryReceiveVoucher)
             {
-                buttonCategoryInputVoucher.BackColor = colorButtonCategoryWhenClicked;
+                buttonCategoryReceiveVoucher.BackColor = colorButtonCategoryWhenClicked;
             }
 
-            if (button == buttonCategoryOutputVoucher)
+            if (button == buttonCategoryDeliveryVoucher)
             {
-                buttonCategoryOutputVoucher.BackColor = colorButtonCategoryWhenClicked;
+                buttonCategoryDeliveryVoucher.BackColor = colorButtonCategoryWhenClicked;
             }
         }
 
@@ -351,12 +367,12 @@ namespace QuanLyKhoHang
                 ReLoadListViewSupplier();
             }
 
-            if (categoryButtonTagged == buttonCategoryInputVoucher)
+            if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
                 ReLoadListViewReceiveVoucher();
             }
 
-            if (categoryButtonTagged == buttonCategoryOutputVoucher)
+            if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
                 ReLoadListViewOutputVoucher();
             }
@@ -388,7 +404,7 @@ namespace QuanLyKhoHang
                 ReLoadListViewSupplier();
             }
 
-            if (categoryButtonTagged == buttonCategoryInputVoucher)
+            if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
                 FormAddReceiveVoucher fAddInputVoucher = new FormAddReceiveVoucher();
                 fAddInputVoucher.ShowDialog();
@@ -396,7 +412,7 @@ namespace QuanLyKhoHang
                 ReLoadListViewReceiveVoucher();
             }
 
-            if (categoryButtonTagged == buttonCategoryOutputVoucher)
+            if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
             }
 
@@ -448,7 +464,7 @@ namespace QuanLyKhoHang
                 }
             }
 
-            if (categoryButtonClicked == buttonCategoryInputVoucher)
+            if (categoryButtonClicked == buttonCategoryReceiveVoucher)
             {
                 if (listViewGeneral.Tag != null)
                 {
@@ -470,7 +486,7 @@ namespace QuanLyKhoHang
                 }
             }
 
-            if (categoryButtonClicked == buttonCategoryOutputVoucher)
+            if (categoryButtonClicked == buttonCategoryDeliveryVoucher)
             {
 
             }
@@ -533,7 +549,7 @@ namespace QuanLyKhoHang
                 }
             }
 
-            if (categoryButtonTagged == buttonCategoryInputVoucher)
+            if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
                 ReceiveVoucher voucherTagged = listViewGeneral.Tag as ReceiveVoucher;
                 if (voucherTagged != null)
@@ -561,7 +577,7 @@ namespace QuanLyKhoHang
                 }
             }
 
-            if (categoryButtonTagged == buttonCategoryOutputVoucher)
+            if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
             }
 
@@ -637,7 +653,7 @@ namespace QuanLyKhoHang
                     listViewGeneral.Tag = customer as object;
                 }
 
-                if (btnCatgory == buttonCategoryInputVoucher)
+                if (btnCatgory == buttonCategoryReceiveVoucher)
                 {
                     int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDReceiveVoucher");
                     string idReceiveVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
@@ -645,6 +661,16 @@ namespace QuanLyKhoHang
                     ReceiveVoucher receiveVoucher = ReceiveVoucherDAO.Instance.GetReceiveVoucherAllInfoByID(idReceiveVoucher);
 
                     listViewGeneral.Tag = receiveVoucher as object;
+                }
+
+                if (btnCatgory == buttonCategoryDeliveryVoucher)
+                {
+                    int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDDeliveryVoucher");
+                    string idVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
+
+                    DeliveryVoucher deliveryVoucher = DeliveryVoucherDAO.Instance.GetDeliveryVouchersAllInfoByID(idVoucher);
+
+                    listViewGeneral.Tag = deliveryVoucher;
                 }
             }
         }

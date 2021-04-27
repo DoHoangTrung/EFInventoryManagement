@@ -36,8 +36,8 @@ namespace QuanLyKhoHang
             this.buttonCategoryCustomer = new System.Windows.Forms.Button();
             this.buttonCategorySupplier = new System.Windows.Forms.Button();
             this.buttonCategoryProduct = new System.Windows.Forms.Button();
-            this.buttonCategoryOutputVoucher = new System.Windows.Forms.Button();
-            this.buttonCategoryInputVoucher = new System.Windows.Forms.Button();
+            this.buttonCategoryDeliveryVoucher = new System.Windows.Forms.Button();
+            this.buttonCategoryReceiveVoucher = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.listViewGeneral = new System.Windows.Forms.ListView();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -86,8 +86,8 @@ namespace QuanLyKhoHang
             this.panel1.Controls.Add(this.buttonCategoryCustomer);
             this.panel1.Controls.Add(this.buttonCategorySupplier);
             this.panel1.Controls.Add(this.buttonCategoryProduct);
-            this.panel1.Controls.Add(this.buttonCategoryOutputVoucher);
-            this.panel1.Controls.Add(this.buttonCategoryInputVoucher);
+            this.panel1.Controls.Add(this.buttonCategoryDeliveryVoucher);
+            this.panel1.Controls.Add(this.buttonCategoryReceiveVoucher);
             this.panel1.Location = new System.Drawing.Point(12, 125);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(419, 557);
@@ -128,25 +128,25 @@ namespace QuanLyKhoHang
             // 
             // buttonCategoryOutputVoucher
             // 
-            this.buttonCategoryOutputVoucher.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonCategoryOutputVoucher.Location = new System.Drawing.Point(24, 57);
-            this.buttonCategoryOutputVoucher.Name = "buttonCategoryOutputVoucher";
-            this.buttonCategoryOutputVoucher.Size = new System.Drawing.Size(353, 29);
-            this.buttonCategoryOutputVoucher.TabIndex = 2;
-            this.buttonCategoryOutputVoucher.Text = "Phiếu xuất";
-            this.buttonCategoryOutputVoucher.UseVisualStyleBackColor = false;
-            this.buttonCategoryOutputVoucher.Click += new System.EventHandler(this.buttonCategoryOutputVoucher_Click);
+            this.buttonCategoryDeliveryVoucher.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonCategoryDeliveryVoucher.Location = new System.Drawing.Point(24, 57);
+            this.buttonCategoryDeliveryVoucher.Name = "buttonCategoryOutputVoucher";
+            this.buttonCategoryDeliveryVoucher.Size = new System.Drawing.Size(353, 29);
+            this.buttonCategoryDeliveryVoucher.TabIndex = 2;
+            this.buttonCategoryDeliveryVoucher.Text = "Phiếu xuất";
+            this.buttonCategoryDeliveryVoucher.UseVisualStyleBackColor = false;
+            this.buttonCategoryDeliveryVoucher.Click += new System.EventHandler(this.buttonCategoryOutputVoucher_Click);
             // 
             // buttonCategoryInputVoucher
             // 
-            this.buttonCategoryInputVoucher.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonCategoryInputVoucher.Location = new System.Drawing.Point(24, 22);
-            this.buttonCategoryInputVoucher.Name = "buttonCategoryInputVoucher";
-            this.buttonCategoryInputVoucher.Size = new System.Drawing.Size(353, 29);
-            this.buttonCategoryInputVoucher.TabIndex = 2;
-            this.buttonCategoryInputVoucher.Text = "Phiếu nhập";
-            this.buttonCategoryInputVoucher.UseVisualStyleBackColor = false;
-            this.buttonCategoryInputVoucher.Click += new System.EventHandler(this.buttonCategoryInputVoucher_Click);
+            this.buttonCategoryReceiveVoucher.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonCategoryReceiveVoucher.Location = new System.Drawing.Point(24, 22);
+            this.buttonCategoryReceiveVoucher.Name = "buttonCategoryInputVoucher";
+            this.buttonCategoryReceiveVoucher.Size = new System.Drawing.Size(353, 29);
+            this.buttonCategoryReceiveVoucher.TabIndex = 2;
+            this.buttonCategoryReceiveVoucher.Text = "Phiếu nhập";
+            this.buttonCategoryReceiveVoucher.UseVisualStyleBackColor = false;
+            this.buttonCategoryReceiveVoucher.Click += new System.EventHandler(this.buttonCategoryInputVoucher_Click);
             // 
             // panel2
             // 
@@ -299,9 +299,9 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.DateTimePicker dateTimePickerToDate;
         private System.Windows.Forms.DateTimePicker dateTimePickerFromDate;
         private System.Windows.Forms.Button buttonShow;
-        private System.Windows.Forms.Button buttonCategoryInputVoucher;
+        private System.Windows.Forms.Button buttonCategoryReceiveVoucher;
         private System.Windows.Forms.Button buttonCategoryProduct;
-        private System.Windows.Forms.Button buttonCategoryOutputVoucher;
+        private System.Windows.Forms.Button buttonCategoryDeliveryVoucher;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Button buttonAdd;

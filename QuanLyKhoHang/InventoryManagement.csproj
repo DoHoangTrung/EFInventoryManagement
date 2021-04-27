@@ -72,7 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO\AccountDAO.cs" />
+    <Compile Include="DAO\DeliveryVoucherInfoDAO.cs" />
     <Compile Include="DAO\CustomerDAO.cs" />
+    <Compile Include="DAO\DeliveryVoucherDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\ProductTypeDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />
@@ -97,6 +99,12 @@
     <Compile Include="Entity\ReceiveVoucherInfo.cs" />
     <Compile Include="Entity\Supplier.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="View\FormAddDeliveryVoucher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormAddDeliveryVoucher.Designer.cs">
+      <DependentUpon>FormAddDeliveryVoucher.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FormDeleteReceiveVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +205,9 @@
     <Compile Include="View\Nghich.Designer.cs">
       <DependentUpon>Nghich.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\FormAddDeliveryVoucher.resx">
+      <DependentUpon>FormAddDeliveryVoucher.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FormDeleteReceiveVoucher.resx">
       <DependentUpon>FormDeleteReceiveVoucher.cs</DependentUpon>
     </EmbeddedResource>
