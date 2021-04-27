@@ -36,34 +36,6 @@ namespace QuanLyKhoHang
             dateTimePickerFromDate.Value = new DateTime(2021, 02, 01);
             dateTimePickerToDate.Value = DateTime.Now;
         }
-        private void HangHoaTonKho()
-        {
-            listViewGeneral.Clear();
-
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("ID san pham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ten san pham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ton kho"));
-
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            DateTime fromDate, toDate;
-            fromDate = dateTimePickerFromDate.Value;
-            toDate = dateTimePickerToDate.Value;
-            List<InventoryReport1> listReport = InventoryReportDAO.Instance.GetListInventoryReportFromDateToDate(fromDate, toDate);
-
-
-            foreach (InventoryReport1 report in listReport)
-            {
-                ListViewItem item = new ListViewItem(report.IDGood);
-                item.SubItems.Add(report.NameGood);
-                item.SubItems.Add(report.BalanceNumber.ToString());
-                listViewGeneral.Items.Add(item);
-            }
-
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
         private void ReLoadListViewProduct()
         {
             listViewGeneral.Clear();
@@ -197,7 +169,7 @@ namespace QuanLyKhoHang
 
             listViewGeneral.ListViewItemSorter = lvwColumnSorter;
 
-            List<OutputReport1> listVoucher = OutputReportDAO.Instance.GetlistOutputVoucher();
+            /*List<OutputReport1> listVoucher = OutputReportDAO.Instance.GetlistOutputVoucher();
             foreach (OutputReport1 voucher in listVoucher)
             {
                 ListViewItem lvwItem = new ListViewItem(voucher.TenSanPham);
@@ -210,7 +182,7 @@ namespace QuanLyKhoHang
                 lvwItem.SubItems.Add(voucher.IDPhieuXuat);
 
                 listViewGeneral.Items.Add(lvwItem);
-            }
+            }*/
         }
 
         private void ReLoadListViewCustomer()
