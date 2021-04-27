@@ -105,10 +105,5 @@ namespace QuanLyKhoHang.DAL
             return ANDCondition;
         }
 
-        public Customer GetCustomerByID(string idCustomer)
-        {
-            return db.Customers.Find(idCustomer);
-        }
-
     }
 }

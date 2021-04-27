@@ -1,4 +1,5 @@
-﻿using QuanLyKhoHang.Entity;
+﻿using QuanLyKhoHang.DAT;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,9 +22,23 @@ namespace QuanLyKhoHang.DAL
             private set { }
         }
 
-       
+        public DataTable GetSupplier()
+        {
+            string query = "select * from NhaCungCap";
+            DataTable dt = DataProvider.Instance.ExecuteQuery(query);
+            return dt;
+        }
 
-       
+        public List<Supplier1> GetListSupplier1()
+        {
+            DataTable dt = GetSupplier();
+            List<Supplier1> list = new List<Supplier1>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(new Supplier1(row));
+            }
+            return list;
+        }
 
         public List<Supplier> GetListSupplier()
         {
@@ -71,6 +86,40 @@ namespace QuanLyKhoHang.DAL
 
             rowAffected = db.SaveChanges();
             return rowAffected;
+        }
+
+        public Supplier1 GetSupplierByID(string id)
+        {
+            string query = $"select * from NhaCungCap where id = '{id}'";
+            DataTable dt = DataProvider.Instance.ExecuteQuery(query);
+            if (dt != null)
+            {
+                Supplier1 supplier = new Supplier1(dt.Rows[0]);
+                return supplier;
+            }
+            return null;
+        }
+
+        public List<Supplier1> SearchSupplier( string idSearch, string nameSearch, string addressSearch, string phoneNumberSearch, string emailSearch)
+        {
+            List<Supplier1> suppliers = GetListSupplier1();
+            IEnumerable<Supplier1> searchList = null;
+            if (idSearch != "")
+            {
+                searchList = suppliers.Where(sp =>
+                {
+                    bool checkID, checkName, checkAddress, checkPhoneNumber, checkEmail;
+                    checkID = sp.ID.LowerCaseAndRemoveAccents().Contains(idSearch);
+                    checkName = sp.Name.LowerCaseAndRemoveAccents().Contains(nameSearch);
+                    checkAddress = sp.Address.LowerCaseAndRemoveAccents().Contains(addressSearch);
+                    checkPhoneNumber = sp.PhoneNumber.LowerCaseAndRemoveAccents().Contains(phoneNumberSearch);
+                    checkEmail = sp.Email.LowerCaseAndRemoveAccents().Contains(emailSearch);
+                    return checkID && checkName && checkAddress && checkPhoneNumber && checkEmail;
+                }
+                );
+                return searchList.ToList();
+            }
+            return null;
         }
 
         public List<string> GetListSupplierID()

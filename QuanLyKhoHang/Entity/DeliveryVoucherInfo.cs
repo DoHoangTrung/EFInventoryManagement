@@ -21,8 +21,13 @@ namespace QuanLyKhoHang.Entity
 
         public int? Quantity { get; set; }
 
+        public int? PriceOutput { get; set; }
+
         [StringLength(200)]
         public string Note { get; set; }
+
+        [StringLength(30)]
+        public string IDReceiveVoucher { get; set; }
 
         public virtual DeliveryVoucher DeliveryVoucher { get; set; }
 

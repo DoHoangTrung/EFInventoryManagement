@@ -23,8 +23,6 @@ namespace QuanLyKhoHang.Entity
 
         public int? PriceInput { get; set; }
 
-        public int? PriceOutput { get; set; }
-
         public int? QuantityOutput { get; set; }
 
         [StringLength(200)]

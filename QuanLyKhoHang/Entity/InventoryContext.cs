@@ -77,10 +77,6 @@ namespace QuanLyKhoHang.Entity
                 .IsUnicode(false);
 
             modelBuilder.Entity<DeliveryVoucher>()
-                .Property(e => e.Note)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DeliveryVoucher>()
                 .HasMany(e => e.DeliveryVoucherInfoes)
                 .WithRequired(e => e.DeliveryVoucher)
                 .HasForeignKey(e => e.IDDeliveryVoucher)
@@ -92,6 +88,10 @@ namespace QuanLyKhoHang.Entity
 
             modelBuilder.Entity<DeliveryVoucherInfo>()
                 .Property(e => e.IDDeliveryVoucher)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherInfo>()
+                .Property(e => e.IDReceiveVoucher)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Product>()

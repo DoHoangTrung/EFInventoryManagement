@@ -1,4 +1,5 @@
 ﻿using QuanLyKhoHang.DAL;
+using QuanLyKhoHang.DAT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

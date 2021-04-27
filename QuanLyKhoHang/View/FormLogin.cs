@@ -52,8 +52,7 @@ namespace QuanLyKhoHang
 
         private bool Login(string userName, string passWord)
         {
-            //return AccountDAO.Instance.Login(userName, passWord);
-            return false;
+            return AccountDAO.Instance.Login(userName, passWord);
         }
 
     }

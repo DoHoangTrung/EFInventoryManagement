@@ -23,9 +23,6 @@ namespace QuanLyKhoHang.Entity
         [StringLength(30)]
         public string IDCustomer { get; set; }
 
-        [StringLength(500)]
-        public string Note { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
