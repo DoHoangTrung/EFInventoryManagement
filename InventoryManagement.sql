@@ -53,7 +53,6 @@ CREATE TABLE ReceiveVoucherInfo
 	IDReceiveVoucher VARCHAR(30) REFERENCES ReceiveVoucher(ID),
 	QuantityInput INT DEFAULT(1),
 	PriceInput INT DEFAULT(1),
-	PriceOutput INT,
 	QuantityOutput INT DEFAULT (0),
 	Note nvarchar(200),
 	CONSTRAINT PK_ReceicveVoucherInfo PRIMARY KEY (IDProduct,IDReceiveVoucher)
@@ -64,8 +63,7 @@ CREATE TABLE DeliveryVoucher
 (
 	ID VARCHAR(30) PRIMARY KEY,
 	Date DATETIME DEFAULT GETDATE(),
-	IDCustomer VARCHAR(30) REFERENCES Customer(ID),
-	Note varchar(500)
+	IDCustomer VARCHAR(30) REFERENCES Customer(ID)
 )
 GO
 
@@ -74,8 +72,10 @@ CREATE TABLE DeliveryVoucherInfo
 	IDProduct VARCHAR(30) REFERENCES Product(ID),
 	IDDeliveryVoucher VARCHAR(30) REFERENCES DeliveryVoucher(ID),
 	Quantity INT,
-	CONSTRAINT PK_DeliveryVoucherInfo PRIMARY KEY(IDProduct,IDDeliveryVoucher)
-	IDReceiveVoucher VARCHAR(30) REFERENCES ReceiveVoucher(ID)
+	PriceOutput INT,
+	Note nvarchar (200),
+	CONSTRAINT PK_DeliveryVoucherInfo PRIMARY KEY(IDProduct,IDDeliveryVoucher),
+	IDReceiveVoucher VARCHAR(30)
 )
 
 GO
@@ -184,19 +184,19 @@ VALUES
 GO
 
 --Thong tin phieu nhap
-INSERT INTO ReceiveVoucherInfo(IDReceiveVoucher,IDProduct,QuantityInput,PriceInput,PriceOutput)
+INSERT INTO ReceiveVoucherInfo(IDReceiveVoucher,IDProduct,QuantityInput,PriceInput)
 VALUES
-('PN001','SPBXS100', 988,16600,19000),
-('PN002','SPS6',1067,16700,19200),
-('PN003','SPTHACHCAO',112,20450,21500),
-('PN004','SPS6',1080,16600,16800),
-('PN005','SPS8',1080,16500,16900),
-('PN006','SPTOVHMK',564,18390,19500),
-('PN007','SPSATLA',259,14001,15000),
-('PN007','SPTHEPHOP',746,15832,16400),
-('PN008','SPX92',22,20818,21200),
-('PN009','SPQH421_3.2',900,19272,20500),
-('PN010','SPQHKT',900,19181,20100)
+('PN001','SPBXS100', 988,16600),
+('PN002','SPS6',1067,16700),
+('PN003','SPTHACHCAO',112,20450),
+('PN004','SPS6',1080,16600),
+('PN005','SPS8',1080,16500),
+('PN006','SPTOVHMK',564,18390),
+('PN007','SPSATLA',259,14001),
+('PN007','SPTHEPHOP',746,15832),
+('PN008','SPX92',22,20818),
+('PN009','SPQH421_3.2',900,19272),
+('PN010','SPQHKT',900,19181)
 GO
 
 --PHIEU XUAT
@@ -208,13 +208,13 @@ VALUES
 GO
 
 --THONG TIN PHIEU XUAT
-INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity)
+INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity,PriceOutput)
 VALUES
-('PX001','SPBXS100',700),
-('PX001','SPS6',1000),
-('PX002','SPS8',900),
-('PX002','SPTHEPHOP',700),
-('PX002','SPQHKT',900)
+('PX001','SPBXS100',700,20000),
+('PX001','SPS6',1000,20000),
+('PX002','SPS8',900,20000),
+('PX002','SPTHEPHOP',700,20000),
+('PX002','SPQHKT',900,20000)
 
 GO
 
