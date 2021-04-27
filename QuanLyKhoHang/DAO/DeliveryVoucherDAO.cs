@@ -40,6 +40,7 @@ namespace QuanLyKhoHang.DAO
 
             return deliveryVouchers;
         }
+
         public DeliveryVoucher GetDeliveryVouchersAllInfoByID(string idVoucher)
         {
             DeliveryVoucher deliveryVouchers = db.DeliveryVouchers.Find(idVoucher);
@@ -56,6 +57,13 @@ namespace QuanLyKhoHang.DAO
             deliveryVouchers.DeliveryVoucherInfoes = deliveryVoucherInfos;
 
             return deliveryVouchers;
+        }
+
+        public List<string> GetListID()
+        {
+            var ids = (from v in db.DeliveryVouchers
+                       select v.ID).ToList();
+            return ids;
         }
     }
 }

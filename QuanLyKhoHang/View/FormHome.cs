@@ -414,6 +414,10 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
+                FormAddDeliveryVoucher f = new FormAddDeliveryVoucher();
+                f.ShowDialog();
+
+                ReLoadListViewReceiveVoucher();
             }
 
 

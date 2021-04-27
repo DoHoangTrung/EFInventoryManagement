@@ -134,5 +134,7 @@ namespace QuanLyKhoHang.DAO
                            select p.Name).FirstOrDefault();
             return name;
         }
+
+        
     }
 }

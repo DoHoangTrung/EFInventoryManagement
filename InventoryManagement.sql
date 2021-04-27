@@ -208,13 +208,13 @@ VALUES
 GO
 
 --THONG TIN PHIEU XUAT
-INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity,PriceOutput)
+INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity,PriceOutput,IDReceiveVoucher)
 VALUES
-('PX001','SPBXS100',700,20000),
-('PX001','SPS6',1000,20000),
-('PX002','SPS8',900,20000),
-('PX002','SPTHEPHOP',700,20000),
-('PX002','SPQHKT',900,20000)
+('PX001','SPBXS100',700,20000,'PN001'),
+('PX001','SPS6',1000,20000,'PN002'),
+('PX002','SPS8',900,20000,'PN005'),
+('PX002','SPTHEPHOP',700,20000,'PN007'),
+('PX002','SPQHKT',900,20000,'PN010')
 
 GO
 
@@ -593,3 +593,10 @@ begin
 end
 
 exec dbo.GoodNotInInputVoucher @idVoucher = '003'
+
+create view [nghich view]
+as 
+begin
+	select * from ReceiveVoucherInfo i
+	join Product p on p.ID = i.IDProduct
+end

@@ -117,5 +117,9 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
+        public List<ReceiveVoucherInfo> GetReceiveVoucherInfos()
+        {
+            return db.ReceiveVoucherInfoes.ToList();
+        }
     }
 }

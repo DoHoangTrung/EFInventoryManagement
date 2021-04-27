@@ -126,22 +126,22 @@ namespace QuanLyKhoHang
             this.buttonCategoryProduct.UseVisualStyleBackColor = false;
             this.buttonCategoryProduct.Click += new System.EventHandler(this.buttonCategoryGoods_Click);
             // 
-            // buttonCategoryOutputVoucher
+            // buttonCategoryDeliveryVoucher
             // 
             this.buttonCategoryDeliveryVoucher.BackColor = System.Drawing.SystemColors.Control;
             this.buttonCategoryDeliveryVoucher.Location = new System.Drawing.Point(24, 57);
-            this.buttonCategoryDeliveryVoucher.Name = "buttonCategoryOutputVoucher";
+            this.buttonCategoryDeliveryVoucher.Name = "buttonCategoryDeliveryVoucher";
             this.buttonCategoryDeliveryVoucher.Size = new System.Drawing.Size(353, 29);
             this.buttonCategoryDeliveryVoucher.TabIndex = 2;
             this.buttonCategoryDeliveryVoucher.Text = "Phiếu xuất";
             this.buttonCategoryDeliveryVoucher.UseVisualStyleBackColor = false;
             this.buttonCategoryDeliveryVoucher.Click += new System.EventHandler(this.buttonCategoryOutputVoucher_Click);
             // 
-            // buttonCategoryInputVoucher
+            // buttonCategoryReceiveVoucher
             // 
             this.buttonCategoryReceiveVoucher.BackColor = System.Drawing.SystemColors.Control;
             this.buttonCategoryReceiveVoucher.Location = new System.Drawing.Point(24, 22);
-            this.buttonCategoryReceiveVoucher.Name = "buttonCategoryInputVoucher";
+            this.buttonCategoryReceiveVoucher.Name = "buttonCategoryReceiveVoucher";
             this.buttonCategoryReceiveVoucher.Size = new System.Drawing.Size(353, 29);
             this.buttonCategoryReceiveVoucher.TabIndex = 2;
             this.buttonCategoryReceiveVoucher.Text = "Phiếu nhập";
@@ -274,6 +274,7 @@ namespace QuanLyKhoHang
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormHome";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Phần mêm quản lý kho hàng";
             this.Load += new System.EventHandler(this.FormHome_Load);
             this.menuStrip1.ResumeLayout(false);
