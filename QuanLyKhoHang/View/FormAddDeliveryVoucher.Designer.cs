@@ -49,19 +49,19 @@
             this.numericUpDownDeliveryPrice = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownDeliveryQuantity = new System.Windows.Forms.NumericUpDown();
             this.comboBoxProductName = new System.Windows.Forms.ComboBox();
+            this.comboBoxProductType = new System.Windows.Forms.ComboBox();
             this.comboBoxProductID = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.labelReceivePrice = new System.Windows.Forms.Label();
             this.labelInventoryNumber = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.buttonDeleteProduct = new System.Windows.Forms.Button();
             this.buttonAddProduct = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.comboBoxProductType = new System.Windows.Forms.ComboBox();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -311,6 +311,25 @@
             this.comboBoxProductName.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductName.TabIndex = 7;
             // 
+            // comboBoxProductType
+            // 
+            this.comboBoxProductType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxProductType.FormattingEnabled = true;
+            this.comboBoxProductType.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
+            this.comboBoxProductType.Location = new System.Drawing.Point(151, 43);
+            this.comboBoxProductType.Name = "comboBoxProductType";
+            this.comboBoxProductType.Size = new System.Drawing.Size(242, 24);
+            this.comboBoxProductType.TabIndex = 6;
+            this.comboBoxProductType.SelectedIndexChanged += new System.EventHandler(this.comboBoxProductType_SelectedIndexChanged);
+            // 
             // comboBoxProductID
             // 
             this.comboBoxProductID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -365,6 +384,15 @@
             this.labelInventoryNumber.TabIndex = 11;
             this.labelInventoryNumber.Text = "Số dư:";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(18, 46);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(101, 17);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "Loại sản phẩm";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -418,33 +446,6 @@
             this.buttonOK.TabIndex = 24;
             this.buttonOK.Text = "Đồng ý";
             this.buttonOK.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(18, 46);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(101, 17);
-            this.label11.TabIndex = 14;
-            this.label11.Text = "Loại sản phẩm";
-            // 
-            // comboBoxProductType
-            // 
-            this.comboBoxProductType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxProductType.FormattingEnabled = true;
-            this.comboBoxProductType.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
-            this.comboBoxProductType.Location = new System.Drawing.Point(151, 43);
-            this.comboBoxProductType.Name = "comboBoxProductType";
-            this.comboBoxProductType.Size = new System.Drawing.Size(242, 24);
-            this.comboBoxProductType.TabIndex = 6;
             // 
             // FormAddDeliveryVoucher
             // 

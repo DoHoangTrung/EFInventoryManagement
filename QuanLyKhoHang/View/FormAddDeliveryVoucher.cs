@@ -55,6 +55,31 @@ namespace QuanLyKhoHang.View
         private void comboBoxIDCustomer_SelectedValueChanged(object sender, EventArgs e)
         {
             labelPhoneCustomer.Text = (comboBoxIDCustomer.SelectedItem as Customer).Phone;
+            
+        }
+
+        private void comboBoxProductType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ProductType type = ((sender as ComboBox).SelectedItem as ProductType);
+            string typeID = type.ID;
+
+            LoadProductByType(typeID);
+        }
+
+        private void LoadProductByType(string typeID)
+        {
+            switch (typeID)
+            {
+                case "1":
+
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

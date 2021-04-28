@@ -218,13 +218,13 @@ VALUES
 
 GO
 
-create view ProductCanSell
+alter view ProductCanSell
 as 
-	select pt.Name as [TypeName], p.ID as [ProductID],p.Name as [ProductName],p.Unit,sum(i.QuantityInput) as [SumQuantityInput] ,sum(i.PriceInput) as [SumPriceInput], count(p.ID) as [Count]
+	select pt.Name as [TypeName], p.ID as [ProductID],p.Name as [ProductName],p.Unit,sum(i.QuantityInput) as [SumQuantityInput] ,sum(i.PriceInput) as [SumPriceInput], count(p.ID) as [Count], pt.ID as[IDType]
 	from ReceiveVoucherInfo i
 	join Product p on p.ID = i.IDProduct
 	join ProductType pt on pt.id = p.IdType
-	group by p.ID,pt.Name,p.Name,p.Unit
+	group by p.ID,pt.Name,p.Name,p.Unit,pt.ID
 
 USE InventoryManagement
 GO
