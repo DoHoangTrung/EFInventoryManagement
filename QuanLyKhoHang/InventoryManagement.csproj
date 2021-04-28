@@ -88,6 +88,7 @@
     <Compile Include="Entity\DeliveryVoucherInfo.cs" />
     <Compile Include="Entity\InventoryContext.cs" />
     <Compile Include="Entity\Product.cs" />
+    <Compile Include="Entity\ProductCanSell.cs" />
     <Compile Include="Entity\ProductType.cs" />
     <Compile Include="Entity\ReceiveVoucher.cs" />
     <Compile Include="Entity\ReceiveVoucherInfo.cs" />
