@@ -218,6 +218,14 @@ VALUES
 
 GO
 
+create view ProductCanSell
+as 
+	select pt.Name as [TypeName], p.ID as [ProductID],p.Name as [ProductName],p.Unit,sum(i.QuantityInput) as [SumQuantityInput] ,sum(i.PriceInput) as [SumPriceInput], count(p.ID) as [Count]
+	from ReceiveVoucherInfo i
+	join Product p on p.ID = i.IDProduct
+	join ProductType pt on pt.id = p.IdType
+	group by p.ID,pt.Name,p.Name,p.Unit
+
 USE InventoryManagement
 GO
 
@@ -594,9 +602,13 @@ end
 
 exec dbo.GoodNotInInputVoucher @idVoucher = '003'
 
-create view [nghich view]
+create view ViewDeliveryDTGView
 as 
-begin
 	select * from ReceiveVoucherInfo i
 	join Product p on p.ID = i.IDProduct
-end
+	join ProductType pt on pt.id = p.IdType
+
+	select * from [nghich view]
+
+	-----
+	

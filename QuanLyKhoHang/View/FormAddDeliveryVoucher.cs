@@ -24,8 +24,15 @@ namespace QuanLyKhoHang.View
         {
             LoadDeliveryVoucher();
             LoadCustomer();
-            //LoadProduct();
+            
+            LoadProductType();
             //LoadDTGViewInfo();
+        }
+
+        private void LoadProductType()
+        {
+            comboBoxProductType.DataSource = ProductTypeDAO.Instance.GetListProductTypes();
+            comboBoxProductType.DisplayMember = "Name";
         }
 
         private void LoadCustomer()

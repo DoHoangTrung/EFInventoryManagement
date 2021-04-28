@@ -49,6 +49,7 @@ namespace QuanLyKhoHang.DAO
 
             return rowAffected;
         }
+
         public int InsertReceiveVoucherInfo(List<ReceiveVoucherInfo> infoes)
         {
             int rowAffected = 0;
@@ -117,9 +118,13 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public List<ReceiveVoucherInfo> GetReceiveVoucherInfos()
+        public List<ReceiveVoucherInfo> GetReceiveVoucherInfosCanSell()
         {
-            return db.ReceiveVoucherInfoes.ToList();
+            List<ReceiveVoucherInfo> voucherInfos = (from i in db.ReceiveVoucherInfoes
+                                                     where (i.QuantityInput - i.QuantityOutput) > 0
+                                                     select i).ToList();
+
+            return voucherInfos;
         }
     }
 }

@@ -80,13 +80,7 @@
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
-    <Compile Include="DTO\Customer1.cs" />
-    <Compile Include="DTO\Good1.cs" />
-    <Compile Include="DTO\InputVoucher1.cs" />
-    <Compile Include="DTO\OutputReport1.cs" />
-    <Compile Include="DTO\InventoryReport1.cs" />
     <Compile Include="DTO\ProductAndType.cs" />
-    <Compile Include="DTO\Supplier1.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\AccountType.cs" />
     <Compile Include="Entity\Customer.cs" />
