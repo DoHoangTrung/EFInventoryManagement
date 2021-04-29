@@ -39,6 +39,7 @@ namespace QuanLyKhoHang
             this.comboBoxProductName = new System.Windows.Forms.ComboBox();
             this.comboBoxProductID = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,7 +61,6 @@ namespace QuanLyKhoHang
             this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutputPrice)).BeginInit();
@@ -177,15 +177,6 @@ namespace QuanLyKhoHang
             // 
             this.comboBoxProductID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductID.FormattingEnabled = true;
-            this.comboBoxProductID.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
             this.comboBoxProductID.Location = new System.Drawing.Point(151, 30);
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
@@ -199,6 +190,15 @@ namespace QuanLyKhoHang
             this.label9.Size = new System.Drawing.Size(149, 17);
             this.label9.TabIndex = 10;
             this.label9.Text = "Giá xuất (nghìn đồng):";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(18, 126);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(104, 17);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "Số lượng nhập:";
             // 
             // label4
             // 
@@ -411,15 +411,6 @@ namespace QuanLyKhoHang
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(684, 280);
             this.panel3.TabIndex = 23;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(18, 126);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(104, 17);
-            this.label10.TabIndex = 11;
-            this.label10.Text = "Số lượng nhập:";
             // 
             // FormAddReceiveVoucher
             // 
