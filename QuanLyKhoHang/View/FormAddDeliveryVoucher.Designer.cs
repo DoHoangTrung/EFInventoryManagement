@@ -43,6 +43,7 @@
             this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelTest = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewDeliveryInfo = new System.Windows.Forms.DataGridView();
@@ -53,7 +54,9 @@
             this.comboBoxProductID = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.labelReceivePrice = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.labelAveragePrice = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.labelInventoryNumber = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,6 +65,8 @@
             this.buttonAddProduct = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.comboBoxTest = new System.Windows.Forms.ComboBox();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -161,12 +166,15 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonTest);
             this.panel1.Controls.Add(this.textBoxNote);
+            this.panel1.Controls.Add(this.comboBoxTest);
             this.panel1.Controls.Add(this.comboBoxIDDeliveryVoucher);
             this.panel1.Controls.Add(this.labelInputVoucherIDNotification);
             this.panel1.Controls.Add(this.dateTimePickerDeliveryDate);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.labelTest);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(4, 0);
             this.panel1.Name = "panel1";
@@ -224,6 +232,15 @@
             this.label1.TabIndex = 24;
             this.label1.Text = "ID Phiếu xuất";
             // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Location = new System.Drawing.Point(183, 248);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(61, 17);
+            this.labelTest.TabIndex = 13;
+            this.labelTest.Text = "Ghi chú:";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -243,7 +260,9 @@
             this.panel2.Controls.Add(this.comboBoxProductID);
             this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label10);
-            this.panel2.Controls.Add(this.labelReceivePrice);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.labelAveragePrice);
+            this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.labelInventoryNumber);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.label7);
@@ -270,7 +289,7 @@
             // 
             // numericUpDownDeliveryPrice
             // 
-            this.numericUpDownDeliveryPrice.Location = new System.Drawing.Point(151, 291);
+            this.numericUpDownDeliveryPrice.Location = new System.Drawing.Point(177, 292);
             this.numericUpDownDeliveryPrice.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -287,7 +306,7 @@
             // 
             // numericUpDownDeliveryQuantity
             // 
-            this.numericUpDownDeliveryQuantity.Location = new System.Drawing.Point(151, 244);
+            this.numericUpDownDeliveryQuantity.Location = new System.Drawing.Point(177, 245);
             this.numericUpDownDeliveryQuantity.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -306,7 +325,7 @@
             // 
             this.comboBoxProductName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductName.FormattingEnabled = true;
-            this.comboBoxProductName.Location = new System.Drawing.Point(151, 128);
+            this.comboBoxProductName.Location = new System.Drawing.Point(177, 129);
             this.comboBoxProductName.Name = "comboBoxProductName";
             this.comboBoxProductName.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductName.TabIndex = 7;
@@ -324,7 +343,7 @@
             "6",
             "7",
             "8"});
-            this.comboBoxProductType.Location = new System.Drawing.Point(151, 43);
+            this.comboBoxProductType.Location = new System.Drawing.Point(177, 44);
             this.comboBoxProductType.Name = "comboBoxProductType";
             this.comboBoxProductType.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductType.TabIndex = 6;
@@ -343,10 +362,11 @@
             "6",
             "7",
             "8"});
-            this.comboBoxProductID.Location = new System.Drawing.Point(151, 87);
+            this.comboBoxProductID.Location = new System.Drawing.Point(177, 88);
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductID.TabIndex = 6;
+            this.comboBoxProductID.SelectedIndexChanged += new System.EventHandler(this.comboBoxProductID_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -366,19 +386,37 @@
             this.label10.TabIndex = 11;
             this.label10.Text = "Số lượng xuất:";
             // 
-            // labelReceivePrice
+            // label13
             // 
-            this.labelReceivePrice.AutoSize = true;
-            this.labelReceivePrice.Location = new System.Drawing.Point(15, 210);
-            this.labelReceivePrice.Name = "labelReceivePrice";
-            this.labelReceivePrice.Size = new System.Drawing.Size(142, 17);
-            this.labelReceivePrice.TabIndex = 11;
-            this.labelReceivePrice.Text = "Giá nhập trung bình: ";
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(18, 210);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(142, 17);
+            this.label13.TabIndex = 11;
+            this.label13.Text = "Giá nhập trung bình: ";
+            // 
+            // labelAveragePrice
+            // 
+            this.labelAveragePrice.AutoSize = true;
+            this.labelAveragePrice.Location = new System.Drawing.Point(174, 211);
+            this.labelAveragePrice.Name = "labelAveragePrice";
+            this.labelAveragePrice.Size = new System.Drawing.Size(142, 17);
+            this.labelAveragePrice.TabIndex = 11;
+            this.labelAveragePrice.Text = "Giá nhập trung bình: ";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(18, 175);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(49, 17);
+            this.label12.TabIndex = 11;
+            this.label12.Text = "Số dư:";
             // 
             // labelInventoryNumber
             // 
             this.labelInventoryNumber.AutoSize = true;
-            this.labelInventoryNumber.Location = new System.Drawing.Point(18, 172);
+            this.labelInventoryNumber.Location = new System.Drawing.Point(174, 176);
             this.labelInventoryNumber.Name = "labelInventoryNumber";
             this.labelInventoryNumber.Size = new System.Drawing.Size(49, 17);
             this.labelInventoryNumber.TabIndex = 11;
@@ -447,6 +485,24 @@
             this.buttonOK.Text = "Đồng ý";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
+            // comboBoxTest
+            // 
+            this.comboBoxTest.FormattingEnabled = true;
+            this.comboBoxTest.Location = new System.Drawing.Point(262, 241);
+            this.comboBoxTest.Name = "comboBoxTest";
+            this.comboBoxTest.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxTest.TabIndex = 1;
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(445, 245);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(168, 23);
+            this.buttonTest.TabIndex = 5;
+            this.buttonTest.Text = "Thêm khách hàng";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
             // FormAddDeliveryVoucher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -506,9 +562,14 @@
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.NumericUpDown numericUpDownDeliveryPrice;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label labelReceivePrice;
+        private System.Windows.Forms.Label labelAveragePrice;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox comboBoxProductType;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.ComboBox comboBoxTest;
+        private System.Windows.Forms.Button buttonTest;
     }
 }

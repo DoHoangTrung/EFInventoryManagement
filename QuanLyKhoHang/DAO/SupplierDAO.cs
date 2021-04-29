@@ -21,7 +21,7 @@ namespace QuanLyKhoHang.DAL
             private set { }
         }
 
-                public List<Supplier> GetListSupplier()
+        public List<Supplier> GetListSupplier()
         {
             List<Supplier> suppliers = new List<Supplier>();
 

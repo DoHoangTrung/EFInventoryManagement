@@ -25,9 +25,10 @@ namespace QuanLyKhoHang.Entity
         [StringLength(20)]
         public string Unit { get; set; }
 
-        public int? SumQuantityInput { get; set; }
 
         public int? SumPriceInput { get; set; }
+        public int? SumQuantityInput { get; set; }
+        public int? SumQuantityOutput { get; set; }
 
         public int? Count { get; set; }
 

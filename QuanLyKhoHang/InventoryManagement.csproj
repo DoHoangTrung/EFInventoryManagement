@@ -75,6 +75,7 @@
     <Compile Include="DAO\DeliveryVoucherInfoDAO.cs" />
     <Compile Include="DAO\CustomerDAO.cs" />
     <Compile Include="DAO\DeliveryVoucherDAO.cs" />
+    <Compile Include="DAO\ProductCanSellDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\ProductTypeDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />

@@ -22,17 +22,27 @@ namespace QuanLyKhoHang.View
 
         private void FormAddDeliveryVoucher_Load(object sender, EventArgs e)
         {
-            LoadDeliveryVoucher();
+            /*LoadDeliveryVoucher();
             LoadCustomer();
             
             LoadProductType();
-            //LoadDTGViewInfo();
-        }
+            //LoadDTGViewInfo();*/
 
+            comboBoxTest.DataSource = ProductCanSellDAO.Instance.GetProductCanSellByType("1");
+            labelTest.Text = "";
+
+        }
+        private void buttonTest_Click(object sender, EventArgs e)
+        {
+            comboBoxTest.DataSource = null;
+            comboBoxTest.Items.Clear();
+        }
         private void LoadProductType()
         {
+            comboBoxProductType.DataSource = null;
             comboBoxProductType.DataSource = ProductTypeDAO.Instance.GetListProductTypes();
             comboBoxProductType.DisplayMember = "Name";
+
         }
 
         private void LoadCustomer()
@@ -49,6 +59,7 @@ namespace QuanLyKhoHang.View
 
         private void LoadDeliveryVoucher()
         {
+            comboBoxIDDeliveryVoucher.DataSource = null;
             comboBoxIDDeliveryVoucher.DataSource = DeliveryVoucherDAO.Instance.GetListID();
         }
 
@@ -68,18 +79,48 @@ namespace QuanLyKhoHang.View
 
         private void LoadProductByType(string typeID)
         {
-            switch (typeID)
-            {
-                case "1":
+            List<ProductCanSell> productCanSell = ProductCanSellDAO.Instance.GetProductCanSellByType(typeID);
 
-                    break;
-                case "2":
-                    break;
-                case "3":
-                    break;
-                default:
-                    break;
+            if(productCanSell == null)
+            {
+                comboBoxProductID.DataSource = null;
+                comboBoxProductName.DataSource = null;
+
+                comboBoxProductID.ResetText();
+            }
+            else
+            {
+                comboBoxProductID.DataSource = productCanSell;
+                comboBoxProductName.DataSource = productCanSell;
+
+                comboBoxProductID.DisplayMember = "ProductID";
+                comboBoxProductName.DisplayMember = "ProductName";
             }
         }
+
+        private void comboBoxProductID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            labelTest.Text = comboBoxProductID.Items.Count.ToString();
+            int? inventoryNum = 0;
+            float? averagePrice = 0;
+            
+            ProductCanSell p = (sender as ComboBox).SelectedItem as ProductCanSell;
+            if (p != null)
+            {
+                inventoryNum = p.SumQuantityInput - p.SumQuantityOutput;
+                averagePrice = (float)p.SumPriceInput / p.Count;
+
+                labelInventoryNumber.Text = inventoryNum.ToString();
+                labelAveragePrice.Text = averagePrice.ToString();
+
+            }
+            else
+            {
+                labelInventoryNumber.Text = "";
+                labelAveragePrice.Text = "";
+            }
+        }
+
+        
     }
 }
