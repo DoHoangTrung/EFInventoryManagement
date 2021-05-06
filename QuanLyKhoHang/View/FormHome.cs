@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.DTO;
-using QuanLyKhoHang.Entity_EF;
+using QuanLyKhoHang.Entity;
 using QuanLyKhoHang.View;
 
 namespace QuanLyKhoHang

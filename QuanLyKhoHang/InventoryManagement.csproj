@@ -75,26 +75,25 @@
     <Compile Include="DAO\DeliveryVoucherInfoDAO.cs" />
     <Compile Include="DAO\CustomerDAO.cs" />
     <Compile Include="DAO\DeliveryVoucherDAO.cs" />
-    <Compile Include="DAO\ProductCanSellDTO.cs" />
+    <Compile Include="DAO\ProductCanSellDAO.cs" />
     <Compile Include="DAO\ProductDAO.cs" />
     <Compile Include="DAO\ProductTypeDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
     <Compile Include="DTO\ProductAndType.cs" />
-    <Compile Include="DTO\ProductCanSellDAT.cs" />
-    <Compile Include="DTO\ProductInfoDeliveryDTGV.cs" />
-    <Compile Include="Entity EF\Account.cs" />
-    <Compile Include="Entity EF\AccountType.cs" />
-    <Compile Include="Entity EF\Customer.cs" />
-    <Compile Include="Entity EF\DeliveryVoucher.cs" />
-    <Compile Include="Entity EF\DeliveryVoucherInfo.cs" />
-    <Compile Include="Entity EF\InventoryContext.cs" />
-    <Compile Include="Entity EF\Product.cs" />
-    <Compile Include="Entity EF\ProductType.cs" />
-    <Compile Include="Entity EF\ReceiveVoucher.cs" />
-    <Compile Include="Entity EF\ReceiveVoucherInfo.cs" />
-    <Compile Include="Entity EF\Supplier.cs" />
+    <Compile Include="Entity\Account.cs" />
+    <Compile Include="Entity\AccountType.cs" />
+    <Compile Include="Entity\Customer.cs" />
+    <Compile Include="Entity\DeliveryVoucher.cs" />
+    <Compile Include="Entity\DeliveryVoucherInfo.cs" />
+    <Compile Include="Entity\InventoryContext.cs" />
+    <Compile Include="Entity\Product.cs" />
+    <Compile Include="Entity\ProductCanSell.cs" />
+    <Compile Include="Entity\ProductType.cs" />
+    <Compile Include="Entity\ReceiveVoucher.cs" />
+    <Compile Include="Entity\ReceiveVoucherInfo.cs" />
+    <Compile Include="Entity\Supplier.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="View\FormAddDeliveryVoucher.cs">
       <SubType>Form</SubType>
@@ -126,11 +125,11 @@
     <Compile Include="View\FormAddProduct.Designer.cs">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\FormAddReceiveVoucher.cs">
+    <Compile Include="View\FormAddInputVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormAddReceiveVoucher.Designer.cs">
-      <DependentUpon>FormAddReceiveVoucher.cs</DependentUpon>
+    <Compile Include="View\FormAddInputVoucher.Designer.cs">
+      <DependentUpon>FormAddInputVoucher.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormAddSupplier.cs">
       <SubType>Form</SubType>
@@ -217,8 +216,8 @@
     <EmbeddedResource Include="View\FormAddProduct.resx">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\FormAddReceiveVoucher.resx">
-      <DependentUpon>FormAddReceiveVoucher.cs</DependentUpon>
+    <EmbeddedResource Include="View\FormAddInputVoucher.resx">
+      <DependentUpon>FormAddInputVoucher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormAddSupplier.resx">
       <DependentUpon>FormAddSupplier.cs</DependentUpon>

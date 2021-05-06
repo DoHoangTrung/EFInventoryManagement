@@ -1,4 +1,4 @@
-namespace QuanLyKhoHang.Entity_EF
+namespace QuanLyKhoHang.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,13 +6,13 @@ namespace QuanLyKhoHang.Entity_EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("AccountType")]
-    public partial class AccountType
+    [Table("Customer")]
+    public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AccountType()
+        public Customer()
         {
-            Accounts = new HashSet<Account>();
+            DeliveryVouchers = new HashSet<DeliveryVoucher>();
         }
 
         [StringLength(30)]
@@ -21,7 +21,16 @@ namespace QuanLyKhoHang.Entity_EF
         [StringLength(100)]
         public string Name { get; set; }
 
+        [StringLength(11)]
+        public string Phone { get; set; }
+
+        [StringLength(100)]
+        public string Address { get; set; }
+
+        [StringLength(100)]
+        public string Email { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<DeliveryVoucher> DeliveryVouchers { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
-using QuanLyKhoHang.Entity_EF;
+using QuanLyKhoHang.Entity;
 using QuanLyKhoHang.View;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-namespace QuanLyKhoHang.Entity_EF
+namespace QuanLyKhoHang.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,31 +6,26 @@ namespace QuanLyKhoHang.Entity_EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Customer")]
-    public partial class Customer
+    [Table("ReceiveVoucher")]
+    public partial class ReceiveVoucher
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
+        public ReceiveVoucher()
         {
-            DeliveryVouchers = new HashSet<DeliveryVoucher>();
+            ReceiveVoucherInfoes = new HashSet<ReceiveVoucherInfo>();
         }
 
         [StringLength(30)]
         public string ID { get; set; }
 
-        [StringLength(100)]
-        public string Name { get; set; }
+        public DateTime? Date { get; set; }
 
-        [StringLength(11)]
-        public string Phone { get; set; }
-
-        [StringLength(100)]
-        public string Address { get; set; }
-
-        [StringLength(100)]
-        public string Email { get; set; }
+        [StringLength(30)]
+        public string IDSupplier { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeliveryVoucher> DeliveryVouchers { get; set; }
+        public virtual ICollection<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
     }
 }

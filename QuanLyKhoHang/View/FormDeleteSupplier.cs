@@ -1,5 +1,5 @@
 ﻿using QuanLyKhoHang.DAL;
-using QuanLyKhoHang.Entity_EF;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -1,4 +1,4 @@
-namespace QuanLyKhoHang.Entity_EF
+namespace QuanLyKhoHang.Entity
 {
     using System;
     using System.Collections.Generic;

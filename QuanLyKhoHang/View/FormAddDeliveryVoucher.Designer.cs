@@ -43,6 +43,7 @@
             this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelTest = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewDeliveryInfo = new System.Windows.Forms.DataGridView();
@@ -64,6 +65,8 @@
             this.buttonAddProduct = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.comboBoxTest = new System.Windows.Forms.ComboBox();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -163,12 +166,15 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.buttonTest);
             this.panel1.Controls.Add(this.textBoxNote);
+            this.panel1.Controls.Add(this.comboBoxTest);
             this.panel1.Controls.Add(this.comboBoxIDDeliveryVoucher);
             this.panel1.Controls.Add(this.labelInputVoucherIDNotification);
             this.panel1.Controls.Add(this.dateTimePickerDeliveryDate);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.labelTest);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(4, 0);
             this.panel1.Name = "panel1";
@@ -225,6 +231,15 @@
             this.label1.Size = new System.Drawing.Size(91, 17);
             this.label1.TabIndex = 24;
             this.label1.Text = "ID Phiếu xuất";
+            // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Location = new System.Drawing.Point(183, 248);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(61, 17);
+            this.labelTest.TabIndex = 13;
+            this.labelTest.Text = "Ghi chú:";
             // 
             // label3
             // 
@@ -319,6 +334,15 @@
             // 
             this.comboBoxProductType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductType.FormattingEnabled = true;
+            this.comboBoxProductType.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
             this.comboBoxProductType.Location = new System.Drawing.Point(177, 44);
             this.comboBoxProductType.Name = "comboBoxProductType";
             this.comboBoxProductType.Size = new System.Drawing.Size(242, 24);
@@ -329,6 +353,15 @@
             // 
             this.comboBoxProductID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductID.FormattingEnabled = true;
+            this.comboBoxProductID.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"});
             this.comboBoxProductID.Location = new System.Drawing.Point(177, 88);
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
@@ -418,7 +451,7 @@
             // 
             // buttonDeleteProduct
             // 
-            this.buttonDeleteProduct.Location = new System.Drawing.Point(262, 349);
+            this.buttonDeleteProduct.Location = new System.Drawing.Point(262, 345);
             this.buttonDeleteProduct.Name = "buttonDeleteProduct";
             this.buttonDeleteProduct.Size = new System.Drawing.Size(131, 31);
             this.buttonDeleteProduct.TabIndex = 13;
@@ -427,13 +460,12 @@
             // 
             // buttonAddProduct
             // 
-            this.buttonAddProduct.Location = new System.Drawing.Point(79, 349);
+            this.buttonAddProduct.Location = new System.Drawing.Point(79, 345);
             this.buttonAddProduct.Name = "buttonAddProduct";
             this.buttonAddProduct.Size = new System.Drawing.Size(133, 31);
             this.buttonAddProduct.TabIndex = 12;
             this.buttonAddProduct.Text = "Thêm sản phẩm";
             this.buttonAddProduct.UseVisualStyleBackColor = true;
-            this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
             // 
             // buttonCancel
             // 
@@ -453,11 +485,29 @@
             this.buttonOK.Text = "Đồng ý";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
+            // comboBoxTest
+            // 
+            this.comboBoxTest.FormattingEnabled = true;
+            this.comboBoxTest.Location = new System.Drawing.Point(262, 241);
+            this.comboBoxTest.Name = "comboBoxTest";
+            this.comboBoxTest.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxTest.TabIndex = 1;
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(445, 245);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(168, 23);
+            this.buttonTest.TabIndex = 5;
+            this.buttonTest.Text = "Thêm khách hàng";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
             // FormAddDeliveryVoucher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1361, 770);
+            this.ClientSize = new System.Drawing.Size(1361, 747);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
@@ -518,5 +568,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.ComboBox comboBoxTest;
+        private System.Windows.Forms.Button buttonTest;
     }
 }

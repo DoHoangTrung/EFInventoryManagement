@@ -1,4 +1,4 @@
-namespace QuanLyKhoHang.Entity_EF
+namespace QuanLyKhoHang.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,13 +6,13 @@ namespace QuanLyKhoHang.Entity_EF
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ProductType")]
-    public partial class ProductType
+    [Table("AccountType")]
+    public partial class AccountType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ProductType()
+        public AccountType()
         {
-            Products = new HashSet<Product>();
+            Accounts = new HashSet<Account>();
         }
 
         [StringLength(30)]
@@ -22,6 +22,6 @@ namespace QuanLyKhoHang.Entity_EF
         public string Name { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Account> Accounts { get; set; }
     }
 }

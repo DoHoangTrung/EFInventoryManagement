@@ -1,4 +1,4 @@
-﻿using QuanLyKhoHang.Entity_EF;
+﻿using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,8 +123,8 @@ namespace QuanLyKhoHang.DAO
             List<ReceiveVoucherInfo> voucherInfos = (from i in db.ReceiveVoucherInfoes
                                                      where (i.QuantityInput - i.QuantityOutput) > 0
                                                      select i).ToList();
+
             return voucherInfos;
         }
-
     }
 }
