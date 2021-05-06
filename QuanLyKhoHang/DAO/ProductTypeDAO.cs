@@ -1,4 +1,4 @@
-﻿using QuanLyKhoHang.Entity;
+﻿using QuanLyKhoHang.Entity_EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +41,10 @@ namespace QuanLyKhoHang.DAO
             return name;
         }
 
-        
+        /*public List<ProductType> GetTypeCanSell()
+        {
+            List<ProductCanSellDAT> productCanSells = ProductCanSellDAO.Instance.GetProductCanSell();
+            var type = productCanSells.GroupBy(p => p.IDType);
+        }*/
     }
 }

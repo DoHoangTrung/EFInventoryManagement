@@ -1,5 +1,5 @@
 ﻿using QuanLyKhoHang.DTO;
-using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Entity_EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace QuanLyKhoHang.DAO
 {
-    
+
     public class ProductDAO
     {
         private static ProductDAO instance;
-        public static ProductDAO Instance 
-        { 
-            get 
+        public static ProductDAO Instance
+        {
+            get
             {
                 if (instance == null) instance = new ProductDAO(); return instance;
-            } 
-            private set { } 
+            }
+            private set { }
         }
 
         InventoryContext db = new InventoryContext();
@@ -118,8 +118,8 @@ namespace QuanLyKhoHang.DAO
         public List<Product> GetListProductOutOfReceiveVoucher(string idReceiveVoucher)
         {
             List<string> iDProductsInVoucher = (from v in db.ReceiveVoucherInfoes
-                                              where v.IDReceiveVoucher == idReceiveVoucher
-                                              select v.IDProduct).ToList();
+                                                where v.IDReceiveVoucher == idReceiveVoucher
+                                                select v.IDProduct).ToList();
 
             //get product not in receive voucher
             List<Product> products = db.Products.Where(p => !iDProductsInVoucher.Contains(p.ID)).ToList();
@@ -135,6 +135,22 @@ namespace QuanLyKhoHang.DAO
             return name;
         }
 
-        
+        public List<Product> GetProductsCanSell()
+        {
+            var products = (from i in db.ReceiveVoucherInfoes
+                            join p in db.Products on i.IDProduct equals p.ID
+                            where i.QuantityInput > i.QuantityOutput
+                            select p).ToList();
+            return products;
+        }
+
+        public List<Product> GetProductsCanSellByType(string typeID)
+        {
+            var products = (from i in db.ReceiveVoucherInfoes
+                            join p in db.Products on i.IDProduct equals p.ID
+                            where i.QuantityInput > i.QuantityOutput && p.IdType == typeID
+                            select p).ToList();
+            return products;
+        }
     }
 }

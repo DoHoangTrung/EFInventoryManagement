@@ -218,13 +218,41 @@ VALUES
 
 GO
 
-alter view ProductCanSell
-as 
-	select pt.Name as [TypeName], p.ID as [ProductID],p.Name as [ProductName],p.Unit,sum(i.PriceInput) as [SumPriceInput],sum(i.QuantityInput) as [SumQuantityInput] , sum(i.QuantityOutput) as [SumQuantityOutput], count(p.ID) as [Count], pt.ID as[IDType]
-	from ReceiveVoucherInfo i
-	join Product p on p.ID = i.IDProduct
-	join ProductType pt on pt.id = p.IdType
-	group by p.ID,pt.Name,p.Name,p.Unit,pt.ID
+--CREATE view ProductCanSell
+--as 
+--	select 
+--		pt.Name as [TypeName],
+--		p.ID as [ProductID],
+--		p.Name as [ProductName],
+--		p.Unit,sum(i.PriceInput) as [SumPriceInput],
+--		sum(i.QuantityInput) as [SumQuantityInput] ,
+--		sum(i.QuantityOutput) as [SumQuantityOutput],
+--		count(p.ID) as [Count], pt.ID as[IDType]
+--	from ReceiveVoucherInfo i
+--		join Product p on p.ID = i.IDProduct
+--		join ProductType pt on pt.id = p.IdType
+--	group by 
+--		p.ID,
+--		pt.Name,
+--		p.Name,
+--		p.Unit,
+--		pt.ID
+
+--view info product sell
+--create view [ProductCanSellInfo]
+--as
+--	select 
+--		p.ID as [ProductID],
+--		p.Name as [ProductName],
+--		i.QuantityInput,
+--		i.QuantityOutput,
+--		v.Date [ReceiveDate],
+--		i.IDReceiveVoucher [ReceiveVoucherID]
+--	from ReceiveVoucherInfo i
+--		join Product p on p.ID = i.IDProduct
+--		join ProductType pt on pt.id = p.IdType
+--		join ReceiveVoucher v on v.ID = i.IDReceiveVoucher
+
 
 USE InventoryManagement
 GO

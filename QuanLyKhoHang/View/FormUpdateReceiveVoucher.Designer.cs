@@ -99,7 +99,7 @@ namespace QuanLyKhoHang
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(8, 83);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(139, 21);
+            this.label6.Size = new System.Drawing.Size(111, 17);
             this.label6.TabIndex = 23;
             this.label6.Text = "ID nhà cung cấp";
             // 
@@ -335,15 +335,6 @@ namespace QuanLyKhoHang
             // 
             this.comboBoxProductID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductID.FormattingEnabled = true;
-            this.comboBoxProductID.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
             this.comboBoxProductID.Location = new System.Drawing.Point(151, 26);
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);

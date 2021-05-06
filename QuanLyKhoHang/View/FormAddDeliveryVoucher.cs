@@ -1,6 +1,6 @@
 ﻿using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
-using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Entity_EF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,21 +22,15 @@ namespace QuanLyKhoHang.View
 
         private void FormAddDeliveryVoucher_Load(object sender, EventArgs e)
         {
-            /*LoadDeliveryVoucher();
+            LoadDeliveryVoucher();
             LoadCustomer();
-            
+
             LoadProductType();
-            //LoadDTGViewInfo();*/
-
-            comboBoxTest.DataSource = ProductCanSellDAO.Instance.GetProductCanSellByType("1");
-            labelTest.Text = "";
-
+            LoadDTGViewInfo();
         }
-        private void buttonTest_Click(object sender, EventArgs e)
-        {
-            comboBoxTest.DataSource = null;
-            comboBoxTest.Items.Clear();
-        }
+
+        
+
         private void LoadProductType()
         {
             comboBoxProductType.DataSource = null;
@@ -66,7 +60,7 @@ namespace QuanLyKhoHang.View
         private void comboBoxIDCustomer_SelectedValueChanged(object sender, EventArgs e)
         {
             labelPhoneCustomer.Text = (comboBoxIDCustomer.SelectedItem as Customer).Phone;
-            
+
         }
 
         private void comboBoxProductType_SelectedIndexChanged(object sender, EventArgs e)
@@ -79,32 +73,23 @@ namespace QuanLyKhoHang.View
 
         private void LoadProductByType(string typeID)
         {
-            List<ProductCanSell> productCanSell = ProductCanSellDAO.Instance.GetProductCanSellByType(typeID);
+            List<Product> proCanSell = ProductDAO.Instance.GetProductsCanSellByType(typeID);
+            comboBoxProductID.DataSource = null;
+            comboBoxProductName.DataSource = null;
 
-            if(productCanSell == null)
-            {
-                comboBoxProductID.DataSource = null;
-                comboBoxProductName.DataSource = null;
+            comboBoxProductID.DataSource = proCanSell;
+            comboBoxProductName.DataSource = proCanSell;
 
-                comboBoxProductID.ResetText();
-            }
-            else
-            {
-                comboBoxProductID.DataSource = productCanSell;
-                comboBoxProductName.DataSource = productCanSell;
-
-                comboBoxProductID.DisplayMember = "ProductID";
-                comboBoxProductName.DisplayMember = "ProductName";
-            }
+            comboBoxProductID.DisplayMember = "ID";
+            comboBoxProductName.DisplayMember = "Name";
         }
 
         private void comboBoxProductID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            labelTest.Text = comboBoxProductID.Items.Count.ToString();
-            int? inventoryNum = 0;
+            /*int? inventoryNum = 0;
             float? averagePrice = 0;
-            
-            ProductCanSell p = (sender as ComboBox).SelectedItem as ProductCanSell;
+
+            ProductCanSellDAT p = (sender as ComboBox).SelectedItem as ProductCanSellDAT;
             if (p != null)
             {
                 inventoryNum = p.SumQuantityInput - p.SumQuantityOutput;
@@ -118,9 +103,24 @@ namespace QuanLyKhoHang.View
             {
                 labelInventoryNumber.Text = "";
                 labelAveragePrice.Text = "";
-            }
+            }*/
+        }
+
+        private void LoadDTGViewInfo()
+        {
+            //create DTGView
+            dataGridViewDeliveryInfo.Columns.Add("ProductID","ID sản phẩm");
+            dataGridViewDeliveryInfo.Columns.Add("ProductName","Tên");
+            dataGridViewDeliveryInfo.Columns.Add("DeliveryQuantity","Số lượng xuất");
+            dataGridViewDeliveryInfo.Columns.Add("DeliveryPrice", "Giá xuất");
+
+            //load data
         }
 
         
+        private void buttonAddProduct_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

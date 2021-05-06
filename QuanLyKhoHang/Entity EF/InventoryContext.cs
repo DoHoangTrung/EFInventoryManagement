@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 
-namespace QuanLyKhoHang.Entity
+namespace QuanLyKhoHang.Entity_EF
 {
     public partial class InventoryContext : DbContext
     {
@@ -22,7 +22,6 @@ namespace QuanLyKhoHang.Entity
         public virtual DbSet<ReceiveVoucher> ReceiveVouchers { get; set; }
         public virtual DbSet<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<ProductCanSell> ProductCanSells { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -164,14 +163,6 @@ namespace QuanLyKhoHang.Entity
                 .HasMany(e => e.ReceiveVouchers)
                 .WithOptional(e => e.Supplier)
                 .HasForeignKey(e => e.IDSupplier);
-
-            modelBuilder.Entity<ProductCanSell>()
-                .Property(e => e.ProductID)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ProductCanSell>()
-                .Property(e => e.IDType)
-                .IsUnicode(false);
         }
     }
 }
