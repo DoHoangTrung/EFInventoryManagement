@@ -37,7 +37,9 @@
             this.labelPhoneCustomer = new System.Windows.Forms.Label();
             this.comboBoxNameCustomer = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.textBoxNote = new System.Windows.Forms.TextBox();
+            this.comboBoxTest = new System.Windows.Forms.ComboBox();
             this.comboBoxIDDeliveryVoucher = new System.Windows.Forms.ComboBox();
             this.labelInputVoucherIDNotification = new System.Windows.Forms.Label();
             this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
@@ -65,14 +67,16 @@
             this.buttonAddProduct = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.comboBoxTest = new System.Windows.Forms.ComboBox();
-            this.buttonTest = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.buttonUpdateProduct = new System.Windows.Forms.Button();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDeliveryInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryQuantity)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel3
@@ -181,12 +185,30 @@
             this.panel1.Size = new System.Drawing.Size(663, 282);
             this.panel1.TabIndex = 27;
             // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(445, 245);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(168, 23);
+            this.buttonTest.TabIndex = 5;
+            this.buttonTest.Text = "Thêm khách hàng";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            // 
             // textBoxNote
             // 
             this.textBoxNote.Location = new System.Drawing.Point(177, 180);
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.Size = new System.Drawing.Size(338, 22);
             this.textBoxNote.TabIndex = 31;
+            // 
+            // comboBoxTest
+            // 
+            this.comboBoxTest.FormattingEnabled = true;
+            this.comboBoxTest.Location = new System.Drawing.Point(262, 241);
+            this.comboBoxTest.Name = "comboBoxTest";
+            this.comboBoxTest.Size = new System.Drawing.Size(157, 24);
+            this.comboBoxTest.TabIndex = 1;
             // 
             // comboBoxIDDeliveryVoucher
             // 
@@ -267,6 +289,7 @@
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.label7);
             this.panel2.Controls.Add(this.label5);
+            this.panel2.Controls.Add(this.buttonUpdateProduct);
             this.panel2.Controls.Add(this.buttonDeleteProduct);
             this.panel2.Controls.Add(this.buttonAddProduct);
             this.panel2.Location = new System.Drawing.Point(4, 286);
@@ -286,6 +309,7 @@
             this.dataGridViewDeliveryInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewDeliveryInfo.Size = new System.Drawing.Size(900, 380);
             this.dataGridViewDeliveryInfo.TabIndex = 30;
+            this.dataGridViewDeliveryInfo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDeliveryInfo_CellClick);
             // 
             // numericUpDownDeliveryPrice
             // 
@@ -334,15 +358,6 @@
             // 
             this.comboBoxProductType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductType.FormattingEnabled = true;
-            this.comboBoxProductType.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
             this.comboBoxProductType.Location = new System.Drawing.Point(177, 44);
             this.comboBoxProductType.Name = "comboBoxProductType";
             this.comboBoxProductType.Size = new System.Drawing.Size(242, 24);
@@ -353,15 +368,6 @@
             // 
             this.comboBoxProductID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxProductID.FormattingEnabled = true;
-            this.comboBoxProductID.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8"});
             this.comboBoxProductID.Location = new System.Drawing.Point(177, 88);
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
@@ -451,21 +457,25 @@
             // 
             // buttonDeleteProduct
             // 
-            this.buttonDeleteProduct.Location = new System.Drawing.Point(262, 345);
+            this.buttonDeleteProduct.Location = new System.Drawing.Point(308, 345);
             this.buttonDeleteProduct.Name = "buttonDeleteProduct";
-            this.buttonDeleteProduct.Size = new System.Drawing.Size(131, 31);
+            this.buttonDeleteProduct.Size = new System.Drawing.Size(121, 31);
             this.buttonDeleteProduct.TabIndex = 13;
             this.buttonDeleteProduct.Text = "Xóa sản  phẩm";
             this.buttonDeleteProduct.UseVisualStyleBackColor = true;
+            this.buttonDeleteProduct.Click += new System.EventHandler(this.buttonDeleteProduct_Click);
             // 
             // buttonAddProduct
             // 
-            this.buttonAddProduct.Location = new System.Drawing.Point(79, 345);
+            this.buttonAddProduct.Location = new System.Drawing.Point(18, 345);
             this.buttonAddProduct.Name = "buttonAddProduct";
-            this.buttonAddProduct.Size = new System.Drawing.Size(133, 31);
+            this.buttonAddProduct.Size = new System.Drawing.Size(121, 31);
             this.buttonAddProduct.TabIndex = 12;
             this.buttonAddProduct.Text = "Thêm sản phẩm";
             this.buttonAddProduct.UseVisualStyleBackColor = true;
+            this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
+            this.buttonAddProduct.MouseLeave += new System.EventHandler(this.buttonAddProduct_MouseLeave);
+            this.buttonAddProduct.MouseHover += new System.EventHandler(this.buttonAddProduct_MouseHover);
             // 
             // buttonCancel
             // 
@@ -475,6 +485,7 @@
             this.buttonCancel.TabIndex = 25;
             this.buttonCancel.Text = "Thoát";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonOK
             // 
@@ -484,30 +495,40 @@
             this.buttonOK.TabIndex = 24;
             this.buttonOK.Text = "Đồng ý";
             this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // comboBoxTest
+            // statusStrip1
             // 
-            this.comboBoxTest.FormattingEnabled = true;
-            this.comboBoxTest.Location = new System.Drawing.Point(262, 241);
-            this.comboBoxTest.Name = "comboBoxTest";
-            this.comboBoxTest.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxTest.TabIndex = 1;
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 763);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1361, 26);
+            this.statusStrip1.TabIndex = 29;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // buttonTest
+            // toolStripStatusLabel1
             // 
-            this.buttonTest.Location = new System.Drawing.Point(445, 245);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(168, 23);
-            this.buttonTest.TabIndex = 5;
-            this.buttonTest.Text = "Thêm khách hàng";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // buttonUpdateProduct
+            // 
+            this.buttonUpdateProduct.Location = new System.Drawing.Point(163, 345);
+            this.buttonUpdateProduct.Name = "buttonUpdateProduct";
+            this.buttonUpdateProduct.Size = new System.Drawing.Size(121, 31);
+            this.buttonUpdateProduct.TabIndex = 13;
+            this.buttonUpdateProduct.Text = "Sửa sản  phẩm";
+            this.buttonUpdateProduct.UseVisualStyleBackColor = true;
             // 
             // FormAddDeliveryVoucher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1361, 747);
+            this.ClientSize = new System.Drawing.Size(1361, 789);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
@@ -526,7 +547,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDeliveryInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryQuantity)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -571,5 +595,8 @@
         private System.Windows.Forms.Label labelTest;
         private System.Windows.Forms.ComboBox comboBoxTest;
         private System.Windows.Forms.Button buttonTest;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Button buttonUpdateProduct;
     }
 }

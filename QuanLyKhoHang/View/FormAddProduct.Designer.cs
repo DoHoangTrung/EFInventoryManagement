@@ -32,8 +32,6 @@ namespace QuanLyKhoHang
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBoxProductType = new System.Windows.Forms.ComboBox();
-            this.labelTest = new System.Windows.Forms.Label();
-            this.labelGoodName = new System.Windows.Forms.Label();
             this.comboBoxIDGood = new System.Windows.Forms.ComboBox();
             this.labelNotificationIDGood = new System.Windows.Forms.Label();
             this.buttonAddGood = new System.Windows.Forms.Button();
@@ -44,13 +42,13 @@ namespace QuanLyKhoHang
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.labelGoodName = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.comboBoxProductType);
-            this.panel1.Controls.Add(this.labelTest);
             this.panel1.Controls.Add(this.labelGoodName);
             this.panel1.Controls.Add(this.comboBoxIDGood);
             this.panel1.Controls.Add(this.labelNotificationIDGood);
@@ -73,24 +71,6 @@ namespace QuanLyKhoHang
             this.comboBoxProductType.Name = "comboBoxProductType";
             this.comboBoxProductType.Size = new System.Drawing.Size(232, 24);
             this.comboBoxProductType.TabIndex = 6;
-            // 
-            // labelTest
-            // 
-            this.labelTest.AutoSize = true;
-            this.labelTest.Location = new System.Drawing.Point(559, 33);
-            this.labelTest.Name = "labelTest";
-            this.labelTest.Size = new System.Drawing.Size(38, 17);
-            this.labelTest.TabIndex = 5;
-            this.labelTest.Text = "label";
-            // 
-            // labelGoodName
-            // 
-            this.labelGoodName.AutoSize = true;
-            this.labelGoodName.Location = new System.Drawing.Point(460, 268);
-            this.labelGoodName.Name = "labelGoodName";
-            this.labelGoodName.Size = new System.Drawing.Size(38, 17);
-            this.labelGoodName.TabIndex = 5;
-            this.labelGoodName.Text = "label";
             // 
             // comboBoxIDGood
             // 
@@ -173,13 +153,22 @@ namespace QuanLyKhoHang
             this.label1.Text = "Mã hàng hóa";
             this.toolTip1.SetToolTip(this.label1, "halosdfa sdad fasdfasdf as");
             // 
-            // FormAddGood
+            // labelGoodName
+            // 
+            this.labelGoodName.AutoSize = true;
+            this.labelGoodName.Location = new System.Drawing.Point(460, 268);
+            this.labelGoodName.Name = "labelGoodName";
+            this.labelGoodName.Size = new System.Drawing.Size(38, 17);
+            this.labelGoodName.TabIndex = 5;
+            this.labelGoodName.Text = "label";
+            // 
+            // FormAddProduct
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(735, 696);
             this.Controls.Add(this.panel1);
-            this.Name = "FormAddGood";
+            this.Name = "FormAddProduct";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Nhập thông tin hàng hóa";
             this.panel1.ResumeLayout(false);
@@ -200,9 +189,8 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Label labelNotificationIDGood;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ComboBox comboBoxIDGood;
-        private System.Windows.Forms.Label labelGoodName;
         private System.Windows.Forms.ComboBox comboBoxProductType;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.Label labelGoodName;
     }
 }

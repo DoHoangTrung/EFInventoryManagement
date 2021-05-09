@@ -1,4 +1,6 @@
-﻿using QuanLyKhoHang.Entity;
+﻿using QuanLyKhoHang.DAL;
+using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,13 +25,19 @@ namespace QuanLyKhoHang.View
         ToolTip toolTip = new ToolTip();
         private void Nghich_Load(object sender, EventArgs e)
         {
-            toolStripStatusLabel1.Text = "helleo";
-            toolTip.InitialDelay = 10;
-            toolTip.ReshowDelay = 100000;
-            
-            toolTip.SetToolTip(label1, "this is label 1");
-
+            BindingSource bs = new BindingSource();
+            List<Product> products = ProductDAO.Instance.GetListProduct();
+            foreach (var p in products)
+            {
+                bs.Add(p);
+            }
+            dataGridView1.DataSource = bs;
         }
 
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Product p = dataGridView1.Rows[e.RowIndex].DataBoundItem as Product;
+            label1.Text = p.ID;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace QuanLyKhoHang.Entity
         public virtual DbSet<ReceiveVoucher> ReceiveVouchers { get; set; }
         public virtual DbSet<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<ProductCanSell> ProductCanSells { get; set; }
+        public virtual DbSet<ProductCanSellView> ProductCanSellViews { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -165,11 +165,11 @@ namespace QuanLyKhoHang.Entity
                 .WithOptional(e => e.Supplier)
                 .HasForeignKey(e => e.IDSupplier);
 
-            modelBuilder.Entity<ProductCanSell>()
+            modelBuilder.Entity<ProductCanSellView>()
                 .Property(e => e.ProductID)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<ProductCanSell>()
+            modelBuilder.Entity<ProductCanSellView>()
                 .Property(e => e.IDType)
                 .IsUnicode(false);
         }

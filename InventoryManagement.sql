@@ -71,15 +71,12 @@ CREATE TABLE DeliveryVoucherInfo
 (
 	IDProduct VARCHAR(30) REFERENCES Product(ID),
 	IDDeliveryVoucher VARCHAR(30) REFERENCES DeliveryVoucher(ID),
+	IDReceiveVoucher VARCHAR(30) REFERENCES ReceiveVoucher(ID),
 	Quantity INT,
 	PriceOutput INT,
-	Note nvarchar (200),
-	CONSTRAINT PK_DeliveryVoucherInfo PRIMARY KEY(IDProduct,IDDeliveryVoucher),
-	IDReceiveVoucher VARCHAR(30)
+	CONSTRAINT PK_DeliveryVoucherInfo PRIMARY KEY(IDProduct,IDDeliveryVoucher, IDReceiveVoucher)
 )
-
 GO
-
 
 CREATE TABLE AccountType
 (
@@ -105,7 +102,6 @@ INSERT INTO AccountType(ID,Name)
 VALUES 
 	('0','user'),
 	('1','admin')
-
 go
 --Account:
 INSERT INTO Account(UserName, PassWord, IDType) 
@@ -200,25 +196,25 @@ VALUES
 GO
 
 --PHIEU XUAT
-INSERT INTO DeliveryVoucher(ID,IDCustomer,Date)
-VALUES
-('PX001','KHMinh','20210217'),
-('PX002','KHFahasa','20210218')
+--INSERT INTO DeliveryVoucher(ID,IDCustomer,Date)
+--VALUES
+--('PX001','KHMinh','20210217'),
+--('PX002','KHFahasa','20210218')
 
 GO
 
 --THONG TIN PHIEU XUAT
-INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity,PriceOutput,IDReceiveVoucher)
-VALUES
-('PX001','SPBXS100',700,20000,'PN001'),
-('PX001','SPS6',1000,20000,'PN002'),
-('PX002','SPS8',900,20000,'PN005'),
-('PX002','SPTHEPHOP',700,20000,'PN007'),
-('PX002','SPQHKT',900,20000,'PN010')
+--INSERT INTO DeliveryVoucherInfo(IDDeliveryVoucher,IDProduct,Quantity,PriceOutput,IDReceiveVoucher)
+--VALUES
+--('PX001','SPBXS100',700,20000,'PN001'),
+--('PX001','SPS6',1000,20000,'PN002'),
+--('PX002','SPS8',900,20000,'PN005'),
+--('PX002','SPTHEPHOP',700,20000,'PN007'),
+--('PX002','SPQHKT',900,20000,'PN010')
 
-GO
+--GO
 
-alter view ProductCanSell
+create view ProductCanSellView
 as 
 	select pt.Name as [TypeName], p.ID as [ProductID],p.Name as [ProductName],p.Unit,sum(i.PriceInput) as [SumPriceInput],sum(i.QuantityInput) as [SumQuantityInput] , sum(i.QuantityOutput) as [SumQuantityOutput], count(p.ID) as [Count], pt.ID as[IDType]
 	from ReceiveVoucherInfo i

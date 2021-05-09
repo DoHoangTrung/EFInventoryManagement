@@ -49,6 +49,9 @@ namespace QuanLyKhoHang
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePickerToDate = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerFromDate = new System.Windows.Forms.DateTimePicker();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -65,7 +68,7 @@ namespace QuanLyKhoHang
             this.càiĐặtToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1301, 31);
+            this.menuStrip1.Size = new System.Drawing.Size(1693, 31);
             this.menuStrip1.TabIndex = 2;
             // 
             // côngCụToolStripMenuItem
@@ -83,6 +86,8 @@ namespace QuanLyKhoHang
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.buttonCategoryCustomer);
             this.panel1.Controls.Add(this.buttonCategorySupplier);
             this.panel1.Controls.Add(this.buttonCategoryProduct);
@@ -157,7 +162,7 @@ namespace QuanLyKhoHang
             this.panel2.Controls.Add(this.listViewGeneral);
             this.panel2.Location = new System.Drawing.Point(437, 125);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(845, 560);
+            this.panel2.Size = new System.Drawing.Size(1237, 708);
             this.panel2.TabIndex = 4;
             // 
             // listViewGeneral
@@ -167,7 +172,7 @@ namespace QuanLyKhoHang
             this.listViewGeneral.HideSelection = false;
             this.listViewGeneral.Location = new System.Drawing.Point(3, 3);
             this.listViewGeneral.Name = "listViewGeneral";
-            this.listViewGeneral.Size = new System.Drawing.Size(830, 554);
+            this.listViewGeneral.Size = new System.Drawing.Size(1054, 698);
             this.listViewGeneral.TabIndex = 0;
             this.listViewGeneral.UseCompatibleStateImageBehavior = false;
             this.listViewGeneral.View = System.Windows.Forms.View.Details;
@@ -176,6 +181,7 @@ namespace QuanLyKhoHang
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.checkBox1);
             this.panel3.Controls.Add(this.buttonDelete);
             this.panel3.Controls.Add(this.buttonUpdate);
             this.panel3.Controls.Add(this.buttonAdd);
@@ -263,11 +269,36 @@ namespace QuanLyKhoHang
             this.dateTimePickerFromDate.TabIndex = 8;
             this.dateTimePickerFromDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(24, 320);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(253, 22);
+            this.textBox1.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(302, 319);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Tìm kiếm";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(945, 4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(18, 17);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // FormHome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1301, 690);
+            this.ClientSize = new System.Drawing.Size(1693, 838);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -280,6 +311,7 @@ namespace QuanLyKhoHang
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
@@ -309,5 +341,8 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Button buttonCategorySupplier;
         private System.Windows.Forms.Button buttonCategoryCustomer;
         internal System.Windows.Forms.ListView listViewGeneral;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

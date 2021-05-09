@@ -81,6 +81,7 @@
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
+    <Compile Include="DTO\DTGViewAddDeliveryVoucherDTO.cs" />
     <Compile Include="DTO\ProductAndType.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\AccountType.cs" />
@@ -89,17 +90,22 @@
     <Compile Include="Entity\DeliveryVoucherInfo.cs" />
     <Compile Include="Entity\InventoryContext.cs" />
     <Compile Include="Entity\Product.cs" />
-    <Compile Include="Entity\ProductCanSell.cs" />
+    <Compile Include="Entity\ProductCanSellView.cs" />
     <Compile Include="Entity\ProductType.cs" />
     <Compile Include="Entity\ReceiveVoucher.cs" />
     <Compile Include="Entity\ReceiveVoucherInfo.cs" />
     <Compile Include="Entity\Supplier.cs" />
-    <Compile Include="Utility.cs" />
     <Compile Include="View\FormAddDeliveryVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="View\FormAddDeliveryVoucher.Designer.cs">
       <DependentUpon>FormAddDeliveryVoucher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\FormAddReceiveVoucher.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\FormAddReceiveVoucher.Designer.cs">
+      <DependentUpon>FormAddReceiveVoucher.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormDeleteReceiveVoucher.cs">
       <SubType>Form</SubType>
@@ -124,12 +130,6 @@
     </Compile>
     <Compile Include="View\FormAddProduct.Designer.cs">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FormAddInputVoucher.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FormAddInputVoucher.Designer.cs">
-      <DependentUpon>FormAddInputVoucher.cs</DependentUpon>
     </Compile>
     <Compile Include="View\FormAddSupplier.cs">
       <SubType>Form</SubType>
@@ -204,6 +204,9 @@
     <EmbeddedResource Include="View\FormAddDeliveryVoucher.resx">
       <DependentUpon>FormAddDeliveryVoucher.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\FormAddReceiveVoucher.resx">
+      <DependentUpon>FormAddReceiveVoucher.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\FormDeleteReceiveVoucher.resx">
       <DependentUpon>FormDeleteReceiveVoucher.cs</DependentUpon>
     </EmbeddedResource>
@@ -215,9 +218,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormAddProduct.resx">
       <DependentUpon>FormAddProduct.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormAddInputVoucher.resx">
-      <DependentUpon>FormAddInputVoucher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FormAddSupplier.resx">
       <DependentUpon>FormAddSupplier.cs</DependentUpon>
@@ -262,6 +262,7 @@
       <DependentUpon>Nghich.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\QuanLyKhoHang.Entity.Product.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

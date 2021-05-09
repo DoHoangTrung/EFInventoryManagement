@@ -20,12 +20,24 @@ namespace QuanLyKhoHang.DAO
             private set { }
         }
 
-        public List<ProductCanSell> GetProductCanSellByType(string idType)
+        public List<ProductCanSellView> GetProductCanSell()
         {
-            var canSell = (from p in db.ProductCanSells
+            var canSell = (from p in db.ProductCanSellViews
+                           select p).ToList();
+            return canSell;
+        }
+
+        public List<ProductCanSellView> GetProductCanSellByType(string idType)
+        {
+            var canSell = (from p in db.ProductCanSellViews
                            where p.IDType == idType
                            select p).ToList();
             return canSell;
+        }
+
+        public ProductCanSellView GetProductCanSellByProductID(string idProduct)
+        {
+            return db.ProductCanSellViews.Where(p => p.ProductID == idProduct).FirstOrDefault();
         }
     }
 }

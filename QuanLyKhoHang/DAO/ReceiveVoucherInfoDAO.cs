@@ -118,13 +118,12 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public List<ReceiveVoucherInfo> GetReceiveVoucherInfosCanSell()
+        public List<ReceiveVoucherInfo> GetListProductCanSellByID(string idProduct)
         {
-            List<ReceiveVoucherInfo> voucherInfos = (from i in db.ReceiveVoucherInfoes
-                                                     where (i.QuantityInput - i.QuantityOutput) > 0
-                                                     select i).ToList();
-
-            return voucherInfos;
+            var list = (from i in db.ReceiveVoucherInfoes
+                        where i.QuantityInput > i.QuantityOutput && i.IDProduct == idProduct
+                        select i).ToList();
+            return list;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace QuanLyKhoHang
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormAddDeliveryVoucher());
+            Application.Run(new FormHome());
         }
     }
 }

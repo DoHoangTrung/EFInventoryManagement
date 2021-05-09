@@ -65,5 +65,19 @@ namespace QuanLyKhoHang.DAO
                        select v.ID).ToList();
             return ids;
         }
+
+        public void Insert(DeliveryVoucher v)
+        {
+            if (v != null)
+            {
+                db.DeliveryVouchers.Add(v);
+                db.SaveChanges();
+            }
+        }
+
+        public List<DeliveryVoucher> GetList()
+        {
+            return db.DeliveryVouchers.ToList();
+        }
     }
 }

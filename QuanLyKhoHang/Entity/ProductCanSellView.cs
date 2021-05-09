@@ -6,8 +6,8 @@ namespace QuanLyKhoHang.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ProductCanSell")]
-    public partial class ProductCanSell
+    [Table("ProductCanSellView")]
+    public partial class ProductCanSellView
     {
         [StringLength(100)]
         public string TypeName { get; set; }
@@ -25,9 +25,10 @@ namespace QuanLyKhoHang.Entity
         [StringLength(20)]
         public string Unit { get; set; }
 
-
         public int? SumPriceInput { get; set; }
+
         public int? SumQuantityInput { get; set; }
+
         public int? SumQuantityOutput { get; set; }
 
         public int? Count { get; set; }
