@@ -63,7 +63,8 @@ CREATE TABLE DeliveryVoucher
 (
 	ID VARCHAR(30) PRIMARY KEY,
 	Date DATETIME DEFAULT GETDATE(),
-	IDCustomer VARCHAR(30) REFERENCES Customer(ID)
+	IDCustomer VARCHAR(30) REFERENCES Customer(ID),
+	Note Nvarchar(200)
 )
 GO
 
@@ -225,6 +226,41 @@ as
 USE InventoryManagement
 GO
 
+
+--view deliveryVoucherView
+
+alter view [DeliveryVoucherView]
+as
+	select 
+		v.ID as [VoucherID],
+		v.Date	,
+		i.IDProduct as [ProductID],
+		p.Name as [ProductName],
+		p.Unit,
+		sum(i.Quantity) as[SumQuantity],
+		i.PriceOutput,
+		c.Name as[CustomerName],
+		c.Phone,
+		c.Email,
+		c.ID as[CustomerID]
+	from DeliveryVoucher v
+	left join DeliveryVoucherInfo i on v.ID = i.IDDeliveryVoucher
+	join Product p on i.IDProduct = p.ID
+	join Customer c on v.IDCustomer = c.ID
+	group by v.ID, i.IDProduct,i.PriceOutput,p.Name,p.Unit,v.Date,c.Name,c.Phone,c.Email,c.ID
+
+--view deliveryvoucherinfo
+create view [DeliveryVoucherInfoView]
+as 
+select 
+	p.id as [ProductID],
+	p.name as [ProductName],
+	sum(i.Quantity) as [SumQuantity],
+	i.PriceOutput,
+	i.IDDeliveryVoucher as[DeliveryVoucherID]
+from DeliveryVoucherInfo i
+join Product p on i.IDProduct = p.id
+group by  p.id,p.name,i.PriceOutput,i.IDDeliveryVoucher
 -----------------------2)them san pham
 CREATE PROC InsertProduct
 	@ID VARCHAR(30), @Name NVARCHAR(100), @Unit NVARCHAR(20)
@@ -235,376 +271,47 @@ END
 go
 --EXEC dbo.InsertProduct @ID = '@-/\70000001' , @Name='banh xe ben' , @Unit = 'qua'
 
-
-------------------------3)DELETE GOOD
-CREATE PROC DeleteProduct
-	@ID VARCHAR(30)
-AS
-BEGIN
-	DELETE FROM Product WHERE ID = @ID
-END
-
-GO
-
---EXEC dbo.DeleteProduct @ID = '002'
-
-
----------------------4)UPDATE GOOD Name
-CREATE PROC UpdateProductName
-	@ID VARCHAR(30), @Name NVARCHAR(100)
-AS
-BEGIN
-	UPDATE Product SET Name = @Name WHERE ID = @ID
-END
-
-GO
-
---EXEC dbo.UpdateProductName @ID = '001', @Name = 'chan ghe'
-
-
-------------------------------5)UPDATE GOOD unit
-CREATE PROC UpdateProductUnit
-	@ID VARCHAR(30), @unit NVARCHAR(20)
-AS
-BEGIN
-	UPDATE Product SET Unit = @unit WHERE ID = @ID
-END
-
-GO
-
---EXEC dbo.UpdateProductUnit @ID = '00', @unit = 'nam'
-
-
---------------------------------6)UPDATE GOOD
-CREATE PROC UpdateProduct
-	@ID VARCHAR(30), @Name NVARCHAR(100), @unit NVARCHAR(20)
-AS
-BEGIN
-	UPDATE Product SET Name = @Name, Unit = @unit WHERE ID = @ID
-END
-GO
---EXEC dbo.UpdateProduct @ID = '001', @Name='trung' , @unit ='trung'
-
-
---_________________________________________________________________ NHA CUNG CAP
---_________________________________________________________________
-
----------------------------- 7)INSERT supplier
-CREATE PROC INSERTSupplier
-	@ID VARCHAR(30) ,
-	@Name NVARCHAR(100),
-	@address NVARCHAR(100)=NULL,
-	@phoneNumber VARCHAR(11)= NULL,
-	@email CHAR(100)= NULL
-AS
-BEGIN
-	INSERT INTO Supplier (ID,Name,Address,Phone,email) VALUES(@ID , @Name , @address , @phoneNumber , @email)
-END
-
-GO
-
---EXEC dbo.INSERTSupplier @ID = '002' , @Name = 'trung', @phoneNumber= '0123'
-
-
-------------------- 8)DELETE supplier
-CREATE PROC DELETESupplier
-	@ID VARCHAR(30)
-AS
-BEGIN
-	DELETE Supplier WHERE ID = @ID; 
-END
-GO
---EXEC dbo.DELETESupplier @ID = '000'
-
-
--------------------------------9)UPDATE supplier
-
-CREATE PROC UPDATESupplier
-	@idUPDATE VARCHAR(30),
-	@nameUPDATE NVARCHAR(100) = NULL,
-	@addressUPDATE NVARCHAR(100)=NULL,
-	@phoneNumberUPDATE CHAR(11)= NULL,
-	@emailUPDATE CHAR(100)= NULL
-AS
-BEGIN
-	declare @ID VARCHAR(30), @Name NVARCHAR(100),@address NVARCHAR(100),@phoneNumber VARCHAR(11), @email CHAR(100)
-
-	SELECT @ID = ID, @Name = Name, @address = Address, @phoneNumber = Phone, @email = Email
-	FROM Supplier
-	WHERE ID = @idUPDATE
-
-	SELECT @@ROWCOUNT
-	IF(@@ROWCOUNT <> 0)
-	BEGIN
-		IF(@nameUPDATE = '' or @nameUPDATE is null ) 
-		BEGIN
-			SET @nameUPDATE = @Name
-		END
-
-		IF(@addressUPDATE = '' or @addressUPDATE is null ) 
-		BEGIN
-			SET @addressUPDATE = @address
-		END
-
-		IF(@phoneNumberUPDATE = '' or @phoneNumberUPDATE is null ) 
-		BEGIN
-			SET @phoneNumberUPDATE = @phoneNumber
-		END
-
-		IF(@emailUPDATE = '' or @emailUPDATE is null ) 
-		BEGIN
-			SET @emailUPDATE = @email
-		END
-
-		UPDATE Supplier SET Name = @nameUPDATE, Address = @addressUPDATE, Phone = @phoneNumberUPDATE, Email = @emailUPDATE
-		WHERE ID = @idUPDATE 
-	END
-END
-GO
---EXEC dbo.UPDATESupplier @idUPDATE = '003', @nameUPDATE = '', @addressUPDATE = '', @phoneNumberUPDATE ='', @emailUPDATE = 'boydatinh'
-
-
---__________________________________________________________________KHACH HANG
------------------------------------10)INSERT khach hang
-CREATE PROC ShowCustomer
-AS 
-BEGIN
-	SELECT * FROM Customer
-END
-
-GO
---EXEC dbo.ShowCustomer
-
-
------------------------------------11)INSERT khach hang
-CREATE PROC AddCustomer
-	@ID VARCHAR(30),
-	@Name NVARCHAR(100),
-	@Address NVARCHAR(100),
-	@Phone CHAR(11),
-	@Email VARCHAR(100)
-AS
-BEGIN
-	INSERT INTO Customer (ID,Name,Address,Phone,Email) VALUES (@ID,@Name,@Address,@Phone,@Email)
-END
-GO
-
-
----------------------------12)DELETE khach hang
-CREATE PROC DeleteCustomer
-	@ID VARCHAR(30)
-AS
-BEGIN
-	DELETE Customer WHERE ID = @ID
-END
-
-GO
-
-
---------------------------------13)UPDATE khach hang
-CREATE PROC UpdateCustomer
-	@ID VARCHAR(30),
-	@Name NVARCHAR(100),
-	@Address NVARCHAR(100),
-	@Phone CHAR(11),
-	@Email VARCHAR(100)
-AS
-BEGIN
-	UPDATE Customer SET Name = @Name, Address = @Address, Phone = @Phone, Email= @Email
-	WHERE ID = @ID
-END
-
-GO
---__________________________________________________________________
-------------------------------------------------------------------report
-
-
-------------------------------14) hien thi thong tin hang ton kho
-
---EXEC dbo.GetDataOfInventoryReport
-
-
-------------------------- 15)phieu nhap xuat giua 2 Date
-CREATE PROC GetDataOfInventoryReportBetweENDATE
-	@FROMDATE DATETime,
-	@toDATE DATETime
-AS
-BEGIN
-	declare 
-		@DATE_FROMDATE DATE,
-		@DATE_toDATE DATE
-	SET @DATE_FROMDATE = CONVERT(DATE,@FROMDATE)
-	SET	@DATE_toDATE = CONVERT(DATE,@toDATE)
-
-	IF @DATE_FROMDATE < @DATE_toDATE
-	BEGIN
-		SELECT sp.ID AS [ID san pham], sp.Name AS [Name san pham],sp.Unit AS [Don vi],
-			sum(ttn.QuantityInput) AS [tong nhap], sum (ttx.Quantity) AS [tong xuat]
-		FROM Product AS sp 
-		join ReceicveVoucherInfo AS ttn ON sp.ID = ttn.IDProduct
-		join DeliveryVoucherInfo AS ttx ON ttx.IDProduct = sp.ID
-		join ReceiveVoucher pn ON ttn.IDReceiveVoucher = pn.ID
-		join DeliveryVoucher px ON px.ID = ttx.IDDeliveryVoucher
-		WHERE pn.Date between @DATE_FROMDATE and @DATE_toDATE 
-		and
-			 px.Date between @DATE_FROMDATE and @DATE_toDATE 
-		group by sp.ID,sp.Name,sp.Unit
-	END
-END
-GO
-
--- '2021-02-02 00:00:00.000'
---EXEC dbo.GetDataOfInventoryReportBetweENDATE @FROMDATE = '20210201' , @toDATE = '20210228'
-
-
-------------------------------16)insert ReceiveVoucher
-CREATE PROC InsertReceiveVoucher
-	@ID VARCHAR(30),
-	@IDSupplier VARCHAR(30),
-	@Date DATETIME
-AS
-BEGIN
-	DECLARE @newDate DATE
-	SET @newDate= CAST(@Date AS DATE)
-	INSERT INTO ReceiveVoucher (ID,IDSupplier,Date) VALUES(@ID,@IDSupplier,@newDate) 
-END
-go
---EXEC dbo.InsertPhieuNhap @ID = 'PN011', @IDSupplier = '003', @date = '2021-02-02 00:00:00.000'
-
-
-------------------------------17)insert thong tin phieu nhap
-create proc InsertReceiveVoucherInfo
-	@idPhieu varchar(30),
-	@IDProduct varchar(30),
-	@QuantityInput int,
-	@PriceInput int,
-	@PriceOutput int
+--create trigger insert deliveryvoucherinfo
+create trigger InsertDeliveryVoucherInfo
+on deliveryvoucherInfo
+after insert
 as
 begin
-	insert into ReceicveVoucherInfo (IDProduct,IDReceiveVoucher,QuantityInput,PriceInput,PriceOutput)
-	values(@IDProduct,@idPhieu,@QuantityInput,@PriceInput,@PriceOutput)
-end
-GO
---exec dbo.InsertThongTinPhieuNhap @idPhieu = 'PN011' ,@IDProduct='001',@QuantityInput = 2,@PriceInput = 10000,@PriceOutput = 20000
-
-
-------------------------------18)hien thi ReceiveVoucher va ReceicveVoucherInfo va Supplier
-CREATE PROC ShowReceiveVoucher
-AS
-BEGIN
-	SELECT 
-		sp.ID AS [ID San pham],
-		sp.Name AS [Name San pham],
-		sp.Unit,
-		pn.Date,
-		ttn.QuantityInput,
-		ttn.PriceInput,
-		ttn.QuantityOutput,
-		ncc.Name AS [Nha cung cap],
-		ncc.Address,
-		ncc.Phone,
-		ncc.Email,
-		ncc.ID AS [ID NCC],
-		pn.ID AS [ID phieu nhap]
-	FROM ReceiveVoucher pn
-	join ReceicveVoucherInfo ttn ON pn.ID = ttn.IDReceiveVoucher
-	join Supplier ncc ON ncc.ID = pn.IDSupplier
-	join Product sp ON sp.ID = ttn.IDProduct
-END
-GO
---EXEC dbo.ShowReceiveVoucher
-
-
----------------------------19)them phieu nhap: ID, Date, [cac san pham], 1 nha cung cap
-CREATE PROC AddInputVoucher
-	@IDReceiveVoucher VARCHAR(30),
-	@IDSupplier VARCHAR(30),
-	@ngayNhap DATE,
-	@IDSanPham VARCHAR(30),
-	@QuantityInput INT,
-	@PriceInput INT,
-	@PriceOutput INT
-AS
-BEGIN
-	INSERT INTO ReceiveVoucher(ID, IDSupplier, Date) VALUES(@IDReceiveVoucher,@IDSupplier,@ngayNhap)
-	INSERT INTO ReceicveVoucherInfo(IDReceiveVoucher,IDProduct,QuantityInput,PriceInput,PriceOutput) VALUES(@IDReceiveVoucher,@IDSanPham,@QuantityInput,@PriceInput,@PriceOutput)
-END
-GO
-
-
----------------------------20)hien thi phieu xuat
-CREATE PROC HienThiPhieuXuat
-AS
-BEGIN
-	SELECT 
-		sp.Name AS [TenSanPham], 
-		sp.Unit,ttx.Quantity AS [QuantityOutput],
-		px.Date AS [NgayXuat], 
-		k.Name AS[TenKhachHang], 
-		k.Address, k.Phone ,
-		ttx.IDDeliveryVoucher 
-	FROM DeliveryVoucherInfo ttx
-	join DeliveryVoucher px ON px.ID = ttx.IDDeliveryVoucher
-	join Customer k ON k.ID = px.IDCustomer
-	join Product sp ON sp.ID = ttx.IDProduct
-END
-
---EXEC dbo.HienThiPhieuXuat
-
----FORM INPUTVOUCHER INFO UPDATE
---_______________________________
------21) lay thong tin phieu nhap by ID (form inputVoucher)
---IDProduct, Name sp, soNhap, gia nhap, gia xuat, so xuat
-alter proc GetInputVoucherInfoById
-	@IDReceiveVoucher varchar(30)
-as
-begin
+	set nocount on;
+	
+	declare @idReceiveVoucher varchar(30)
+	declare @idProduct varchar(30)
+	declare @quantityOutput int
+	
 	select 
-		ttn.IDProduct,
-		sp.Name as [Name san pham],
-		ttn.QuantityInput,
-		ttn.PriceInput,
-		ttn.QuantityOutput, 
-		ttn.PriceOutput
-	from ReceicveVoucherInfo ttn
-		join Product sp on sp.ID = ttn.IDProduct
-	where IDReceiveVoucher = @IDReceiveVoucher
+		@idReceiveVoucher = i.IDReceiveVoucher,
+		@idProduct= i.IDProduct,
+		@quantityOutput = i.Quantity
+	from inserted i
+	
+	update ReceiveVoucherInfo 
+	set QuantityOutput += @quantityOutput
+	where IDReceiveVoucher = @idReceiveVoucher 
+		and IDProduct = @idProduct
 end
-
-exec dbo.GetInputVoucherInfoById @IDReceiveVoucher='003'
-
---22)get IDSupplier by IDReceiveVoucher
-create proc GetIdSupplierByIdInputVoucher
-	@idVoucher varchar(30)
-as
-begin
-	select IDSupplier from ReceiveVoucher where ID = @idVoucher
-end
-
-exec dbo.GetIdSupplierByIdInputVoucher @idvoucher = '003'
-
---23) lấy thông tin sản phẩm không có trong phiếu nhập
-create proc GoodNotInInputVoucher
-	@idVoucher varchar(30)
-as
-begin
-	select * from Product sp
-	where sp.ID not in(
-		select ttn.IDProduct
-		from ReceicveVoucherInfo ttn
-		where ttn.IDReceiveVoucher = @idVoucher
-	)
-end
-
-exec dbo.GoodNotInInputVoucher @idVoucher = '003'
-
-create view ViewDeliveryDTGView
+--create trigger for delete delivery voucher info
+create trigger DeleteDeliveryVoucherInfo
+on DeliveryVoucherInfo
+after Delete
 as 
-	select * from ReceiveVoucherInfo i
-	join Product p on p.ID = i.IDProduct
-	join ProductType pt on pt.id = p.IdType
+begin
+	declare @idReceiveVoucher varchar(30)
+	declare @idProduct varchar(30)
+	declare @quantityOutput int
+	
+	select 
+		@idReceiveVoucher = d.IDReceiveVoucher,
+		@idProduct= d.IDProduct,
+		@quantityOutput = d.Quantity
+	from deleted d
 
-	select * from [nghich view]
-
-	-----
+	update ReceiveVoucherInfo 
+	set QuantityOutput -=@quantityOutput
+	where IDReceiveVoucher = @idReceiveVoucher and IDProduct = @idProduct
+end
 	
