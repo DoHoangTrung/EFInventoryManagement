@@ -19,18 +19,19 @@ namespace QuanLyKhoHang.Entity
         [StringLength(30)]
         public string IDDeliveryVoucher { get; set; }
 
+        [Key]
+        [Column(Order = 2)]
+        [StringLength(30)]
+        public string IDReceiveVoucher { get; set; }
+
         public int? Quantity { get; set; }
 
         public int? PriceOutput { get; set; }
 
-        [StringLength(200)]
-        public string Note { get; set; }
-
-        [StringLength(30)]
-        public string IDReceiveVoucher { get; set; }
-
         public virtual DeliveryVoucher DeliveryVoucher { get; set; }
 
         public virtual Product Product { get; set; }
+
+        public virtual ReceiveVoucher ReceiveVoucher { get; set; }
     }
 }

@@ -22,6 +22,8 @@ namespace QuanLyKhoHang.Entity
         public virtual DbSet<ReceiveVoucher> ReceiveVouchers { get; set; }
         public virtual DbSet<ReceiveVoucherInfo> ReceiveVoucherInfoes { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<DeliveryVoucherInfoView> DeliveryVoucherInfoViews { get; set; }
+        public virtual DbSet<DeliveryVoucherView> DeliveryVoucherViews { get; set; }
         public virtual DbSet<ProductCanSellView> ProductCanSellViews { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -75,6 +77,10 @@ namespace QuanLyKhoHang.Entity
 
             modelBuilder.Entity<DeliveryVoucher>()
                 .Property(e => e.IDCustomer)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucher>()
+                .Property(e => e.Note)
                 .IsUnicode(false);
 
             modelBuilder.Entity<DeliveryVoucher>()
@@ -133,6 +139,12 @@ namespace QuanLyKhoHang.Entity
                 .IsUnicode(false);
 
             modelBuilder.Entity<ReceiveVoucher>()
+                .HasMany(e => e.DeliveryVoucherInfoes)
+                .WithRequired(e => e.ReceiveVoucher)
+                .HasForeignKey(e => e.IDReceiveVoucher)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ReceiveVoucher>()
                 .HasMany(e => e.ReceiveVoucherInfoes)
                 .WithRequired(e => e.ReceiveVoucher)
                 .HasForeignKey(e => e.IDReceiveVoucher)
@@ -164,6 +176,35 @@ namespace QuanLyKhoHang.Entity
                 .HasMany(e => e.ReceiveVouchers)
                 .WithOptional(e => e.Supplier)
                 .HasForeignKey(e => e.IDSupplier);
+
+            modelBuilder.Entity<DeliveryVoucherInfoView>()
+                .Property(e => e.ProductID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherInfoView>()
+                .Property(e => e.DeliveryVoucherID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherView>()
+                .Property(e => e.VoucherID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherView>()
+                .Property(e => e.ProductID)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherView>()
+                .Property(e => e.Phone)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherView>()
+                .Property(e => e.Email)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DeliveryVoucherView>()
+                .Property(e => e.CustomerID)
+                .IsUnicode(false);
 
             modelBuilder.Entity<ProductCanSellView>()
                 .Property(e => e.ProductID)

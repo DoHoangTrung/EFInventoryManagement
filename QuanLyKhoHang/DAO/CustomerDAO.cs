@@ -109,5 +109,29 @@ namespace QuanLyKhoHang.DAL
         {
             return db.Customers.Find(idCustomer);
         }
+
+        public List<Customer> Search(string keyWord)
+        {
+            List<Customer> customers = db.Customers.ToList();
+
+            var result = customers.Where(
+                    c =>
+                    {
+                        string str, keyW;// find s1 in s0
+                        str = c.ID + " " + c.Name + " " + c.Address+ " " + c.Email + c.Phone;
+                        keyW = keyWord;
+
+                        str = str.Format();
+                        keyW = keyW.Format();
+
+                        if (str.Contains(keyW))
+                            return true;
+                        else
+                            return false;
+                    }
+                ).Select(c => c).ToList();
+
+            return result;
+        }
     }
 }

@@ -125,5 +125,52 @@ namespace QuanLyKhoHang.DAO
                         select i).ToList();
             return list;
         }
+
+        public void UpdateQuantityOutput( string productID, string receiveVoucherID, int quantity)
+        {
+            ReceiveVoucherInfo info = db.ReceiveVoucherInfoes.Find(productID, receiveVoucherID);
+            if(quantity< info.QuantityInput)
+            {
+                info.QuantityOutput = quantity;
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateQuantityOutput(ReceiveVoucherInfo info, int quantity)
+        {
+            ReceiveVoucherInfo receiveVoucherInfo = db.ReceiveVoucherInfoes.Find(info.IDProduct, info.IDReceiveVoucher);
+            if (receiveVoucherInfo != null)
+            {
+                if (quantity <= info.QuantityInput)
+                {
+                    info.QuantityOutput = quantity;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        public List<ReceiveVoucherInfo> Search(string keyWord)
+        {
+            List<ReceiveVoucherInfo> receiveVoucherInfos = db.ReceiveVoucherInfoes.ToList();
+            var searchList = receiveVoucherInfos.Where((i) =>
+            {
+                //find keywords in text
+                string text, key;
+                text = i.IDReceiveVoucher + " " + i.IDProduct + " " + i.Product.Name + " " + i.Product.Unit + " "
+                + i.Note + " " + i.ReceiveVoucher.ID + " " + i.ReceiveVoucher.Supplier.Name + " " + i.ReceiveVoucher.Supplier.Phone
+                + " " + i.ReceiveVoucher.Supplier.Address + " " + i.ReceiveVoucher.Supplier.Email;
+                key = keyWord;
+
+                text = text.Format();
+                key = key.Format();
+
+                if (text.Contains(key))
+                    return true;
+                else
+                    return false;
+            }).Select(i => i).ToList();
+
+            return searchList;
+        }
     }
 }

@@ -111,5 +111,29 @@ namespace QuanLyKhoHang.DAL
             Supplier supplier = db.Suppliers.Find(idSupplier);
             return supplier.Name;
         }
+
+        public List<Supplier> Search(string keyWord)
+        {
+            List<Supplier> suppliers = db.Suppliers.ToList();
+
+            var result = suppliers.Where(
+                    s =>
+                    {
+                        string str, keyW;// find s1 in s0
+                        str = s.ID + " " + s.Name + " " + s.Address + " " + s.Email + s.Phone;
+                        keyW = keyWord;
+
+                        str = str.Format();
+                        keyW = keyW.Format();
+
+                        if (str.Contains(keyW))
+                            return true;
+                        else
+                            return false;
+                    }
+                ).Select(s => s).ToList();
+
+            return result;
+        }
     }
 }

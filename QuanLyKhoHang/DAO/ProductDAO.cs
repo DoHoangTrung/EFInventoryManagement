@@ -31,21 +31,6 @@ namespace QuanLyKhoHang.DAO
             return products;
         }
 
-        public List<ProductAndType> GetListProductAndType()
-        {
-            var products = (from p in db.Products
-                            join t in db.ProductTypes
-                            on p.IdType equals t.ID
-                            select new ProductAndType()
-                            {
-                                ProductField = p,
-                                TypeField = t.Name
-                            }
-                            ).ToList();
-
-            return products;
-        }
-
         public int InsertProduct(string id, string name, string unit, string typeID)
         {
             int rowAffected = 0;
@@ -135,6 +120,28 @@ namespace QuanLyKhoHang.DAO
             return name;
         }
 
-        
+        public List<Product> Search(string keyWord)
+        {
+            List<Product> products = db.Products.ToList();
+
+            var result = products.Where(
+                    p =>
+                    {
+                        string str, keyW;// find s1 in s0
+                        str = p.ID + " " + p.Name + " " + p.Unit + " " + p.ProductType.Name;
+                        keyW = keyWord;
+
+                        str = str.Format();
+                        keyW = keyW.Format();
+
+                        if (str.Contains(keyW))
+                            return true;
+                        else
+                            return false;
+                    }
+                ).Select(p => p).ToList();
+
+            return result;
+        }
     }
 }

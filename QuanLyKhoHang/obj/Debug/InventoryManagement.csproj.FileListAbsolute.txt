@@ -58,3 +58,35 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHan
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateReceiveVoucherInfo.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormDeleteReceiveVoucher.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormAddDeliveryVoucher.resources
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\QuanLyKhoHang.exe.config
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\QuanLyKhoHang.exe
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\QuanLyKhoHang.pdb
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\EntityFramework.dll
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\EntityFramework.SqlServer.dll
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\EntityFramework.xml
+F:\Study\TT CSDL\QuanLyKhoHang\bin\Debug\EntityFramework.SqlServer.xml
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\InventoryManagement.csprojAssemblyReference.cache
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormAddDeliveryVoucher.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddReceiveVoucher.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormDeleteReceiveVoucher.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateReceiveVoucher.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddCustomer.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddProduct.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormAddSupplier.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormDeleteCustomer.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormDeleteProduct.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormDeleteSupplier.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormLogin.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormHome.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateCustomer.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateProduct.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateReceiveVoucherInfo.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.FormUpdateSupplier.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.Properties.Resources.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.Nghich.resources
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\InventoryManagement.csproj.GenerateResource.cache
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\InventoryManagement.csproj.CoreCompileInputs.cache
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\InventoryManagement.csproj.CopyComplete
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.exe
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.pdb
+F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormDeleteDeliveryVoucher.resources

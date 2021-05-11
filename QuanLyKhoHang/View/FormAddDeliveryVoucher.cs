@@ -32,7 +32,7 @@ namespace QuanLyKhoHang.View
             sourceType = ProductTypeDAO.Instance.GetListProductTypes();
             sourceCustomer = CustomerDAO.Instance.GetListCustomer();
             bindingSource = new BindingSource();
-            sourceIDDeliveryVoucher = new List<string>();
+            sourceIDDeliveryVoucher = DeliveryVoucherDAO.Instance.GetListID();
         }
 
         private void FormAddDeliveryVoucher_Load(object sender, EventArgs e)
@@ -72,6 +72,9 @@ namespace QuanLyKhoHang.View
         {
             comboBoxIDDeliveryVoucher.DataSource = null;
             comboBoxIDDeliveryVoucher.DataSource = sourceID;
+
+            comboBoxIDDeliveryVoucher.AutoCompleteSource = AutoCompleteSource.ListItems;
+            comboBoxIDDeliveryVoucher.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
         }
 
         private void comboBoxIDCustomer_SelectedValueChanged(object sender, EventArgs e)
@@ -188,11 +191,13 @@ namespace QuanLyKhoHang.View
         private void buttonAddProduct_MouseHover(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Lưu ý:Số lượng xuất kho không thể lớn hơn số lượng tồn kho";
+            toolStripStatusLabel1.ForeColor = Color.Red;
         }
 
         private void buttonAddProduct_MouseLeave(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "";
+            toolStripStatusLabel1.ForeColor = Color.Black;
         }
 
         private void dataGridViewDeliveryInfo_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -232,54 +237,91 @@ namespace QuanLyKhoHang.View
 
         private bool CheckIDValid(string _id)
         {
-            string idTrim =_id.Trim();
-            string id = sourceIDDeliveryVoucher.Where(i => i == _id).FirstOrDefault();
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(idTrim)) return false;
-            else return true;
-        }
-        private void buttonOK_Click(object sender, EventArgs e)
-        {
-            string idDeliveryVoucher, idCustomer;
-            DateTime date = dateTimePickerDeliveryDate.Value;
-            idDeliveryVoucher = comboBoxIDDeliveryVoucher.Text;
-            idCustomer = sourceCustomer[comboBoxIDCustomer.SelectedIndex].ID;
-            if (CheckIDValid(idDeliveryVoucher))
+            if (sourceIDDeliveryVoucher.Count > 0)
             {
-                DeliveryVoucher voucher = new DeliveryVoucher();
-                voucher.ID = idDeliveryVoucher;
-                voucher.IDCustomer = idCustomer;
-                voucher.Date = date;
-                DeliveryVoucherDAO.Instance.Insert(voucher);
+                string idTrim = _id.Trim();
+                if (string.IsNullOrEmpty(idTrim))
+                    return false;
 
-                //insert delivery voucher info
-                
+                string idFind = sourceIDDeliveryVoucher.Find(i => string.Equals(i, idTrim));
+                if (!string.IsNullOrEmpty(idFind))
+                    return false;
 
-                foreach (var proCanSell in bindingSource)
-                {
-                    DTGViewAddDeliveryVoucherDTO deVoucherInfo = (proCanSell as DTGViewAddDeliveryVoucherDTO);
-                    int quantity = (int)deVoucherInfo.DeliveryQuantity;
-
-                    List<ReceiveVoucherInfo> receiveVouchers = ReceiveVoucherInfoDAO.Instance.GetListProductCanSellByID(deVoucherInfo.ProductID)
-                    .OrderBy(i => i.ReceiveVoucher.Date).ToList();
-
-                    foreach (var info in receiveVouchers)
-                    {
-                        if (info.QuantityOutput <  quantity)
-                        {
-                            quantity = quantity - info.QuantityOutput??default(int);
-                        }
-                        else if(info.QuantityOutput >= quantity)
-                        {
-
-                        }
-                    }
-                }
+                return true;
             }
             else
             {
-                MessageBox.Show("ID phiếu xuất không hợp lệ");
+                return true;
             }
-                
+        }
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+            DialogResult action = MessageBox.Show("Bạn đồng ý thêm sản phẩm", "Xác nhận", MessageBoxButtons.OKCancel);   
+            if(action == DialogResult.OK)
+            {
+                string idDeliveryVoucher, idCustomer;
+                DateTime date = dateTimePickerDeliveryDate.Value;
+                idDeliveryVoucher = comboBoxIDDeliveryVoucher.Text;
+                idCustomer = sourceCustomer[comboBoxIDCustomer.SelectedIndex].ID;
+
+                if (CheckIDValid(idDeliveryVoucher))
+                {
+                    DeliveryVoucher deliveryVoucher = new DeliveryVoucher();
+                    deliveryVoucher.ID = idDeliveryVoucher;
+                    deliveryVoucher.IDCustomer = idCustomer;
+                    deliveryVoucher.Date = date;
+                    DeliveryVoucherDAO.Instance.Insert(deliveryVoucher);
+
+                    //insert delivery voucher info, sell product one by one
+                    foreach (var proCanSell in bindingSource)
+                    {
+                        DTGViewAddDeliveryVoucherDTO dtgvDTO = (proCanSell as DTGViewAddDeliveryVoucherDTO);
+                        int quantity = (int)dtgvDTO.DeliveryQuantity;
+
+                        List<ReceiveVoucherInfo> thisProductInManyReiceveVoucher = ReceiveVoucherInfoDAO.Instance.GetListProductCanSellByID(dtgvDTO.ProductID)
+                        .OrderBy(i => i.ReceiveVoucher.Date).ToList();
+
+                        foreach (var inAVoucher in thisProductInManyReiceveVoucher)
+                        {
+                            int inventoryNum = inAVoucher.QuantityInput.ToInt() - inAVoucher.QuantityOutput.ToInt();
+
+                            if (inventoryNum < quantity)
+                            {
+                                //update delivery voucher infomation 
+                                DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
+                                deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
+                                deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
+                                deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
+                                deliVoucherInfo.PriceOutput = (int)dtgvDTO.DeliveryPrice;
+                                deliVoucherInfo.Quantity = inventoryNum;
+
+                                DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+
+                                quantity = quantity - inventoryNum;
+                            }
+                            else if (inventoryNum >= quantity)
+                            {
+                                //update delivery voucher infomation 
+                                DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
+                                deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
+                                deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
+                                deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
+                                deliVoucherInfo.PriceOutput = (int)numericUpDownDeliveryPrice.Value;
+                                deliVoucherInfo.Quantity = quantity;
+
+                                DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+                            }
+                        }
+                    }
+
+                    MessageBox.Show("Thêm thành công");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("ID phiếu xuất không hợp lệ");
+                }
+            }
         }
     }
 }

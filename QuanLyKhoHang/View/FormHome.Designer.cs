@@ -29,10 +29,14 @@ namespace QuanLyKhoHang
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.côngCụToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.càiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelTest = new System.Windows.Forms.Label();
+            this.buttonSearch = new System.Windows.Forms.Button();
+            this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonCategoryCustomer = new System.Windows.Forms.Button();
             this.buttonCategorySupplier = new System.Windows.Forms.Button();
             this.buttonCategoryProduct = new System.Windows.Forms.Button();
@@ -41,6 +45,7 @@ namespace QuanLyKhoHang
             this.panel2 = new System.Windows.Forms.Panel();
             this.listViewGeneral = new System.Windows.Forms.ListView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
@@ -49,9 +54,7 @@ namespace QuanLyKhoHang
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePickerToDate = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerFromDate = new System.Windows.Forms.DateTimePicker();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -86,8 +89,9 @@ namespace QuanLyKhoHang
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.labelTest);
+            this.panel1.Controls.Add(this.buttonSearch);
+            this.panel1.Controls.Add(this.textBoxSearch);
             this.panel1.Controls.Add(this.buttonCategoryCustomer);
             this.panel1.Controls.Add(this.buttonCategorySupplier);
             this.panel1.Controls.Add(this.buttonCategoryProduct);
@@ -95,8 +99,34 @@ namespace QuanLyKhoHang
             this.panel1.Controls.Add(this.buttonCategoryReceiveVoucher);
             this.panel1.Location = new System.Drawing.Point(12, 125);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(419, 557);
+            this.panel1.Size = new System.Drawing.Size(419, 701);
             this.panel1.TabIndex = 3;
+            // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Location = new System.Drawing.Point(241, 233);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(46, 17);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "label3";
+            // 
+            // buttonSearch
+            // 
+            this.buttonSearch.Location = new System.Drawing.Point(302, 319);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(75, 23);
+            this.buttonSearch.TabIndex = 4;
+            this.buttonSearch.Text = "Tìm kiếm";
+            this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            // 
+            // textBoxSearch
+            // 
+            this.textBoxSearch.Location = new System.Drawing.Point(23, 320);
+            this.textBoxSearch.Name = "textBoxSearch";
+            this.textBoxSearch.Size = new System.Drawing.Size(253, 22);
+            this.textBoxSearch.TabIndex = 3;
             // 
             // buttonCategoryCustomer
             // 
@@ -172,7 +202,7 @@ namespace QuanLyKhoHang
             this.listViewGeneral.HideSelection = false;
             this.listViewGeneral.Location = new System.Drawing.Point(3, 3);
             this.listViewGeneral.Name = "listViewGeneral";
-            this.listViewGeneral.Size = new System.Drawing.Size(1054, 698);
+            this.listViewGeneral.Size = new System.Drawing.Size(1224, 698);
             this.listViewGeneral.TabIndex = 0;
             this.listViewGeneral.UseCompatibleStateImageBehavior = false;
             this.listViewGeneral.View = System.Windows.Forms.View.Details;
@@ -194,6 +224,15 @@ namespace QuanLyKhoHang
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1270, 85);
             this.panel3.TabIndex = 5;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(945, 4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(18, 17);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // buttonDelete
             // 
@@ -269,33 +308,15 @@ namespace QuanLyKhoHang
             this.dateTimePickerFromDate.TabIndex = 8;
             this.dateTimePickerFromDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
-            // textBox1
+            // toolTip1
             // 
-            this.textBox1.Location = new System.Drawing.Point(24, 320);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(253, 22);
-            this.textBox1.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(302, 319);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Tìm kiếm";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(945, 4);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(18, 17);
-            this.checkBox1.TabIndex = 12;
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.toolTip1.AutoPopDelay = 3000;
+            this.toolTip1.InitialDelay = 100;
+            this.toolTip1.ReshowDelay = 100;
             // 
             // FormHome
             // 
+            this.AcceptButton = this.buttonSearch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1693, 838);
@@ -303,6 +324,7 @@ namespace QuanLyKhoHang
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormHome";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -341,8 +363,10 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Button buttonCategorySupplier;
         private System.Windows.Forms.Button buttonCategoryCustomer;
         internal System.Windows.Forms.ListView listViewGeneral;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button buttonSearch;
+        private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

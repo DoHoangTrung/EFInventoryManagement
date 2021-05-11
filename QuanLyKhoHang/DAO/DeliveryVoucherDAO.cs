@@ -41,21 +41,10 @@ namespace QuanLyKhoHang.DAO
             return deliveryVouchers;
         }
 
-        public DeliveryVoucher GetDeliveryVouchersAllInfoByID(string idVoucher)
+        public DeliveryVoucher GetByID(string idVoucher)
         {
             DeliveryVoucher deliveryVouchers = db.DeliveryVouchers.Find(idVoucher);
-            Customer customerInVoucher = CustomerDAO.Instance.GetCustomerByID(deliveryVouchers.IDCustomer);
-            deliveryVouchers.Customer = customerInVoucher;
-
-            List<DeliveryVoucherInfo> deliveryVoucherInfos = DeliveryVoucherInfoDAO.Instance.GetDeliveryVoucherInfosByIDVoucher(deliveryVouchers.ID);
-            foreach (var info in deliveryVoucherInfos)
-            {
-                Product productInVoucher = ProductDAO.Instance.GetProductByID(info.IDProduct);
-                info.Product = productInVoucher;
-            }
-
-            deliveryVouchers.DeliveryVoucherInfoes = deliveryVoucherInfos;
-
+            
             return deliveryVouchers;
         }
 
@@ -78,6 +67,22 @@ namespace QuanLyKhoHang.DAO
         public List<DeliveryVoucher> GetList()
         {
             return db.DeliveryVouchers.ToList();
+        }
+
+        public void DeleteByID(string idDeliveryVoucher)
+        {
+            DeliveryVoucher voucher = db.DeliveryVouchers.Find(idDeliveryVoucher);
+            if(voucher.DeliveryVoucherInfoes != null)
+            {
+                db.DeliveryVouchers.Remove(voucher);
+                db.SaveChanges();
+            }
+            else
+            {
+                db.DeliveryVoucherInfoes.RemoveRange(voucher.DeliveryVoucherInfoes);
+                db.DeliveryVouchers.Remove(voucher);
+                db.SaveChanges();
+            }
         }
     }
 }

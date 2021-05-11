@@ -48,6 +48,30 @@ namespace QuanLyKhoHang.DAO
             return receiveVouchers;
         }
 
+        public List<ReceiveVoucherInfo> Search(string keyWord)
+        {
+            List<ReceiveVoucherInfo> receiveVoucherInfos = db.ReceiveVoucherInfoes.ToList();
+            var searchList = receiveVoucherInfos.Where((i) =>
+            {
+                //find keywords in text
+                string text, key;
+                text = i.IDReceiveVoucher + " " + i.IDProduct + " " + i.Product.Name + " " + i.Product.Unit + " "
+                + i.Note + " " + i.ReceiveVoucher.ID + " " + i.ReceiveVoucher.Supplier.Name + " " + i.ReceiveVoucher.Supplier.Phone
+                + " " + i.ReceiveVoucher.Supplier.Address + " " + i.ReceiveVoucher.Supplier.Email;
+                key = keyWord;
+
+                text = text.Format();
+                key = key.Format();
+
+                if (text.Contains(key))
+                    return true;
+                else
+                    return false;
+            }).Select(i => i).ToList();
+
+            return searchList;
+        }
+
         public List<string> GetListID()
         {
             List<string> IDs = (from v in db.ReceiveVouchers
@@ -160,7 +184,6 @@ namespace QuanLyKhoHang.DAO
             
             return rowAffected;
         }
-
         #endregion
     }
 }

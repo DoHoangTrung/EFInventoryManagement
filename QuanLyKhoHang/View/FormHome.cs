@@ -27,7 +27,6 @@ namespace QuanLyKhoHang
         public FormHome()
         {
             InitializeComponent();
-
         }
 
         private void LoadDateTimePicker()
@@ -35,37 +34,63 @@ namespace QuanLyKhoHang
             dateTimePickerFromDate.Value = new DateTime(2021, 02, 01);
             dateTimePickerToDate.Value = DateTime.Now;
         }
-        private void ReLoadListViewProduct()
+        private void LoadListViewProduct()
         {
             listViewGeneral.Clear();
 
             //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("productID","ID sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("productName","Tên sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("unit","Đơn vị"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("type","Loại sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("productID", "ID sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("productName", "Tên sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("unit", "Đơn vị"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("typeName", "Loại sản phẩm"));
+
 
             listViewGeneral.View = System.Windows.Forms.View.Details;
             listViewGeneral.ListViewItemSorter = lvwColumnSorter;
 
-            List<ProductAndType> products = ProductDAO.Instance.GetListProductAndType();
+            List<Product> products = ProductDAO.Instance.GetListProduct();
 
-            
-            foreach (ProductAndType p in products)
+
+            foreach (var p in products)
             {
-                ListViewItem lvwItem = new ListViewItem(p.ProductField.ID);
-                lvwItem.SubItems.Add(p.ProductField.Name);
-                lvwItem.SubItems.Add(p.ProductField.Unit);
-                lvwItem.SubItems.Add(p.TypeField);
+                ListViewItem lvwItem = new ListViewItem(p.ID);
+                lvwItem.SubItems.Add(p.Name);
+                lvwItem.SubItems.Add(p.Unit);
+                lvwItem.SubItems.Add(p.ProductType.Name);
 
                 listViewGeneral.Items.Add(lvwItem);
             }
 
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            AutoResizeColumnListView();
+        }
+        private void LoadListViewProduct(List<Product> products)
+        {
+            listViewGeneral.Clear();
+
+            //create listview
+            listViewGeneral.Columns.Add(CreateListViewHeader("productID", "ID sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("productName", "Tên sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("unit", "Đơn vị"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("typeName", "Loại sản phẩm"));
+
+
+            listViewGeneral.View = System.Windows.Forms.View.Details;
+            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+            foreach (var p in products)
+            {
+                ListViewItem lvwItem = new ListViewItem(p.ID);
+                lvwItem.SubItems.Add(p.Name);
+                lvwItem.SubItems.Add(p.Unit);
+                lvwItem.SubItems.Add(p.ProductType.Name);
+
+                listViewGeneral.Items.Add(lvwItem);
+            }
+
+            AutoResizeColumnListView();
         }
 
-        private void ReLoadListViewSupplier()
+        private void LoadListViewSupplier()
         {
             listViewGeneral.Clear();
 
@@ -91,16 +116,42 @@ namespace QuanLyKhoHang
                 listViewGeneral.Items.Add(lvwItem);
             }
 
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            AutoResizeColumnListView();
+        }
+        private void LoadListViewSupplier(List<Supplier> suppliers)
+        {
+            listViewGeneral.Clear();
+
+            //create listview
+            listViewGeneral.Columns.Add(CreateListViewHeader("Mã nhà cung cấp"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Tên"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Địa chỉ"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Số điện thoại"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
+
+            listViewGeneral.View = System.Windows.Forms.View.Details;
+            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+            foreach (var supplier in suppliers)
+            {
+                ListViewItem lvwItem = new ListViewItem(supplier.ID);
+                lvwItem.SubItems.Add(supplier.Name);
+                lvwItem.SubItems.Add(supplier.Address);
+                lvwItem.SubItems.Add(supplier.Phone);
+                lvwItem.SubItems.Add(supplier.Email);
+
+                listViewGeneral.Items.Add(lvwItem);
+            }
+
+            AutoResizeColumnListView();
         }
 
-        private void ReLoadListViewReceiveVoucher()
+        private void LoadListViewReceiveVoucher()
         {
             listViewGeneral.Clear();
 
             //create list view input voucher
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDReceiveVoucher","ID phieu nhap"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDReceiveVoucher", "ID phieu nhap"));
             listViewGeneral.Columns.Add(CreateListViewHeader("ID san pham"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Ten san pham"));
             listViewGeneral.Columns.Add(CreateListViewHeader("Don vi"));
@@ -124,7 +175,7 @@ namespace QuanLyKhoHang
                 Supplier supplierInVoucher = voucher.Supplier;
 
                 List<ReceiveVoucherInfo> voucherInfos = voucher.ReceiveVoucherInfoes.ToList();
-                if(voucherInfos.Count == 0 )
+                if (voucherInfos.Count == 0)
                 {
                     ListViewItem lvwItem = new ListViewItem(voucher.ID);
                     listViewGeneral.Items.Add(lvwItem);
@@ -149,11 +200,70 @@ namespace QuanLyKhoHang
 
                     listViewGeneral.Items.Add(lvwItem);
                 }
-                
+            }
+            AutoResizeColumnListView();
+        }
+        private void LoadListViewReceiveVoucher(List<ReceiveVoucherInfo> receiveVoucherInfoes)
+        {
+            listViewGeneral.Clear();
+
+            //create list view input voucher
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDReceiveVoucher", "ID phieu nhap"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("ID san pham"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Ten san pham"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Don vi"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Ngay"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("So luong nhap"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Gia nhap"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Ghi chú"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Nha cung cap"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("DC"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("SDT"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("ID NCC"));
+
+            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+            if (receiveVoucherInfoes == null)
+            {
+                List<ReceiveVoucher> receiveVouchers = ReceiveVoucherDAO.Instance.GetListReceiveVoucher();
+
+                foreach (var v in receiveVouchers)
+                {
+                    ListViewItem lvwItem = new ListViewItem(v.ID);
+                }
+
+            }
+            else
+            {
+                receiveVoucherInfoes = receiveVoucherInfoes.OrderByDescending(i =>
+                    {
+                        return i.ReceiveVoucher.Date;
+                    }).ToList();
+
+                foreach (var v in receiveVoucherInfoes)
+                {
+                    ListViewItem lvwItem = new ListViewItem(v.ReceiveVoucher.ID);
+                    lvwItem.SubItems.Add(v.Product.ID);
+                    lvwItem.SubItems.Add(v.Product.Name);
+                    lvwItem.SubItems.Add(v.Product.Unit);
+                    lvwItem.SubItems.Add(v.ReceiveVoucher.Date.ToString());
+                    lvwItem.SubItems.Add(v.QuantityInput.ToString());
+                    lvwItem.SubItems.Add(v.PriceInput.ToString());
+                    lvwItem.SubItems.Add(v.Note);
+                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Name);
+                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Address);
+                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Phone);
+                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Email);
+                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.ID);
+
+                    listViewGeneral.Items.Add(lvwItem);
+                }
+                AutoResizeColumnListView();
             }
         }
 
-        private void ReLoadListViewOutputVoucher()
+        private void LoadListViewDeliveryVoucher(List<DeliveryVoucherView> voucherViews)
         {
             listViewGeneral.Clear();
 
@@ -164,43 +274,74 @@ namespace QuanLyKhoHang
             listViewGeneral.Columns.Add(CreateListViewHeader("SoLuongXuat"));
             listViewGeneral.Columns.Add(CreateListViewHeader("GiaXuat"));
             listViewGeneral.Columns.Add(CreateListViewHeader("TenKhachHang"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Phone", "So dien thoai"));
             listViewGeneral.Columns.Add(CreateListViewHeader("IDSanPham"));
             listViewGeneral.Columns.Add(CreateListViewHeader("IDKhachHang"));
 
             listViewGeneral.ListViewItemSorter = lvwColumnSorter;
 
-            List<DeliveryVoucher> listVoucher = DeliveryVoucherDAO.Instance.GetDeliveryVouchersAllInfo();
-            foreach (var voucher in listVoucher)
+            foreach (var voucher in voucherViews)
             {
-                List<DeliveryVoucherInfo> voucherInfoes = voucher.DeliveryVoucherInfoes.ToList();
+                ListViewItem lvwItem = new ListViewItem(voucher.VoucherID);
+                lvwItem.SubItems.Add(voucher.Date.ToString());
+                lvwItem.SubItems.Add(voucher.ProductName);
+                lvwItem.SubItems.Add(voucher.Unit);
+                lvwItem.SubItems.Add(voucher.SumQuantity.ToString());
+                lvwItem.SubItems.Add(voucher.PriceOutput.ToString());
+                lvwItem.SubItems.Add(voucher.CustomerName);
+                lvwItem.SubItems.Add(voucher.Phone);
+                lvwItem.SubItems.Add(voucher.ProductID);
+                lvwItem.SubItems.Add(voucher.CustomerID);
 
-                //add value to dtgv genenral type delivery voucher 
-                if (voucherInfoes.Count == 0)
-                {
-                    ListViewItem lvwItem = new ListViewItem(voucher.ID);
-                    listViewGeneral.Items.Add(lvwItem);
-                }
-                else if (voucherInfoes.Count > 0)
-                {
-                    foreach (var info in voucherInfoes)
-                    {
-                        ListViewItem lvwItem = new ListViewItem(voucher.ID);
-                        lvwItem.SubItems.Add(voucher.Date.ToString());
-                        lvwItem.SubItems.Add(info.Product.Name);
-                        lvwItem.SubItems.Add(info.Product.Unit);
-                        lvwItem.SubItems.Add(info.Quantity.ToString());
-                        lvwItem.SubItems.Add(info.PriceOutput.ToString());
-                        lvwItem.SubItems.Add(voucher.Customer.Name);
-                        lvwItem.SubItems.Add(info.Product.ID);
-                        lvwItem.SubItems.Add(voucher.Customer.ID);
-
-                        listViewGeneral.Items.Add(lvwItem);
-                    }
-                }
+                listViewGeneral.Items.Add(lvwItem);
             }
-        }
 
-        private void ReLoadListViewCustomer()
+            AutoResizeColumnListView();
+        }
+        private void LoadListViewDeliveryVoucher()
+        {
+            listViewGeneral.Clear();
+
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDDeliveryVoucher", "ID phiếu xuất"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("NgayXuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("TenSanPham"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("DonVi"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("SoLuongXuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("GiaXuat"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("TenKhachHang"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Phone", "So dien thoai"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDSanPham"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("IDKhachHang"));
+
+            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+            DeliveryVoucherViewDAO viewDao = new DeliveryVoucherViewDAO();
+            List<DeliveryVoucherView> voucherViews = viewDao.GetList();
+
+            foreach (var voucher in voucherViews)
+            {
+                ListViewItem lvwItem = new ListViewItem(voucher.VoucherID);
+                lvwItem.SubItems.Add(voucher.Date.ToString());
+                lvwItem.SubItems.Add(voucher.ProductName);
+                lvwItem.SubItems.Add(voucher.Unit);
+                lvwItem.SubItems.Add(voucher.SumQuantity.ToString());
+                lvwItem.SubItems.Add(voucher.PriceOutput.ToString());
+                lvwItem.SubItems.Add(voucher.CustomerName);
+                lvwItem.SubItems.Add(voucher.Phone);
+                lvwItem.SubItems.Add(voucher.ProductID);
+                lvwItem.SubItems.Add(voucher.CustomerID);
+
+                listViewGeneral.Items.Add(lvwItem);
+            }
+
+            AutoResizeColumnListView();
+        }
+        private void AutoResizeColumnListView()
+        {
+            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+        }
+        private void LoadListViewCustomer()
         {
             listViewGeneral.Clear();
 
@@ -228,8 +369,37 @@ namespace QuanLyKhoHang
 
             listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-        }
 
+        }
+        private void LoadListViewCustomer(List<Customer> customers)
+        {
+            listViewGeneral.Clear();
+
+            //create listview
+            listViewGeneral.Columns.Add(CreateListViewHeader("Mã khách hàng"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Tên"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Địa chỉ"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Số điện thoại"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
+
+            listViewGeneral.View = System.Windows.Forms.View.Details;
+            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+            foreach (var customer in customers)
+            {
+                ListViewItem lvwItem = new ListViewItem(customer.ID);
+                lvwItem.SubItems.Add(customer.Name);
+                lvwItem.SubItems.Add(customer.Address);
+                lvwItem.SubItems.Add(customer.Phone);
+                lvwItem.SubItems.Add(customer.Email);
+
+                listViewGeneral.Items.Add(lvwItem);
+            }
+
+            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+
+        }
         private ColumnHeader CreateListViewHeader(string text)
         {
             ColumnHeader columnHeader;
@@ -248,6 +418,11 @@ namespace QuanLyKhoHang
             return columnHeader;
         }
 
+        private void LoadToolTip()
+        {
+            toolTip1.SetToolTip(textBoxSearch, "Tìm kiếm theo id, tên, đơn vị, địa chỉ, số điện thoại, email");
+        }
+
         #region EVENT!
         private void FormHome_Load(object sender, EventArgs e)
         {
@@ -256,6 +431,8 @@ namespace QuanLyKhoHang
             LoadDateTimePicker();
 
             colorButtonCategoryWhenClicked = Color.FromArgb(203, 225, 247);
+
+            LoadToolTip();
         }
 
         private void listViewInventory_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -284,7 +461,6 @@ namespace QuanLyKhoHang
         {
             //ReLoadListViewInventory();
         }
-
 
         private void buttonCategoryGoods_Click(object sender, EventArgs e)
         {
@@ -322,6 +498,7 @@ namespace QuanLyKhoHang
             buttonCategorySupplier.BackColor = default;
             buttonCategoryReceiveVoucher.BackColor = default;
             buttonCategoryDeliveryVoucher.BackColor = default;
+            buttonCategoryCustomer.BackColor = default;
 
             if (button == buttonCategoryProduct)
             {
@@ -342,6 +519,11 @@ namespace QuanLyKhoHang
             {
                 buttonCategoryDeliveryVoucher.BackColor = colorButtonCategoryWhenClicked;
             }
+
+            if (button == buttonCategoryCustomer)
+            {
+                buttonCategoryCustomer.BackColor = colorButtonCategoryWhenClicked;
+            }
         }
 
         private void TagThisCategoryButtomToActionButton(Button categoryButton)
@@ -350,6 +532,7 @@ namespace QuanLyKhoHang
             buttonAdd.Tag = categoryButton;
             buttonUpdate.Tag = categoryButton;
             buttonDelete.Tag = categoryButton;
+            buttonSearch.Tag = categoryButton;
         }
 
         private void buttonShow_Click(object sender, EventArgs e)
@@ -358,28 +541,33 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryProduct)
             {
-                ReLoadListViewProduct();
+                LoadListViewProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
             {
-                ReLoadListViewSupplier();
+                LoadListViewSupplier();
             }
 
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
-                ReLoadListViewReceiveVoucher();
+                LoadListViewReceiveVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
-                ReLoadListViewOutputVoucher();
+                LoadListViewDeliveryVoucher();
             }
 
 
             if (categoryButtonTagged == buttonCategoryCustomer)
             {
-                ReLoadListViewCustomer();
+                LoadListViewCustomer();
+            }
+
+            if (categoryButtonTagged == null)
+            {
+                MessageBox.Show("Bạn hãy chọn mục muốn hiển thị");
             }
         }
 
@@ -392,7 +580,7 @@ namespace QuanLyKhoHang
                 FormAddProduct formAddGood = new FormAddProduct();
                 formAddGood.ShowDialog();
 
-                ReLoadListViewProduct();
+                LoadListViewProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
@@ -400,7 +588,7 @@ namespace QuanLyKhoHang
                 FormAddSupplier formAddSupplier = new FormAddSupplier();
                 formAddSupplier.ShowDialog();
 
-                ReLoadListViewSupplier();
+                LoadListViewSupplier();
             }
 
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
@@ -408,7 +596,7 @@ namespace QuanLyKhoHang
                 FormAddReceiveVoucher fAddInputVoucher = new FormAddReceiveVoucher();
                 fAddInputVoucher.ShowDialog();
 
-                ReLoadListViewReceiveVoucher();
+                LoadListViewReceiveVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
@@ -416,7 +604,6 @@ namespace QuanLyKhoHang
                 FormAddDeliveryVoucher f = new FormAddDeliveryVoucher();
                 f.ShowDialog();
 
-                ReLoadListViewReceiveVoucher();
             }
 
 
@@ -425,7 +612,7 @@ namespace QuanLyKhoHang
                 FormAddCustomer fAdd = new FormAddCustomer();
                 fAdd.ShowDialog();
 
-                ReLoadListViewCustomer();
+                LoadListViewCustomer();
             }
         }
 
@@ -442,7 +629,7 @@ namespace QuanLyKhoHang
                     formUpdate.selectedProductFromListView = selectedProduct;
                     formUpdate.ShowDialog();
 
-                    ReLoadListViewProduct();
+                    LoadListViewProduct();
                 }
                 else
                 {
@@ -459,7 +646,7 @@ namespace QuanLyKhoHang
                     fUpSupp.supplierSelectedFromListView = supplierTagged;
                     fUpSupp.ShowDialog();
 
-                    ReLoadListViewSupplier();
+                    LoadListViewSupplier();
                 }
                 else
                 {
@@ -472,7 +659,7 @@ namespace QuanLyKhoHang
                 if (listViewGeneral.Tag != null)
                 {
                     ReceiveVoucher voucherTagged = listViewGeneral.Tag as ReceiveVoucher;
-                    if(voucherTagged != null)
+                    if (voucherTagged != null)
                     {
                         FormUpdateReceiveVoucher fUpdate = new FormUpdateReceiveVoucher();
                         fUpdate.receiveVoucherTagged = voucherTagged;
@@ -480,7 +667,7 @@ namespace QuanLyKhoHang
                         fUpdate.ShowDialog();
                         this.Show();
 
-                        ReLoadListViewReceiveVoucher();
+                        LoadListViewReceiveVoucher();
                     }
                 }
                 else
@@ -504,7 +691,7 @@ namespace QuanLyKhoHang
                     fUp.customerSelectedFromListView = customerTagged;
                     fUp.ShowDialog();
 
-                    ReLoadListViewCustomer();
+                    LoadListViewCustomer();
                 }
                 else
                 {
@@ -526,7 +713,7 @@ namespace QuanLyKhoHang
                     formDelete.productSelected = productSelected;
                     formDelete.ShowDialog();
 
-                    ReLoadListViewProduct();
+                    LoadListViewProduct();
                 }
                 else
                 {
@@ -544,7 +731,7 @@ namespace QuanLyKhoHang
                     fDel.supplierSelectedFromListView = supplierTagged;
                     fDel.ShowDialog();
 
-                    ReLoadListViewSupplier();
+                    LoadListViewSupplier();
                 }
                 else
                 {
@@ -568,10 +755,10 @@ namespace QuanLyKhoHang
                         this.Hide();
                         f.ShowDialog();
 
-                        ReLoadListViewReceiveVoucher();
+                        LoadListViewReceiveVoucher();
 
                         this.Show();
-                        
+
                     }
                 }
                 else
@@ -582,9 +769,15 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
+                if (listViewGeneral.Tag != null)
+                {
+                    string deliveryVoucherID = listViewGeneral.Tag.ToString();
+
+                    FormDeleteDeliveryVoucher f = new FormDeleteDeliveryVoucher();
+                    f.DeliveryVoucherID = deliveryVoucherID;
+                    f.ShowDialog();
+                }
             }
-
-
             if (categoryButtonTagged == buttonCategoryCustomer)
             {
                 Customer customerTagged = listViewGeneral.Tag as Customer;
@@ -594,7 +787,7 @@ namespace QuanLyKhoHang
                     fDel.customerSelectedFromListView = customerTagged;
                     fDel.ShowDialog();
 
-                    ReLoadListViewSupplier();
+                    LoadListViewSupplier();
                 }
                 else
                 {
@@ -633,7 +826,7 @@ namespace QuanLyKhoHang
                     Supplier supplier = new Supplier();
                     supplier.ID = id;
                     supplier.Name = name;
-                    supplier.Address= addr;
+                    supplier.Address = addr;
                     supplier.Phone = phone;
                     supplier.Email = email;
 
@@ -668,15 +861,57 @@ namespace QuanLyKhoHang
 
                 if (btnCatgory == buttonCategoryDeliveryVoucher)
                 {
-                    int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDDeliveryVoucher");
-                    string idVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
+                    int columnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDDeliveryVoucher");
+                    string deliveryVoucherID = lvwItem.SubItems[columnIDVoucher].Text;
 
-                    DeliveryVoucher deliveryVoucher = DeliveryVoucherDAO.Instance.GetDeliveryVouchersAllInfoByID(idVoucher);
-
-                    listViewGeneral.Tag = deliveryVoucher;
+                    listViewGeneral.Tag = deliveryVoucherID;
+                    labelTest.Text = deliveryVoucherID;
                 }
             }
         }
         #endregion
+
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            string keyWord = textBoxSearch.Text;
+
+            Button category = buttonSearch.Tag as Button;
+
+            if (category == null)
+            {
+                MessageBox.Show("Bạn hãy chọn mục muốn tìm kiếm");
+            }
+
+            if (category == buttonCategoryProduct)
+            {
+                List<Product> products = ProductDAO.Instance.Search(keyWord);
+                LoadListViewProduct(products);
+            }
+
+            if (category == buttonCategoryCustomer)
+            {
+                List<Customer> searchList = CustomerDAO.Instance.Search(keyWord);
+                LoadListViewCustomer(searchList);
+            }
+
+            if (category == buttonCategorySupplier)
+            {
+                List<Supplier> searchList = SupplierDAO.Instance.Search(keyWord);
+                LoadListViewSupplier(searchList);
+            }
+
+            if (category == buttonCategoryReceiveVoucher)
+            {
+                List<ReceiveVoucherInfo> searchList = ReceiveVoucherInfoDAO.Instance.Search(keyWord);
+                LoadListViewReceiveVoucher(searchList);
+            }
+
+            if (category == buttonCategoryDeliveryVoucher)
+            {
+                DeliveryVoucherViewDAO dao = new DeliveryVoucherViewDAO();
+                List<DeliveryVoucherView> voucherInfoViews = dao.Search(keyWord);
+                LoadListViewDeliveryVoucher(voucherInfoViews);
+            }
+        }
     }
 }

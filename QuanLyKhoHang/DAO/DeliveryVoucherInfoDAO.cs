@@ -26,5 +26,15 @@ namespace QuanLyKhoHang.DAO
                                                               select i).ToList();
             return deliveryVoucherInfos;
         }
+
+        public void Add(DeliveryVoucherInfo info)
+        {
+            if (info != null)
+            {
+                db.DeliveryVoucherInfoes.Add(info);
+                db.SaveChanges();
+            }
+        }
+
     }
 }
