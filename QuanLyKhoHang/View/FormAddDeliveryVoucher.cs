@@ -46,11 +46,7 @@ namespace QuanLyKhoHang.View
             LoadDTGViewInfo();
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
-        {
-            comboBoxTest.DataSource = null;
-            comboBoxTest.Items.Clear();
-        }
+       
         private void LoadProductType(List<ProductType> types)
         {
             comboBoxProductType.DataSource = null;
@@ -106,7 +102,6 @@ namespace QuanLyKhoHang.View
 
         private void comboBoxProductID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            labelTest.Text = comboBoxProductID.Items.Count.ToString();
             int? inventoryNum = 0;
             float? averagePrice = 0;
 
@@ -181,6 +176,11 @@ namespace QuanLyKhoHang.View
                 sourceProductCanSell.Remove(product);
 
                 LoadProductByType(dto.TypeID);
+
+                //reset value of numericUpdown
+                numericUpDownDeliveryPrice.Value = 1;
+                numericUpDownDeliveryQuantity.Value = 1;
+
             }
             else
             {
@@ -259,68 +259,76 @@ namespace QuanLyKhoHang.View
             DialogResult action = MessageBox.Show("Bạn đồng ý thêm sản phẩm", "Xác nhận", MessageBoxButtons.OKCancel);   
             if(action == DialogResult.OK)
             {
-                string idDeliveryVoucher, idCustomer;
-                DateTime date = dateTimePickerDeliveryDate.Value;
-                idDeliveryVoucher = comboBoxIDDeliveryVoucher.Text;
-                idCustomer = sourceCustomer[comboBoxIDCustomer.SelectedIndex].ID;
-
-                if (CheckIDValid(idDeliveryVoucher))
+                if(dataGridViewDeliveryInfo.Rows.Count > 0)
                 {
-                    DeliveryVoucher deliveryVoucher = new DeliveryVoucher();
-                    deliveryVoucher.ID = idDeliveryVoucher;
-                    deliveryVoucher.IDCustomer = idCustomer;
-                    deliveryVoucher.Date = date;
-                    DeliveryVoucherDAO.Instance.Insert(deliveryVoucher);
+                    string idDeliveryVoucher, idCustomer;
+                    DateTime date = dateTimePickerDeliveryDate.Value;
+                    idDeliveryVoucher = comboBoxIDDeliveryVoucher.Text;
+                    idCustomer = sourceCustomer[comboBoxIDCustomer.SelectedIndex].ID;
 
-                    //insert delivery voucher info, sell product one by one
-                    foreach (var proCanSell in bindingSource)
+                    if (CheckIDValid(idDeliveryVoucher))
                     {
-                        DTGViewAddDeliveryVoucherDTO dtgvDTO = (proCanSell as DTGViewAddDeliveryVoucherDTO);
-                        int quantity = (int)dtgvDTO.DeliveryQuantity;
+                        DeliveryVoucher deliveryVoucher = new DeliveryVoucher();
+                        deliveryVoucher.ID = idDeliveryVoucher;
+                        deliveryVoucher.IDCustomer = idCustomer;
+                        deliveryVoucher.Date = date;
+                        DeliveryVoucherDAO.Instance.Insert(deliveryVoucher);
 
-                        List<ReceiveVoucherInfo> thisProductInManyReiceveVoucher = ReceiveVoucherInfoDAO.Instance.GetListProductCanSellByID(dtgvDTO.ProductID)
-                        .OrderBy(i => i.ReceiveVoucher.Date).ToList();
-
-                        foreach (var inAVoucher in thisProductInManyReiceveVoucher)
+                        //insert delivery voucher info, sell product one by one
+                        foreach (var proCanSell in bindingSource)
                         {
-                            int inventoryNum = inAVoucher.QuantityInput.ToInt() - inAVoucher.QuantityOutput.ToInt();
+                            DTGViewAddDeliveryVoucherDTO dtgvDTO = (proCanSell as DTGViewAddDeliveryVoucherDTO);
+                            int quantity = (int)dtgvDTO.DeliveryQuantity;
 
-                            if (inventoryNum < quantity)
+                            List<ReceiveVoucherInfo> thisProductInManyReiceveVoucher = ReceiveVoucherInfoDAO.Instance.GetListProductCanSellByID(dtgvDTO.ProductID)
+                            .OrderBy(i => i.ReceiveVoucher.Date).ToList();
+
+                            foreach (var inAVoucher in thisProductInManyReiceveVoucher)
                             {
-                                //update delivery voucher infomation 
-                                DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
-                                deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
-                                deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
-                                deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
-                                deliVoucherInfo.PriceOutput = (int)dtgvDTO.DeliveryPrice;
-                                deliVoucherInfo.Quantity = inventoryNum;
+                                int inventoryNum = inAVoucher.QuantityInput.ToInt() - inAVoucher.QuantityOutput.ToInt();
 
-                                DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+                                if (inventoryNum < quantity)
+                                {
+                                    //update delivery voucher infomation 
+                                    DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
+                                    deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
+                                    deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
+                                    deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
+                                    deliVoucherInfo.PriceOutput = (int)dtgvDTO.DeliveryPrice;
+                                    deliVoucherInfo.Quantity = inventoryNum;
 
-                                quantity = quantity - inventoryNum;
-                            }
-                            else if (inventoryNum >= quantity)
-                            {
-                                //update delivery voucher infomation 
-                                DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
-                                deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
-                                deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
-                                deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
-                                deliVoucherInfo.PriceOutput = (int)numericUpDownDeliveryPrice.Value;
-                                deliVoucherInfo.Quantity = quantity;
+                                    DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
 
-                                DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+                                    quantity = quantity - inventoryNum;
+                                }
+                                else if (inventoryNum >= quantity)
+                                {
+                                    //update delivery voucher infomation 
+                                    DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
+                                    deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
+                                    deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
+                                    deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
+                                    deliVoucherInfo.PriceOutput = (int)numericUpDownDeliveryPrice.Value;
+                                    deliVoucherInfo.Quantity = quantity;
+
+                                    DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+                                }
                             }
                         }
-                    }
 
-                    MessageBox.Show("Thêm thành công");
-                    this.Close();
+                        MessageBox.Show("Thêm thành công");
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("ID phiếu xuất không hợp lệ");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("ID phiếu xuất không hợp lệ");
+                    MessageBox.Show("Bạn chưa chọn sản phẩm muốn xuất kho");
                 }
+                
             }
         }
     }

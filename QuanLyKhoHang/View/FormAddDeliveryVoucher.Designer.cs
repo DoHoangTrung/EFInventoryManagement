@@ -37,15 +37,12 @@
             this.labelPhoneCustomer = new System.Windows.Forms.Label();
             this.comboBoxNameCustomer = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonTest = new System.Windows.Forms.Button();
             this.textBoxNote = new System.Windows.Forms.TextBox();
-            this.comboBoxTest = new System.Windows.Forms.ComboBox();
             this.comboBoxIDDeliveryVoucher = new System.Windows.Forms.ComboBox();
             this.labelInputVoucherIDNotification = new System.Windows.Forms.Label();
             this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.labelTest = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridViewDeliveryInfo = new System.Windows.Forms.DataGridView();
@@ -170,30 +167,17 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.buttonTest);
             this.panel1.Controls.Add(this.textBoxNote);
-            this.panel1.Controls.Add(this.comboBoxTest);
             this.panel1.Controls.Add(this.comboBoxIDDeliveryVoucher);
             this.panel1.Controls.Add(this.labelInputVoucherIDNotification);
             this.panel1.Controls.Add(this.dateTimePickerDeliveryDate);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.labelTest);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(4, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(663, 282);
             this.panel1.TabIndex = 27;
-            // 
-            // buttonTest
-            // 
-            this.buttonTest.Location = new System.Drawing.Point(445, 245);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(168, 23);
-            this.buttonTest.TabIndex = 5;
-            this.buttonTest.Text = "Thêm khách hàng";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
             // 
             // textBoxNote
             // 
@@ -201,14 +185,6 @@
             this.textBoxNote.Name = "textBoxNote";
             this.textBoxNote.Size = new System.Drawing.Size(338, 22);
             this.textBoxNote.TabIndex = 31;
-            // 
-            // comboBoxTest
-            // 
-            this.comboBoxTest.FormattingEnabled = true;
-            this.comboBoxTest.Location = new System.Drawing.Point(262, 241);
-            this.comboBoxTest.Name = "comboBoxTest";
-            this.comboBoxTest.Size = new System.Drawing.Size(157, 24);
-            this.comboBoxTest.TabIndex = 1;
             // 
             // comboBoxIDDeliveryVoucher
             // 
@@ -254,15 +230,6 @@
             this.label1.Size = new System.Drawing.Size(91, 17);
             this.label1.TabIndex = 24;
             this.label1.Text = "ID Phiếu xuất";
-            // 
-            // labelTest
-            // 
-            this.labelTest.AutoSize = true;
-            this.labelTest.Location = new System.Drawing.Point(183, 248);
-            this.labelTest.Name = "labelTest";
-            this.labelTest.Size = new System.Drawing.Size(61, 17);
-            this.labelTest.TabIndex = 13;
-            this.labelTest.Text = "Ghi chú:";
             // 
             // label3
             // 
@@ -593,9 +560,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label labelTest;
-        private System.Windows.Forms.ComboBox comboBoxTest;
-        private System.Windows.Forms.Button buttonTest;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Button buttonUpdateProduct;

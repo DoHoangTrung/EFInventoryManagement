@@ -21,7 +21,12 @@ namespace QuanLyKhoHang.DAO
 
         InventoryContext db = new InventoryContext();
 
-        public int InsertReceiveVoucherInfo(string idProduct,string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
+        public List<ReceiveVoucherInfo> GetList()
+        {
+            return db.ReceiveVoucherInfoes.ToList();
+        }
+
+        public int InsertReceiveVoucherInfo(string idProduct, string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
         {
             int rowAffected = 0;
 
@@ -98,8 +103,8 @@ namespace QuanLyKhoHang.DAO
         {
             int rowAffected = 0;
             var infoNeverSell = (from i in db.ReceiveVoucherInfoes
-                             where i.IDReceiveVoucher == idRecevieVoucher && i.QuantityOutput == 0
-                             select i).ToList();
+                                 where i.IDReceiveVoucher == idRecevieVoucher && i.QuantityOutput == 0
+                                 select i).ToList();
 
             foreach (var info in infoNeverSell)
             {
@@ -110,7 +115,7 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public int RemoveReceiveVoucherInfoByID(string idProduct,string idReceiveVoucher)
+        public int RemoveReceiveVoucherInfoByID(string idProduct, string idReceiveVoucher)
         {
             ReceiveVoucherInfo info = db.ReceiveVoucherInfoes.Find(idProduct, idReceiveVoucher);
             db.ReceiveVoucherInfoes.Remove(info);
@@ -126,10 +131,10 @@ namespace QuanLyKhoHang.DAO
             return list;
         }
 
-        public void UpdateQuantityOutput( string productID, string receiveVoucherID, int quantity)
+        public void UpdateQuantityOutput(string productID, string receiveVoucherID, int quantity)
         {
             ReceiveVoucherInfo info = db.ReceiveVoucherInfoes.Find(productID, receiveVoucherID);
-            if(quantity< info.QuantityInput)
+            if (quantity < info.QuantityInput)
             {
                 info.QuantityOutput = quantity;
                 db.SaveChanges();
@@ -149,7 +154,7 @@ namespace QuanLyKhoHang.DAO
             }
         }
 
-        public List<ReceiveVoucherInfo> Search(string keyWord)
+        public List<ReceiveVoucherInfo> SearchByWords(string keyWord)
         {
             List<ReceiveVoucherInfo> receiveVoucherInfos = db.ReceiveVoucherInfoes.ToList();
             var searchList = receiveVoucherInfos.Where((i) =>
@@ -171,6 +176,64 @@ namespace QuanLyKhoHang.DAO
             }).Select(i => i).ToList();
 
             return searchList;
+        }
+        public List<ReceiveVoucherInfo> SearchByWords(List<ReceiveVoucherInfo> infoes, string keyWord)
+        {
+            var searchList = infoes.Where((i) =>
+            {
+                //find keywords in text
+                string text, key;
+                text = i.IDReceiveVoucher + " " + i.IDProduct + " " + i.Product.Name + " " + i.Product.Unit + " "
+                + i.Note + " " + i.ReceiveVoucher.ID + " " + i.ReceiveVoucher.Supplier.Name + " " + i.ReceiveVoucher.Supplier.Phone
+                + " " + i.ReceiveVoucher.Supplier.Address + " " + i.ReceiveVoucher.Supplier.Email;
+                key = keyWord;
+
+                text = text.Format();
+                key = key.Format();
+
+                if (text.Contains(key))
+                    return true;
+                else
+                    return false;
+            }).Select(i => i).ToList();
+
+            return searchList;
+        }
+
+        public List<ReceiveVoucherInfo> SearchByTime(DateTime fromTime, DateTime toTime)
+        {
+            var infoes = db.ReceiveVoucherInfoes.ToList();
+            var searchList = infoes.Where((i) =>
+            {
+                DateTime date = (DateTime)i.ReceiveVoucher.Date;
+                if (toTime >= date && date >= fromTime)
+                    return true;
+                else
+                    return false;
+            }).Select(i => i).ToList();
+
+            return searchList;
+        }
+
+        public List<ReceiveVoucherInfo> SearchByTime(List<ReceiveVoucherInfo> infoes, DateTime fromTime, DateTime toTime)
+        {
+            var searchList = infoes.Where((i) =>
+            {
+                DateTime date = (DateTime)i.ReceiveVoucher.Date;
+                if (toTime >= date && date >= fromTime)
+                    return true;
+                else
+                    return false;
+            }).Select(i => i).ToList();
+
+            return searchList;
+        }
+
+        public List<ReceiveVoucherInfo> Search(string keyWord , DateTime fromTime, DateTime toTime)
+        {
+            var searchByWords = SearchByWords(keyWord);
+            var result = SearchByTime(searchByWords, fromTime, toTime);
+            return result;
         }
     }
 }

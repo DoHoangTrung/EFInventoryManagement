@@ -29,10 +29,24 @@ namespace QuanLyKhoHang
             InitializeComponent();
         }
 
+        private void SetMyCustomeFomateDatetimePicker(string format)
+        {
+            dateTimePickerFromDate.Format = DateTimePickerFormat.Custom;
+            dateTimePickerFromDate.CustomFormat = format;
+
+            dateTimePickerToDate.Format = DateTimePickerFormat.Custom;
+            dateTimePickerToDate.CustomFormat = format;
+        }
+
         private void LoadDateTimePicker()
         {
-            dateTimePickerFromDate.Value = new DateTime(2021, 02, 01);
+            dateTimePickerFromDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dateTimePickerFromDate.MinDate = new DateTime(2020, 1, 1);
+            dateTimePickerFromDate.MaxDate = DateTime.Now;
+
             dateTimePickerToDate.Value = DateTime.Now;
+            dateTimePickerToDate.MinDate = new DateTime(2020, 1, 1);
+            dateTimePickerToDate.MaxDate = DateTime.Now;
         }
         private void LoadListViewProduct()
         {
@@ -263,6 +277,18 @@ namespace QuanLyKhoHang
             }
         }
 
+        private void LoadRecentListViewReceiveVoucherByTime()
+        {
+            string keyWord = textBoxSearch.Text;
+            List<ReceiveVoucherInfo> infoes = ReceiveVoucherInfoDAO.Instance.SearchByWords(keyWord);
+
+            DateTime fromTime, toTime;
+            fromTime = dateTimePickerFromDate.Value;
+            toTime = dateTimePickerToDate.Value;
+            List<ReceiveVoucherInfo> infos = ReceiveVoucherInfoDAO.Instance.SearchByTime(infoes, fromTime, toTime);
+            LoadListViewReceiveVoucher(infos);
+        }
+
         private void LoadListViewDeliveryVoucher(List<DeliveryVoucherView> voucherViews)
         {
             listViewGeneral.Clear();
@@ -433,6 +459,8 @@ namespace QuanLyKhoHang
             colorButtonCategoryWhenClicked = Color.FromArgb(203, 225, 247);
 
             LoadToolTip();
+
+            SetMyCustomeFomateDatetimePicker("dd/MM/yyyy");
         }
 
         private void listViewInventory_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -549,6 +577,11 @@ namespace QuanLyKhoHang
                 LoadListViewSupplier();
             }
 
+            if (categoryButtonTagged == buttonCategoryCustomer)
+            {
+                LoadListViewCustomer();
+            }
+
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
                 LoadListViewReceiveVoucher();
@@ -557,12 +590,6 @@ namespace QuanLyKhoHang
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
                 LoadListViewDeliveryVoucher();
-            }
-
-
-            if (categoryButtonTagged == buttonCategoryCustomer)
-            {
-                LoadListViewCustomer();
             }
 
             if (categoryButtonTagged == null)
@@ -865,7 +892,6 @@ namespace QuanLyKhoHang
                     string deliveryVoucherID = lvwItem.SubItems[columnIDVoucher].Text;
 
                     listViewGeneral.Tag = deliveryVoucherID;
-                    labelTest.Text = deliveryVoucherID;
                 }
             }
         }
@@ -902,15 +928,50 @@ namespace QuanLyKhoHang
 
             if (category == buttonCategoryReceiveVoucher)
             {
-                List<ReceiveVoucherInfo> searchList = ReceiveVoucherInfoDAO.Instance.Search(keyWord);
+                List<ReceiveVoucherInfo> searchList = ReceiveVoucherInfoDAO.Instance.GetList();
+
+                //search by time duration
+                if (checkBoxDatetimePicker.Checked)
+                {
+                    searchList = ReceiveVoucherInfoDAO.Instance.SearchByTime(searchList, dateTimePickerFromDate.Value, dateTimePickerToDate.Value);
+                }
+                //keep searching by key words
+                string keyWords = textBoxSearch.Text;
+                if (!string.IsNullOrEmpty(keyWords))
+                {
+                    searchList = ReceiveVoucherInfoDAO.Instance.SearchByWords(searchList, keyWord);
+                }
+
                 LoadListViewReceiveVoucher(searchList);
             }
 
             if (category == buttonCategoryDeliveryVoucher)
             {
                 DeliveryVoucherViewDAO dao = new DeliveryVoucherViewDAO();
-                List<DeliveryVoucherView> voucherInfoViews = dao.Search(keyWord);
+
+                List<DeliveryVoucherView> voucherInfoViews = dao.SearchByWords(keyWord);
+
+                //keep searching by time range
+                if (checkBoxDatetimePicker.Checked)
+                {
+                    voucherInfoViews = dao.SearchByTimeRange(voucherInfoViews, dateTimePickerFromDate.Value, dateTimePickerToDate.Value);
+                }
+
                 LoadListViewDeliveryVoucher(voucherInfoViews);
+            }
+        }
+
+        private void checkBoxDatetimePicker_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxDatetimePicker.Checked)
+            {
+                labelFromDate.Font = new Font(Label.DefaultFont, FontStyle.Bold);
+                labelToDate.Font = new Font(Label.DefaultFont, FontStyle.Bold);
+            }
+            else
+            {
+                labelFromDate.Font = new Font(Label.DefaultFont, FontStyle.Regular);
+                labelToDate.Font = new Font(Label.DefaultFont, FontStyle.Regular);
             }
         }
     }
