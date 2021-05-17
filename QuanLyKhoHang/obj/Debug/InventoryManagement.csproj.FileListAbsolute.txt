@@ -91,3 +91,6 @@ F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.exe
 F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.pdb
 F:\Study\TT CSDL\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormDeleteDeliveryVoucher.resources
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormDeleteDeliveryVoucher.resources
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\InventoryManagement.csproj.ResolveComReference.cache
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\PagedList.dll
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\PagedList.xml

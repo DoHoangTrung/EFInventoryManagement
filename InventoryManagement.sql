@@ -314,4 +314,74 @@ begin
 	set QuantityOutput -=@quantityOutput
 	where IDReceiveVoucher = @idReceiveVoucher and IDProduct = @idProduct
 end
-	
+
+
+-- view report 
+--create view [Report]
+--as
+--select p.ID as ProductID,
+--p.Name as ProductName,
+--p.Unit as ProductUnit,
+--reInfo.QuantityInput as [ReceiveQuantity],
+--reInfo.PriceInput as [ReceivePrice],
+--reInfo.QuantityInput*reInfo.PriceInput as [ReceiveTotalPrice],
+--deInfo.Quantity as [DeliveryQuantity],
+--deInfo.PriceOutput as [DeliveryPrice],
+--deInfo.Quantity*deInfo.PriceOutput as [DeliveryTotalPrice],
+--reInfo.QuantityInput- reInfo.QuantityOutput as [InventoryNumber]
+--from ReceiveVoucherInfo reInfo 
+----join DeliveryVoucher deVoucher on deInfo.IDDeliveryVoucher = deVoucher.ID
+--left join DeliveryVoucherInfo deInfo on deInfo.IDReceiveVoucher = reInfo.IDReceiveVoucher and deInfo.IDProduct = reInfo.IDProduct
+----join ReceiveVoucher rVoucher on rVoucher.ID = reInfo.IDReceiveVoucher
+--join Product p on reInfo.IDProduct = p.ID
+----join Supplier s on s.ID = rVoucher.IDSupplier
+
+create proc [ShowReportByDuration]
+as
+	@fromDate DateTime , @toDate DateTime
+begin
+	select p.ID as ProductID,
+	p.Name as ProductName,
+	p.Unit as ProductUnit,
+	sum(reInfo.QuantityInput) as [ReceiveQuantity],
+	sum(reInfo.QuantityInput*reInfo.PriceInput)/sum(reInfo.QuantityInput) as [ReceivePrice],
+	sum(reInfo.QuantityInput*reInfo.PriceInput) as [ReceiveTotalPrice],
+	sum(deInfo.Quantity) as [DeliveryQuantity],
+	sum(deInfo.Quantity*deInfo.PriceOutput)/sum(deInfo.Quantity) as [DeliveryPrice],
+	sum(deInfo.Quantity*deInfo.PriceOutput) as [DeliveryTotalPrice],
+	sum(reInfo.QuantityInput- ISNULL(deInfo.Quantity,0)) as [InventoryNumber],
+	sum(deInfo.Quantity*deInfo.PriceOutput - reInfo.QuantityInput*reInfo.PriceInput) as [Profit]
+	from ReceiveVoucherInfo reInfo 
+	left join DeliveryVoucherInfo deInfo on deInfo.IDReceiveVoucher = reInfo.IDReceiveVoucher and deInfo.IDProduct = reInfo.IDProduct
+	left join (
+		select ID from DeliveryVoucher where Date between @fromDate and @toDate ) deVoucher 
+	on deInfo.IDDeliveryVoucher = deVoucher.ID
+	join (
+		select * from ReceiveVoucher where date between @fromDate and @toDate ) rVoucher 
+	on rVoucher.ID = reInfo.IDReceiveVoucher
+	join Product p on reInfo.IDProduct = p.ID
+	group by p.id,p.Name, p.Unit
+end
+
+create proc ShowReport
+as
+begin
+	select p.ID as ProductID,
+	p.Name as ProductName,
+	p.Unit as ProductUnit,
+	sum(reInfo.QuantityInput) as [ReceiveQuantity],
+	sum(reInfo.QuantityInput*reInfo.PriceInput)/sum(reInfo.QuantityInput) as [ReceivePrice],
+	sum(reInfo.QuantityInput*reInfo.PriceInput) as [ReceiveTotalPrice],
+	sum(deInfo.Quantity) as [DeliveryQuantity],
+	sum(deInfo.Quantity*deInfo.PriceOutput)/sum(deInfo.Quantity) as [DeliveryPrice],
+	sum(deInfo.Quantity*deInfo.PriceOutput) as [DeliveryTotalPrice],
+	sum(reInfo.QuantityInput- ISNULL(deInfo.Quantity,0)) as [InventoryNumber],
+	sum(deInfo.Quantity*deInfo.PriceOutput - reInfo.QuantityInput*reInfo.PriceInput) as [Profit]
+	from ReceiveVoucherInfo reInfo 
+	left join DeliveryVoucherInfo deInfo on deInfo.IDReceiveVoucher = reInfo.IDReceiveVoucher and deInfo.IDProduct = reInfo.IDProduct
+	left join DeliveryVoucher deVoucher on deInfo.IDDeliveryVoucher = deVoucher.ID
+	join ReceiveVoucher rVoucher on rVoucher.ID = reInfo.IDReceiveVoucher
+	join Product p on reInfo.IDProduct = p.ID
+	--join Supplier s on s.ID = rVoucher.IDSupplier
+	group by p.id,p.Name, p.Unit
+end

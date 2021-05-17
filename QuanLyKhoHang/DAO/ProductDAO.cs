@@ -1,4 +1,5 @@
-﻿using QuanLyKhoHang.DTO;
+﻿using PagedList;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
@@ -8,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace QuanLyKhoHang.DAO
 {
-    
+
     public class ProductDAO
     {
         private static ProductDAO instance;
-        public static ProductDAO Instance 
-        { 
-            get 
+        public static ProductDAO Instance
+        {
+            get
             {
                 if (instance == null) instance = new ProductDAO(); return instance;
-            } 
-            private set { } 
+            }
+            private set { }
         }
 
         InventoryContext db = new InventoryContext();
@@ -103,8 +104,8 @@ namespace QuanLyKhoHang.DAO
         public List<Product> GetListProductOutOfReceiveVoucher(string idReceiveVoucher)
         {
             List<string> iDProductsInVoucher = (from v in db.ReceiveVoucherInfoes
-                                              where v.IDReceiveVoucher == idReceiveVoucher
-                                              select v.IDProduct).ToList();
+                                                where v.IDReceiveVoucher == idReceiveVoucher
+                                                select v.IDProduct).ToList();
 
             //get product not in receive voucher
             List<Product> products = db.Products.Where(p => !iDProductsInVoucher.Contains(p.ID)).ToList();
@@ -142,6 +143,23 @@ namespace QuanLyKhoHang.DAO
                 ).Select(p => p).ToList();
 
             return result;
+        }
+
+        public async Task<IPagedList<ProductDTO>> GetPagedListProductDTOs(int pageNum = 1, int pageSize = 10)
+        {
+            return await Task.Run(() =>
+            {
+                var productDTOs = (from p in db.Products
+                                   join t in db.ProductTypes on p.IdType equals t.ID
+                                   select new ProductDTO()
+                                   {
+                                       ID = p.ID,
+                                       Name = p.Name,
+                                       Unit = p.Unit,
+                                       TypeName = t.Name
+                                   }).OrderBy(p => p.ID).ToPagedList(pageNum, pageSize);
+                return productDTOs;
+            });
         }
     }
 }

@@ -54,6 +54,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -82,8 +85,12 @@
     <Compile Include="DAO\ProductTypeDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherDAO.cs" />
     <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
+    <Compile Include="DAO\ReportDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
+    <Compile Include="DGVPrinter.cs" />
     <Compile Include="DTO\DTGViewAddDeliveryVoucherDTO.cs" />
+    <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\ReportDTO.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\AccountType.cs" />
     <Compile Include="Entity\Customer.cs" />
@@ -98,6 +105,8 @@
     <Compile Include="Entity\ReceiveVoucher.cs" />
     <Compile Include="Entity\ReceiveVoucherInfo.cs" />
     <Compile Include="Entity\Supplier.cs" />
+    <Compile Include="Excel.cs" />
+    <Compile Include="MyPagedList.cs" />
     <Compile Include="View\FormAddDeliveryVoucher.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -277,6 +286,7 @@
     <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\QuanLyKhoHang.Entity.Product.datasource" />
+    <None Include="Properties\DataSources\QuanLyKhoHang.Entity.Supplier.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -302,6 +312,43 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

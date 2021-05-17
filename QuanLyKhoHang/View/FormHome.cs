@@ -11,6 +11,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DGVPrinterHelper;
+using PagedList;
 using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.DTO;
@@ -19,11 +21,13 @@ using QuanLyKhoHang.View;
 
 namespace QuanLyKhoHang
 {
-    public partial class FormHome : Form
+    public partial class FormHome: Form
     {
         private Color colorButtonCategoryWhenClicked;
         private ListViewColumnSorter lvwColumnSorter;
 
+        private int pageNumber;
+        private IPagedList pagedList;
         public FormHome()
         {
             InitializeComponent();
@@ -48,34 +52,35 @@ namespace QuanLyKhoHang
             dateTimePickerToDate.MinDate = new DateTime(2020, 1, 1);
             dateTimePickerToDate.MaxDate = DateTime.Now;
         }
-        private void LoadListViewProduct()
+        private async void LoadDtgvProduct()
         {
-            listViewGeneral.Clear();
+            IPagedList<ProductDTO> products = await ProductDAO.Instance.GetPagedListProductDTOs();
 
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("productID", "ID sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("productName", "Tên sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("unit", "Đơn vị"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("typeName", "Loại sản phẩm"));
+            pageNumber = 1;
+            pagedList = products;
 
+            //load paged list button
+            btnPrevious.Enabled = products.HasPreviousPage;
+            btnNext.Enabled = products.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{products.PageCount}";
 
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+            //load dtgv
+            dtgvHome.DataSource = products.ToList();
+        }
 
-            List<Product> products = ProductDAO.Instance.GetListProduct();
+        private async void LoadDtgvProduct(int pageNumber)
+        {
+            IPagedList<ProductDTO> products = await ProductDAO.Instance.GetPagedListProductDTOs(pageNumber);
 
+            pagedList = products;
 
-            foreach (var p in products)
-            {
-                ListViewItem lvwItem = new ListViewItem(p.ID);
-                lvwItem.SubItems.Add(p.Name);
-                lvwItem.SubItems.Add(p.Unit);
-                lvwItem.SubItems.Add(p.ProductType.Name);
+            //load paged list button
+            btnPrevious.Enabled = products.HasPreviousPage;
+            btnNext.Enabled = products.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{products.PageCount}";
 
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
+            //load dtgv
+            dtgvHome.DataSource = products.ToList();
         }
         private void LoadListViewProduct(List<Product> products)
         {
@@ -277,18 +282,6 @@ namespace QuanLyKhoHang
             }
         }
 
-        private void LoadRecentListViewReceiveVoucherByTime()
-        {
-            string keyWord = textBoxSearch.Text;
-            List<ReceiveVoucherInfo> infoes = ReceiveVoucherInfoDAO.Instance.SearchByWords(keyWord);
-
-            DateTime fromTime, toTime;
-            fromTime = dateTimePickerFromDate.Value;
-            toTime = dateTimePickerToDate.Value;
-            List<ReceiveVoucherInfo> infos = ReceiveVoucherInfoDAO.Instance.SearchByTime(infoes, fromTime, toTime);
-            LoadListViewReceiveVoucher(infos);
-        }
-
         private void LoadListViewDeliveryVoucher(List<DeliveryVoucherView> voucherViews)
         {
             listViewGeneral.Clear();
@@ -426,6 +419,12 @@ namespace QuanLyKhoHang
             listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
         }
+
+        private void LoadListViewReport()
+        {
+            
+        }
+
         private ColumnHeader CreateListViewHeader(string text)
         {
             ColumnHeader columnHeader;
@@ -490,6 +489,8 @@ namespace QuanLyKhoHang
             //ReLoadListViewInventory();
         }
 
+        #region category button
+
         private void buttonCategoryGoods_Click(object sender, EventArgs e)
         {
             TagThisCategoryButtomToActionButton(buttonCategoryProduct);
@@ -519,7 +520,11 @@ namespace QuanLyKhoHang
             TagThisCategoryButtomToActionButton(buttonCategoryCustomer);
             ChangeColorCategoryButtonWhenClicked(buttonCategoryCustomer);
         }
-
+        private void buttonCategoryReport_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategoryReport);
+            ChangeColorCategoryButtonWhenClicked(buttonCategoryReport);
+        }
         private void ChangeColorCategoryButtonWhenClicked(Button button)
         {
             buttonCategoryProduct.BackColor = default;
@@ -527,6 +532,7 @@ namespace QuanLyKhoHang
             buttonCategoryReceiveVoucher.BackColor = default;
             buttonCategoryDeliveryVoucher.BackColor = default;
             buttonCategoryCustomer.BackColor = default;
+            buttonCategoryReport.BackColor = default;
 
             if (button == buttonCategoryProduct)
             {
@@ -552,6 +558,11 @@ namespace QuanLyKhoHang
             {
                 buttonCategoryCustomer.BackColor = colorButtonCategoryWhenClicked;
             }
+
+            if (button ==buttonCategoryReport)
+            {
+                buttonCategoryReport.BackColor = colorButtonCategoryWhenClicked;
+            }
         }
 
         private void TagThisCategoryButtomToActionButton(Button categoryButton)
@@ -563,13 +574,15 @@ namespace QuanLyKhoHang
             buttonSearch.Tag = categoryButton;
         }
 
+        #endregion
+
         private void buttonShow_Click(object sender, EventArgs e)
         {
             Button categoryButtonTagged = buttonShow.Tag as Button;
 
             if (categoryButtonTagged == buttonCategoryProduct)
             {
-                LoadListViewProduct();
+                LoadDtgvProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
@@ -592,6 +605,11 @@ namespace QuanLyKhoHang
                 LoadListViewDeliveryVoucher();
             }
 
+            if (categoryButtonTagged == buttonCategoryReport)
+            {
+                LoadListViewReport();
+            }
+
             if (categoryButtonTagged == null)
             {
                 MessageBox.Show("Bạn hãy chọn mục muốn hiển thị");
@@ -607,7 +625,7 @@ namespace QuanLyKhoHang
                 FormAddProduct formAddGood = new FormAddProduct();
                 formAddGood.ShowDialog();
 
-                LoadListViewProduct();
+                LoadDtgvProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
@@ -656,7 +674,7 @@ namespace QuanLyKhoHang
                     formUpdate.selectedProductFromListView = selectedProduct;
                     formUpdate.ShowDialog();
 
-                    LoadListViewProduct();
+                    LoadDtgvProduct();
                 }
                 else
                 {
@@ -740,7 +758,7 @@ namespace QuanLyKhoHang
                     formDelete.productSelected = productSelected;
                     formDelete.ShowDialog();
 
-                    LoadListViewProduct();
+                    LoadDtgvProduct();
                 }
                 else
                 {
@@ -895,8 +913,6 @@ namespace QuanLyKhoHang
                 }
             }
         }
-        #endregion
-
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             string keyWord = textBoxSearch.Text;
@@ -972,6 +988,31 @@ namespace QuanLyKhoHang
             {
                 labelFromDate.Font = new Font(Label.DefaultFont, FontStyle.Regular);
                 labelToDate.Font = new Font(Label.DefaultFont, FontStyle.Regular);
+            }
+        }
+
+
+        #endregion
+
+        private void buttonPrint_Click(object sender, EventArgs e)
+        {
+            DGVPrinter printer = new DGVPrinter();
+            //printer.PrintDataGridView()
+        }
+
+        private async void btnPrevious_Click(object sender, EventArgs e)
+        {
+            if (pagedList.HasPreviousPage)
+            {
+                LoadDtgvProduct(--pageNumber);
+            }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            if (pagedList.HasNextPage)
+            {
+                LoadDtgvProduct(++pageNumber);
             }
         }
     }
