@@ -28,6 +28,7 @@ namespace QuanLyKhoHang
 
         private int pageNumber;
         private IPagedList pagedList;
+        object showingList;
         public FormHome()
         {
             InitializeComponent();
@@ -35,22 +36,23 @@ namespace QuanLyKhoHang
 
         private void SetMyCustomeFomateDatetimePicker(string format)
         {
-            dateTimePickerFromDate.Format = DateTimePickerFormat.Custom;
-            dateTimePickerFromDate.CustomFormat = format;
+            dtpickerFromDate.Format = DateTimePickerFormat.Custom;
+            dtpickerFromDate.CustomFormat = format;
 
-            dateTimePickerToDate.Format = DateTimePickerFormat.Custom;
-            dateTimePickerToDate.CustomFormat = format;
+            dtpickerToDate.Format = DateTimePickerFormat.Custom;
+            dtpickerToDate.CustomFormat = format;
         }
 
         private void LoadDateTimePicker()
         {
-            dateTimePickerFromDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            dateTimePickerFromDate.MinDate = new DateTime(2020, 1, 1);
-            dateTimePickerFromDate.MaxDate = DateTime.Now;
+            //dtpickerFromDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            dtpickerFromDate.Value = new DateTime(2021, 2, 1);
+            dtpickerFromDate.MinDate = new DateTime(2020, 1, 1);
+            dtpickerFromDate.MaxDate = DateTime.Now;
 
-            dateTimePickerToDate.Value = DateTime.Now;
-            dateTimePickerToDate.MinDate = new DateTime(2020, 1, 1);
-            dateTimePickerToDate.MaxDate = DateTime.Now;
+            dtpickerToDate.Value = DateTime.Now;
+            dtpickerToDate.MinDate = new DateTime(2020, 1, 1);
+            dtpickerToDate.MaxDate = DateTime.Now;
         }
         private async void LoadDtgvProduct()
         {
@@ -81,6 +83,35 @@ namespace QuanLyKhoHang
 
             //load dtgv
             dtgvHome.DataSource = products.ToList();
+        }
+        private void LoadListViewProduct()
+        {
+            listViewGeneral.Clear();
+
+            //create listview
+            listViewGeneral.Columns.Add(CreateListViewHeader("productID", "ID sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("productName", "Tên sản phẩm"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("unit", "Đơn vị"));
+            listViewGeneral.Columns.Add(CreateListViewHeader("typeName", "Loại sản phẩm"));
+
+
+            listViewGeneral.View = System.Windows.Forms.View.Details;
+            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+            List<Product> products = ProductDAO.Instance.GetListProduct();
+
+
+            foreach (var p in products)
+            {
+                ListViewItem lvwItem = new ListViewItem(p.ID);
+                lvwItem.SubItems.Add(p.Name);
+                lvwItem.SubItems.Add(p.Unit);
+                lvwItem.SubItems.Add(p.ProductType.Name);
+
+                listViewGeneral.Items.Add(lvwItem);
+            }
+
+            AutoResizeColumnListView();
         }
         private void LoadListViewProduct(List<Product> products)
         {
@@ -420,9 +451,121 @@ namespace QuanLyKhoHang
 
         }
 
-        private void LoadListViewReport()
+        private async void LoadListViewReport()
         {
-            
+            /*if (checkBoxDatetimePicker.Checked)
+            {
+                ReportDAO dao = new ReportDAO();
+                List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
+
+                dtgvHome.DataSource = new BindingList<ReportDTO>(reports);
+                dtgvHome.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            }
+
+            else
+            {
+                MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
+            }*/
+
+            if (checkBoxDatetimePicker.Checked)
+            {
+                listViewGeneral.Clear();
+
+                //create listview
+                listViewGeneral.Columns.Add(CreateListViewHeader("ProductID", "ID sản phẩm"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ProductName", "Tên sản phẩm"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ProductUnit", "Đơn vị"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveQuantity", "Số lượng nhập"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ReceivePrice", "Giá nhập"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveTotalPrice", "Thành tiền"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryQuantity", "Số lượng xuất"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryPrice", "Giá xuất"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryTotalPrice", "Thành tiền"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("InventoryNumber", "Tồn kho cuối kì"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("Profit", "Lợi nhuận"));
+
+
+                listViewGeneral.View = System.Windows.Forms.View.Details;
+                listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+                ReportDAO dao = new ReportDAO();
+                List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
+
+                foreach (var r in reports)
+                {
+                    ListViewItem lvwItem = new ListViewItem(r.ProductID);
+                    lvwItem.SubItems.Add(r.ProductName);
+                    lvwItem.SubItems.Add(r.ProductUnit);
+                    lvwItem.SubItems.Add(r.ReceiveQuantity.ToString());
+                    lvwItem.SubItems.Add(r.ReceivePrice.ToString());
+                    lvwItem.SubItems.Add(r.ReceiveTotalPrice.ToString());
+                    lvwItem.SubItems.Add(r.DeliveryQuantity.ToString());
+                    lvwItem.SubItems.Add(r.DeliveryPrice.ToString());
+                    lvwItem.SubItems.Add(r.DeliveryTotalPrice.ToString());
+                    lvwItem.SubItems.Add(r.InventoryNumber.ToString());
+                    lvwItem.SubItems.Add(r.Profit.ToString());
+
+                    listViewGeneral.Items.Add(lvwItem);
+                }
+
+                AutoResizeColumnListView();
+
+                showingList = reports;
+            }
+            else
+            {
+                MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
+            }
+
+        }
+        private async void LoadListViewReport(List<ReportDTO>reports)
+        {
+            if (checkBoxDatetimePicker.Checked)
+            {
+                listViewGeneral.Clear();
+
+                //create listview
+                listViewGeneral.Columns.Add(CreateListViewHeader("ProductID", "ID sản phẩm"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ProductName", "Tên sản phẩm"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ProductUnit", "Đơn vị"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveQuantity", "Số lượng nhập"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ReceivePrice", "Giá nhập"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveTotalPrice", "Thành tiền"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryQuantity", "Số lượng xuất"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryPrice", "Giá xuất"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryTotalPrice", "Thành tiền"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("InventoryNumber", "Tồn kho cuối kì"));
+                listViewGeneral.Columns.Add(CreateListViewHeader("Profit", "Lợi nhuận"));
+
+
+                listViewGeneral.View = System.Windows.Forms.View.Details;
+                listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+
+                foreach (var r in reports)
+                {
+                    ListViewItem lvwItem = new ListViewItem(r.ProductID);
+                    lvwItem.SubItems.Add(r.ProductName);
+                    lvwItem.SubItems.Add(r.ProductUnit);
+                    lvwItem.SubItems.Add(r.ReceiveQuantity.ToString());
+                    lvwItem.SubItems.Add(r.ReceivePrice.ToString());
+                    lvwItem.SubItems.Add(r.ReceiveTotalPrice.ToString());
+                    lvwItem.SubItems.Add(r.DeliveryQuantity.ToString());
+                    lvwItem.SubItems.Add(r.DeliveryPrice.ToString());
+                    lvwItem.SubItems.Add(r.DeliveryTotalPrice.ToString());
+                    lvwItem.SubItems.Add(r.InventoryNumber.ToString());
+                    lvwItem.SubItems.Add(r.Profit.ToString());
+
+                    listViewGeneral.Items.Add(lvwItem);
+                }
+
+                AutoResizeColumnListView();
+
+                showingList = reports;
+            }
+            else
+            {
+                MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
+            }
         }
 
         private ColumnHeader CreateListViewHeader(string text)
@@ -572,6 +715,7 @@ namespace QuanLyKhoHang
             buttonUpdate.Tag = categoryButton;
             buttonDelete.Tag = categoryButton;
             buttonSearch.Tag = categoryButton;
+            buttonPrint.Tag = categoryButton;
         }
 
         #endregion
@@ -582,7 +726,7 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryProduct)
             {
-                LoadDtgvProduct();
+                LoadListViewProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
@@ -625,7 +769,7 @@ namespace QuanLyKhoHang
                 FormAddProduct formAddGood = new FormAddProduct();
                 formAddGood.ShowDialog();
 
-                LoadDtgvProduct();
+                LoadListViewProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
@@ -674,7 +818,7 @@ namespace QuanLyKhoHang
                     formUpdate.selectedProductFromListView = selectedProduct;
                     formUpdate.ShowDialog();
 
-                    LoadDtgvProduct();
+                    LoadListViewProduct();
                 }
                 else
                 {
@@ -758,7 +902,7 @@ namespace QuanLyKhoHang
                     formDelete.productSelected = productSelected;
                     formDelete.ShowDialog();
 
-                    LoadDtgvProduct();
+                    LoadListViewProduct();
                 }
                 else
                 {
@@ -949,7 +1093,7 @@ namespace QuanLyKhoHang
                 //search by time duration
                 if (checkBoxDatetimePicker.Checked)
                 {
-                    searchList = ReceiveVoucherInfoDAO.Instance.SearchByTime(searchList, dateTimePickerFromDate.Value, dateTimePickerToDate.Value);
+                    searchList = ReceiveVoucherInfoDAO.Instance.SearchByTime(searchList, dtpickerFromDate.Value, dtpickerToDate.Value);
                 }
                 //keep searching by key words
                 string keyWords = textBoxSearch.Text;
@@ -970,10 +1114,21 @@ namespace QuanLyKhoHang
                 //keep searching by time range
                 if (checkBoxDatetimePicker.Checked)
                 {
-                    voucherInfoViews = dao.SearchByTimeRange(voucherInfoViews, dateTimePickerFromDate.Value, dateTimePickerToDate.Value);
+                    voucherInfoViews = dao.SearchByTimeRange(voucherInfoViews, dtpickerFromDate.Value, dtpickerToDate.Value);
                 }
 
                 LoadListViewDeliveryVoucher(voucherInfoViews);
+            }
+
+            if (category == buttonCategoryReport)
+            {
+                ReportDAO dao = new ReportDAO();
+                List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
+
+                //search by key words
+                reports = dao.SearchByWords(reports,keyWord);
+
+                LoadListViewReport(reports);
             }
         }
 
@@ -996,24 +1151,29 @@ namespace QuanLyKhoHang
 
         private void buttonPrint_Click(object sender, EventArgs e)
         {
-            DGVPrinter printer = new DGVPrinter();
-            //printer.PrintDataGridView()
+            Button categoryButtonTagged = buttonPrint.Tag as Button;
+
+            if (categoryButtonTagged == buttonCategoryReport && listViewGeneral.Columns.Count > 0)
+            {
+                FormReportPrint f = new FormReportPrint(showingList as List<ReportDTO>);
+                f.Show();
+            }
         }
 
         private async void btnPrevious_Click(object sender, EventArgs e)
         {
-            if (pagedList.HasPreviousPage)
+            /*if (pagedList.HasPreviousPage)
             {
                 LoadDtgvProduct(--pageNumber);
-            }
+            }*/
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            if (pagedList.HasNextPage)
+            /*if (pagedList.HasNextPage)
             {
                 LoadDtgvProduct(++pageNumber);
-            }
+            }*/
         }
     }
 }

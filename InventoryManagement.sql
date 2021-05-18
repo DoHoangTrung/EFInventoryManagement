@@ -336,11 +336,11 @@ end
 --join Product p on reInfo.IDProduct = p.ID
 ----join Supplier s on s.ID = rVoucher.IDSupplier
 
-create proc [ShowReportByDuration]
-as
+alter proc [ShowReportByDuration]
 	@fromDate DateTime , @toDate DateTime
+as
 begin
-	select p.ID as ProductID,
+select p.ID as ProductID,
 	p.Name as ProductName,
 	p.Unit as ProductUnit,
 	sum(reInfo.QuantityInput) as [ReceiveQuantity],
@@ -350,18 +350,23 @@ begin
 	sum(deInfo.Quantity*deInfo.PriceOutput)/sum(deInfo.Quantity) as [DeliveryPrice],
 	sum(deInfo.Quantity*deInfo.PriceOutput) as [DeliveryTotalPrice],
 	sum(reInfo.QuantityInput- ISNULL(deInfo.Quantity,0)) as [InventoryNumber],
-	sum(deInfo.Quantity*deInfo.PriceOutput - reInfo.QuantityInput*reInfo.PriceInput) as [Profit]
-	from ReceiveVoucherInfo reInfo 
-	left join DeliveryVoucherInfo deInfo on deInfo.IDReceiveVoucher = reInfo.IDReceiveVoucher and deInfo.IDProduct = reInfo.IDProduct
+	sum(ISNULL(deInfo.Quantity*deInfo.PriceOutput,0) - reInfo.QuantityInput*reInfo.PriceInput) as [Profit]
+	from (
+		select * 
+		from ReceiveVoucherInfo ri
+		join ReceiveVoucher rv on ri.IDReceiveVoucher = rv.ID
+		where rv.Date between @fromDate and @toDate	) reInfo
 	left join (
-		select ID from DeliveryVoucher where Date between @fromDate and @toDate ) deVoucher 
-	on deInfo.IDDeliveryVoucher = deVoucher.ID
-	join (
-		select * from ReceiveVoucher where date between @fromDate and @toDate ) rVoucher 
-	on rVoucher.ID = reInfo.IDReceiveVoucher
+		select *
+		from DeliveryVoucherInfo di 
+		join DeliveryVoucher dv on di.IDDeliveryVoucher = dv.ID
+		where dv.date between @fromDate and @toDate	) deInfo 
+	on deInfo.IDReceiveVoucher = reInfo.IDReceiveVoucher and deInfo.IDProduct = reInfo.IDProduct
 	join Product p on reInfo.IDProduct = p.ID
 	group by p.id,p.Name, p.Unit
 end
+
+--exec ShowReportByDuration '20210201', '20210515'
 
 create proc ShowReport
 as
@@ -376,7 +381,7 @@ begin
 	sum(deInfo.Quantity*deInfo.PriceOutput)/sum(deInfo.Quantity) as [DeliveryPrice],
 	sum(deInfo.Quantity*deInfo.PriceOutput) as [DeliveryTotalPrice],
 	sum(reInfo.QuantityInput- ISNULL(deInfo.Quantity,0)) as [InventoryNumber],
-	sum(deInfo.Quantity*deInfo.PriceOutput - reInfo.QuantityInput*reInfo.PriceInput) as [Profit]
+	sum(ISNULL(deInfo.Quantity*deInfo.PriceOutput,0) - reInfo.QuantityInput*reInfo.PriceInput) as [Profit]
 	from ReceiveVoucherInfo reInfo 
 	left join DeliveryVoucherInfo deInfo on deInfo.IDReceiveVoucher = reInfo.IDReceiveVoucher and deInfo.IDProduct = reInfo.IDProduct
 	left join DeliveryVoucher deVoucher on deInfo.IDDeliveryVoucher = deVoucher.ID

@@ -45,37 +45,37 @@ namespace QuanLyKhoHang
             this.label1 = new System.Windows.Forms.Label();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
+            this.buttonCategoryReport = new System.Windows.Forms.Button();
             this.buttonCategoryCustomer = new System.Windows.Forms.Button();
             this.buttonCategorySupplier = new System.Windows.Forms.Button();
             this.labelToDate = new System.Windows.Forms.Label();
             this.buttonCategoryProduct = new System.Windows.Forms.Button();
             this.labelFromDate = new System.Windows.Forms.Label();
             this.buttonCategoryDeliveryVoucher = new System.Windows.Forms.Button();
-            this.dateTimePickerToDate = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePickerFromDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpickerToDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpickerFromDate = new System.Windows.Forms.DateTimePicker();
             this.buttonCategoryReceiveVoucher = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.labelPageNumber = new System.Windows.Forms.Label();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.dtgvHome = new System.Windows.Forms.DataGridView();
             this.listViewGeneral = new System.Windows.Forms.ListView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.buttonPrint = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonUpdate = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonShow = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonCategoryReport = new System.Windows.Forms.Button();
-            this.buttonPrint = new System.Windows.Forms.Button();
-            this.dtgvHome = new System.Windows.Forms.DataGridView();
-            this.btnPrevious = new System.Windows.Forms.Button();
-            this.btnNext = new System.Windows.Forms.Button();
-            this.labelPageNumber = new System.Windows.Forms.Label();
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvHome)).BeginInit();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -125,8 +125,8 @@ namespace QuanLyKhoHang
             this.panel1.Controls.Add(this.buttonCategoryProduct);
             this.panel1.Controls.Add(this.labelFromDate);
             this.panel1.Controls.Add(this.buttonCategoryDeliveryVoucher);
-            this.panel1.Controls.Add(this.dateTimePickerToDate);
-            this.panel1.Controls.Add(this.dateTimePickerFromDate);
+            this.panel1.Controls.Add(this.dtpickerToDate);
+            this.panel1.Controls.Add(this.dtpickerFromDate);
             this.panel1.Controls.Add(this.buttonCategoryReceiveVoucher);
             this.panel1.Location = new System.Drawing.Point(12, 34);
             this.panel1.Name = "panel1";
@@ -150,7 +150,7 @@ namespace QuanLyKhoHang
             // checkBoxDatetimePicker
             // 
             this.checkBoxDatetimePicker.AutoSize = true;
-            this.checkBoxDatetimePicker.Location = new System.Drawing.Point(76, 344);
+            this.checkBoxDatetimePicker.Location = new System.Drawing.Point(57, 341);
             this.checkBoxDatetimePicker.Name = "checkBoxDatetimePicker";
             this.checkBoxDatetimePicker.Size = new System.Drawing.Size(18, 17);
             this.checkBoxDatetimePicker.TabIndex = 12;
@@ -228,6 +228,17 @@ namespace QuanLyKhoHang
             this.textBoxSearch.Size = new System.Drawing.Size(200, 22);
             this.textBoxSearch.TabIndex = 3;
             // 
+            // buttonCategoryReport
+            // 
+            this.buttonCategoryReport.BackColor = System.Drawing.SystemColors.Control;
+            this.buttonCategoryReport.Location = new System.Drawing.Point(24, 218);
+            this.buttonCategoryReport.Name = "buttonCategoryReport";
+            this.buttonCategoryReport.Size = new System.Drawing.Size(353, 29);
+            this.buttonCategoryReport.TabIndex = 2;
+            this.buttonCategoryReport.Text = "Thống kê-Báo cáo";
+            this.buttonCategoryReport.UseVisualStyleBackColor = false;
+            this.buttonCategoryReport.Click += new System.EventHandler(this.buttonCategoryReport_Click);
+            // 
             // buttonCategoryCustomer
             // 
             this.buttonCategoryCustomer.BackColor = System.Drawing.SystemColors.Control;
@@ -253,7 +264,7 @@ namespace QuanLyKhoHang
             // labelToDate
             // 
             this.labelToDate.AutoSize = true;
-            this.labelToDate.Location = new System.Drawing.Point(99, 419);
+            this.labelToDate.Location = new System.Drawing.Point(80, 416);
             this.labelToDate.Name = "labelToDate";
             this.labelToDate.Size = new System.Drawing.Size(38, 17);
             this.labelToDate.TabIndex = 9;
@@ -273,7 +284,7 @@ namespace QuanLyKhoHang
             // labelFromDate
             // 
             this.labelFromDate.AutoSize = true;
-            this.labelFromDate.Location = new System.Drawing.Point(73, 375);
+            this.labelFromDate.Location = new System.Drawing.Point(54, 372);
             this.labelFromDate.Name = "labelFromDate";
             this.labelFromDate.Size = new System.Drawing.Size(64, 17);
             this.labelFromDate.TabIndex = 10;
@@ -290,24 +301,24 @@ namespace QuanLyKhoHang
             this.buttonCategoryDeliveryVoucher.UseVisualStyleBackColor = false;
             this.buttonCategoryDeliveryVoucher.Click += new System.EventHandler(this.buttonCategoryOutputVoucher_Click);
             // 
-            // dateTimePickerToDate
+            // dtpickerToDate
             // 
-            this.dateTimePickerToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerToDate.Location = new System.Drawing.Point(143, 414);
-            this.dateTimePickerToDate.Name = "dateTimePickerToDate";
-            this.dateTimePickerToDate.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePickerToDate.TabIndex = 7;
-            this.dateTimePickerToDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
+            this.dtpickerToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpickerToDate.Location = new System.Drawing.Point(143, 414);
+            this.dtpickerToDate.Name = "dtpickerToDate";
+            this.dtpickerToDate.Size = new System.Drawing.Size(200, 22);
+            this.dtpickerToDate.TabIndex = 7;
+            this.dtpickerToDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
-            // dateTimePickerFromDate
+            // dtpickerFromDate
             // 
-            this.dateTimePickerFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePickerFromDate.Location = new System.Drawing.Point(143, 372);
-            this.dateTimePickerFromDate.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
-            this.dateTimePickerFromDate.Name = "dateTimePickerFromDate";
-            this.dateTimePickerFromDate.Size = new System.Drawing.Size(200, 22);
-            this.dateTimePickerFromDate.TabIndex = 8;
-            this.dateTimePickerFromDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
+            this.dtpickerFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpickerFromDate.Location = new System.Drawing.Point(143, 372);
+            this.dtpickerFromDate.MinDate = new System.DateTime(2020, 1, 1, 0, 0, 0, 0);
+            this.dtpickerFromDate.Name = "dtpickerFromDate";
+            this.dtpickerFromDate.Size = new System.Drawing.Size(200, 22);
+            this.dtpickerFromDate.TabIndex = 8;
+            this.dtpickerFromDate.ValueChanged += new System.EventHandler(this.dateTimePicker_ValueChanged);
             // 
             // buttonCategoryReceiveVoucher
             // 
@@ -336,6 +347,46 @@ namespace QuanLyKhoHang
             this.panel2.Size = new System.Drawing.Size(1237, 704);
             this.panel2.TabIndex = 4;
             // 
+            // labelPageNumber
+            // 
+            this.labelPageNumber.AutoSize = true;
+            this.labelPageNumber.Location = new System.Drawing.Point(516, 605);
+            this.labelPageNumber.Name = "labelPageNumber";
+            this.labelPageNumber.Size = new System.Drawing.Size(40, 17);
+            this.labelPageNumber.TabIndex = 3;
+            this.labelPageNumber.Text = "page";
+            // 
+            // btnNext
+            // 
+            this.btnNext.Location = new System.Drawing.Point(616, 603);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 2;
+            this.btnNext.Text = ">";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Location = new System.Drawing.Point(425, 603);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevious.TabIndex = 2;
+            this.btnPrevious.Text = "<";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
+            // 
+            // dtgvHome
+            // 
+            this.dtgvHome.BackgroundColor = System.Drawing.SystemColors.HighlightText;
+            this.dtgvHome.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvHome.Location = new System.Drawing.Point(1089, 643);
+            this.dtgvHome.Name = "dtgvHome";
+            this.dtgvHome.RowHeadersWidth = 51;
+            this.dtgvHome.RowTemplate.Height = 24;
+            this.dtgvHome.Size = new System.Drawing.Size(145, 58);
+            this.dtgvHome.TabIndex = 1;
+            // 
             // listViewGeneral
             // 
             this.listViewGeneral.FullRowSelect = true;
@@ -343,7 +394,7 @@ namespace QuanLyKhoHang
             this.listViewGeneral.HideSelection = false;
             this.listViewGeneral.Location = new System.Drawing.Point(3, 3);
             this.listViewGeneral.Name = "listViewGeneral";
-            this.listViewGeneral.Size = new System.Drawing.Size(167, 61);
+            this.listViewGeneral.Size = new System.Drawing.Size(1231, 580);
             this.listViewGeneral.TabIndex = 0;
             this.listViewGeneral.UseCompatibleStateImageBehavior = false;
             this.listViewGeneral.View = System.Windows.Forms.View.Details;
@@ -361,6 +412,16 @@ namespace QuanLyKhoHang
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(955, 85);
             this.panel3.TabIndex = 5;
+            // 
+            // buttonPrint
+            // 
+            this.buttonPrint.Location = new System.Drawing.Point(863, 46);
+            this.buttonPrint.Name = "buttonPrint";
+            this.buttonPrint.Size = new System.Drawing.Size(75, 23);
+            this.buttonPrint.TabIndex = 11;
+            this.buttonPrint.Text = "In";
+            this.buttonPrint.UseVisualStyleBackColor = true;
+            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
             // 
             // buttonDelete
             // 
@@ -408,67 +469,6 @@ namespace QuanLyKhoHang
             this.toolTip1.InitialDelay = 100;
             this.toolTip1.ReshowDelay = 100;
             // 
-            // buttonCategoryReport
-            // 
-            this.buttonCategoryReport.BackColor = System.Drawing.SystemColors.Control;
-            this.buttonCategoryReport.Location = new System.Drawing.Point(24, 218);
-            this.buttonCategoryReport.Name = "buttonCategoryReport";
-            this.buttonCategoryReport.Size = new System.Drawing.Size(353, 29);
-            this.buttonCategoryReport.TabIndex = 2;
-            this.buttonCategoryReport.Text = "Thống kê-Báo cáo";
-            this.buttonCategoryReport.UseVisualStyleBackColor = false;
-            this.buttonCategoryReport.Click += new System.EventHandler(this.buttonCategoryReport_Click);
-            // 
-            // buttonPrint
-            // 
-            this.buttonPrint.Location = new System.Drawing.Point(863, 46);
-            this.buttonPrint.Name = "buttonPrint";
-            this.buttonPrint.Size = new System.Drawing.Size(75, 23);
-            this.buttonPrint.TabIndex = 11;
-            this.buttonPrint.Text = "In";
-            this.buttonPrint.UseVisualStyleBackColor = true;
-            this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
-            // 
-            // dtgvHome
-            // 
-            this.dtgvHome.BackgroundColor = System.Drawing.SystemColors.HighlightText;
-            this.dtgvHome.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgvHome.Location = new System.Drawing.Point(3, 70);
-            this.dtgvHome.Name = "dtgvHome";
-            this.dtgvHome.RowHeadersWidth = 51;
-            this.dtgvHome.RowTemplate.Height = 24;
-            this.dtgvHome.Size = new System.Drawing.Size(1083, 495);
-            this.dtgvHome.TabIndex = 1;
-            // 
-            // btnPrevious
-            // 
-            this.btnPrevious.Location = new System.Drawing.Point(425, 603);
-            this.btnPrevious.Name = "btnPrevious";
-            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
-            this.btnPrevious.TabIndex = 2;
-            this.btnPrevious.Text = "<";
-            this.btnPrevious.UseVisualStyleBackColor = true;
-            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
-            // 
-            // btnNext
-            // 
-            this.btnNext.Location = new System.Drawing.Point(616, 603);
-            this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(75, 23);
-            this.btnNext.TabIndex = 2;
-            this.btnNext.Text = ">";
-            this.btnNext.UseVisualStyleBackColor = true;
-            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-            // 
-            // labelPageNumber
-            // 
-            this.labelPageNumber.AutoSize = true;
-            this.labelPageNumber.Location = new System.Drawing.Point(516, 605);
-            this.labelPageNumber.Name = "labelPageNumber";
-            this.labelPageNumber.Size = new System.Drawing.Size(40, 17);
-            this.labelPageNumber.TabIndex = 3;
-            this.labelPageNumber.Text = "page";
-            // 
             // productBindingSource
             // 
             this.productBindingSource.DataSource = typeof(QuanLyKhoHang.Entity.Product);
@@ -497,8 +497,8 @@ namespace QuanLyKhoHang
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtgvHome)).EndInit();
+            this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -514,8 +514,8 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label labelToDate;
         private System.Windows.Forms.Label labelFromDate;
-        private System.Windows.Forms.DateTimePicker dateTimePickerToDate;
-        private System.Windows.Forms.DateTimePicker dateTimePickerFromDate;
+        private System.Windows.Forms.DateTimePicker dtpickerToDate;
+        private System.Windows.Forms.DateTimePicker dtpickerFromDate;
         private System.Windows.Forms.Button buttonShow;
         private System.Windows.Forms.Button buttonCategoryReceiveVoucher;
         private System.Windows.Forms.Button buttonCategoryProduct;
