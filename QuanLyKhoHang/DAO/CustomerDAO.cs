@@ -1,4 +1,5 @@
-﻿using QuanLyKhoHang.DTO;
+﻿using PagedList;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
@@ -132,6 +133,16 @@ namespace QuanLyKhoHang.DAL
                 ).Select(c => c).ToList();
 
             return result;
+        }
+
+
+        public async Task<IPagedList<Customer>> GetPagedList(int pageNum = 1, int pageSize = 3)
+        {
+            return await Task.Run(() =>
+            {
+                var customers = db.Customers.OrderBy(c=>c.ID).ToPagedList(pageNum, pageSize);
+                return customers;
+            });
         }
     }
 }

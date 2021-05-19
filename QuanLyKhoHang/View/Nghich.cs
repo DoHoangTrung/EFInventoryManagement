@@ -2,6 +2,7 @@
 using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.Entity;
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -30,36 +31,57 @@ namespace QuanLyKhoHang.View
             printer.HeaderCellAlignment = StringAlignment.Near;
             printer.Footer = "Create by TrungDH";
             printer.FooterSpacing = 15;
-            printer.PrintDataGridView(dataGridView1);
+            printer.PrintDataGridView(dtgv);
         }
 
         private void Nghich_Load(object sender, EventArgs e)
         {
             var products = ProductDAO.Instance.GetListProduct();
-            dataGridView1.DataSource = products;
+
+            SortableBindingList<Product> data = new SortableBindingList<Product>(products);
+            dtgv.DataSource = data;
         }
 
-        void CreateNewExcel()
+        private void dtgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            Excel ex = new Excel();
-            ex.CreateNewFile();
-            ex.CreateNewSheet();
-            ex.CreateNewSheet();
-            ex.SaveAs(@"C:\Users\Trung Do Hoang\Desktop\hello.xlsx");
-            ex.Close();
+            DataGridViewColumn newColumn = dtgv.Columns[e.ColumnIndex];
+            DataGridViewColumn oldColumn = dtgv.SortedColumn;
+            ListSortDirection direction;
+
+            // If oldColumn is null, then the DataGridView is not sorted.
+            if (oldColumn != null)
+            {
+                // Sort the same column again, reversing the SortOrder.
+                if (oldColumn == newColumn &&
+                    dtgv.SortOrder == SortOrder.Ascending)
+                {
+                    direction = ListSortDirection.Descending;
+                }
+                else
+                {
+                    // Sort a new column and remove the old SortGlyph.
+                    direction = ListSortDirection.Ascending;
+                    oldColumn.HeaderCell.SortGlyphDirection = SortOrder.None;
+                }
+            }
+            else
+            {
+                direction = ListSortDirection.Ascending;
+            }
+
+            // Sort the selected column.
+            dtgv.Sort(newColumn, direction);
+            newColumn.HeaderCell.SortGlyphDirection =
+                direction == ListSortDirection.Ascending ?
+                SortOrder.Ascending : SortOrder.Descending;
         }
 
-        public void OpenFile()
+        private void dtgv_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            Excel excel = new Excel(@"C:\Users\Trung Do Hoang\Desktop\TTNhom_Trung_Long_Do.xlsx", 1);
-            textBox1.Text = excel.ReadCell(3, 2);
-        }
-
-        public void WriteToExcel()
-        {
-            Excel excel = new Excel(@"C:\Users\Trung Do Hoang\Desktop\TTNhom_Trung_Long_Do.xlsx", 1);
-            excel.WriteToCell(0, 0, 18031998);
-            excel.Save();
+            foreach (DataGridViewColumn column in dtgv.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.Programmatic;
+            }
         }
     }
 }

@@ -69,6 +69,7 @@ namespace QuanLyKhoHang
             this.buttonShow = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.labelTest = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -342,6 +343,7 @@ namespace QuanLyKhoHang
             this.panel2.Controls.Add(this.btnPrevious);
             this.panel2.Controls.Add(this.dtgvHome);
             this.panel2.Controls.Add(this.listViewGeneral);
+            this.panel2.Controls.Add(this.labelTest);
             this.panel2.Location = new System.Drawing.Point(437, 125);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1237, 704);
@@ -380,12 +382,17 @@ namespace QuanLyKhoHang
             // 
             this.dtgvHome.BackgroundColor = System.Drawing.SystemColors.HighlightText;
             this.dtgvHome.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgvHome.Location = new System.Drawing.Point(1089, 643);
+            this.dtgvHome.Location = new System.Drawing.Point(0, 46);
+            this.dtgvHome.MultiSelect = false;
             this.dtgvHome.Name = "dtgvHome";
+            this.dtgvHome.ReadOnly = true;
             this.dtgvHome.RowHeadersWidth = 51;
             this.dtgvHome.RowTemplate.Height = 24;
-            this.dtgvHome.Size = new System.Drawing.Size(145, 58);
+            this.dtgvHome.Size = new System.Drawing.Size(1210, 540);
             this.dtgvHome.TabIndex = 1;
+            this.dtgvHome.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvHome_CellClick);
+            this.dtgvHome.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgvHome_ColumnHeaderMouseClick);
+            this.dtgvHome.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dtgvHome_DataBindingComplete);
             // 
             // listViewGeneral
             // 
@@ -394,7 +401,7 @@ namespace QuanLyKhoHang
             this.listViewGeneral.HideSelection = false;
             this.listViewGeneral.Location = new System.Drawing.Point(3, 3);
             this.listViewGeneral.Name = "listViewGeneral";
-            this.listViewGeneral.Size = new System.Drawing.Size(1231, 580);
+            this.listViewGeneral.Size = new System.Drawing.Size(98, 37);
             this.listViewGeneral.TabIndex = 0;
             this.listViewGeneral.UseCompatibleStateImageBehavior = false;
             this.listViewGeneral.View = System.Windows.Forms.View.Details;
@@ -473,6 +480,15 @@ namespace QuanLyKhoHang
             // 
             this.productBindingSource.DataSource = typeof(QuanLyKhoHang.Entity.Product);
             // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Location = new System.Drawing.Point(164, 22);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(101, 17);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "Đang cập nhật";
+            // 
             // FormHome
             // 
             this.AcceptButton = this.buttonSearch;
@@ -545,5 +561,6 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Label labelPageNumber;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.Label labelTest;
     }
 }

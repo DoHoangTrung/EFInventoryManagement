@@ -19,21 +19,22 @@ namespace QuanLyKhoHang.DAO
             db = new InventoryContext();
         }
 
-        public async Task<IPagedList<ReportDTO>> GetListByDuration(DateTime fromDate, DateTime toDate, int pageNum = 1, int pageSize = 2)
+        public async Task<IPagedList<ReportDTO>> GetListByDuration(DateTime fromDate, DateTime toDate, int pageNum = 1, int pageSize = 20)
         {
             return await Task.Run(() =>
             {
-                IPagedList<ReportDTO> reports = db.Database.SqlQuery<ReportDTO>(
+                var reports = db.Database.SqlQuery<ReportDTO>(
                     "EXEC ShowReportByDuration @fromDateReport ,@toDateReport",
                     new SqlParameter("fromDateReport", fromDate),
                     new SqlParameter("toDateReport", toDate)
-                    ).ToPagedList(pageNum, pageSize);
+                    ).ToList();
 
-                return reports;
+                var result = reports.ToPagedList(pageNum, pageSize);
+                return result;
             });
         }
 
-        public List<ReportDTO> GetPagedListByDuration(DateTime fromDate, DateTime toDate, int pageNum = 1, int pageSize = 2)
+        public List<ReportDTO> GetPagedListByDuration(DateTime fromDate, DateTime toDate, int pageNum = 1, int pageSize = 20)
         {
             var reports = db.Database.SqlQuery<ReportDTO>(
                 "EXEC dbo.ShowReportByDuration @fromDateReport1 ,@toDateReport1",

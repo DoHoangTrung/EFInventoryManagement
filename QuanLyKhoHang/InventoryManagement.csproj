@@ -109,9 +109,10 @@
     <Compile Include="DAO\ReceiveVoucherInfoDAO.cs" />
     <Compile Include="DAO\ReportDAO.cs" />
     <Compile Include="DAO\SupplierDAO.cs" />
-    <Compile Include="DGVPrinter.cs" />
+    <Compile Include="Helper\DGVPrinter.cs" />
     <Compile Include="DTO\DTGViewAddDeliveryVoucherDTO.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\ReceiveVoucherDTO.cs" />
     <Compile Include="DTO\ReportDTO.cs" />
     <Compile Include="Entity\Account.cs" />
     <Compile Include="Entity\AccountType.cs" />
@@ -127,8 +128,8 @@
     <Compile Include="Entity\ReceiveVoucher.cs" />
     <Compile Include="Entity\ReceiveVoucherInfo.cs" />
     <Compile Include="Entity\Supplier.cs" />
-    <Compile Include="Excel.cs" />
-    <Compile Include="MyPagedList.cs" />
+    <Compile Include="Helper\SearchModel.cs" />
+    <Compile Include="Helper\SortableBindingList.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="View\FormAddDeliveryVoucher.cs">
       <SubType>Form</SubType>
@@ -238,10 +239,10 @@
     <Compile Include="View\FormUpdateSupplier.Designer.cs">
       <DependentUpon>FormUpdateSupplier.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListViewColumnSorter.cs" />
+    <Compile Include="Helper\ListViewColumnSorter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExtensionMethod.cs" />
+    <Compile Include="Helper\Extension.cs" />
     <Compile Include="View\Nghich.cs">
       <SubType>Form</SubType>
     </Compile>

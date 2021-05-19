@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace QuanLyKhoHang
 {
-    public static class ExtensionMethod
+    public static class Extension
     {
         public static string Format(this string text)
         {

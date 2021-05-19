@@ -1,4 +1,5 @@
-﻿using QuanLyKhoHang.Entity;
+﻿using PagedList;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -134,6 +135,15 @@ namespace QuanLyKhoHang.DAL
                 ).Select(s => s).ToList();
 
             return result;
+        }
+
+        public async Task<IPagedList<Supplier>> GetPagedList(int pageNum =1, int pageSize=20)
+        {
+            return await Task.Run(() =>
+            {
+                var data = db.Suppliers.ToList();
+                return data.ToPagedList<Supplier>(pageNum, pageSize);
+            });
         }
     }
 }

@@ -21,14 +21,15 @@ using QuanLyKhoHang.View;
 
 namespace QuanLyKhoHang
 {
-    public partial class FormHome: Form
+    public partial class FormHome : Form
     {
+        const int size = 10;
         private Color colorButtonCategoryWhenClicked;
         private ListViewColumnSorter lvwColumnSorter;
 
-        private int pageNumber;
-        private IPagedList pagedList;
-        object showingList;
+        private int currentPage;
+        private object currentPagedList;
+        object showingDtgv;
         public FormHome()
         {
             InitializeComponent();
@@ -54,36 +55,25 @@ namespace QuanLyKhoHang
             dtpickerToDate.MinDate = new DateTime(2020, 1, 1);
             dtpickerToDate.MaxDate = DateTime.Now;
         }
-        private async void LoadDtgvProduct()
-        {
-            IPagedList<ProductDTO> products = await ProductDAO.Instance.GetPagedListProductDTOs();
 
-            pageNumber = 1;
-            pagedList = products;
+        private async Task LoadDtgvProduct(int pageNumber=1,int pageSize= size)
+        {
+            currentPage = pageNumber;
+
+            IPagedList<ProductDTO> products = await ProductDAO.Instance.GetPagedListProductDTOs(pageNumber,pageSize);
+
+            currentPagedList = products;
 
             //load paged list button
             btnPrevious.Enabled = products.HasPreviousPage;
             btnNext.Enabled = products.HasNextPage;
             labelPageNumber.Text = $"Page {pageNumber}/{products.PageCount}";
 
-            //load dtgv
-            dtgvHome.DataSource = products.ToList();
+            //load dtgvHome
+            dtgvHome.DataSource = new SortableBindingList<ProductDTO>(products.ToList());
+
         }
 
-        private async void LoadDtgvProduct(int pageNumber)
-        {
-            IPagedList<ProductDTO> products = await ProductDAO.Instance.GetPagedListProductDTOs(pageNumber);
-
-            pagedList = products;
-
-            //load paged list button
-            btnPrevious.Enabled = products.HasPreviousPage;
-            btnNext.Enabled = products.HasNextPage;
-            labelPageNumber.Text = $"Page {pageNumber}/{products.PageCount}";
-
-            //load dtgv
-            dtgvHome.DataSource = products.ToList();
-        }
         private void LoadListViewProduct()
         {
             listViewGeneral.Clear();
@@ -140,33 +130,21 @@ namespace QuanLyKhoHang
             AutoResizeColumnListView();
         }
 
-        private void LoadListViewSupplier()
+
+        private async Task LoadDtgvSupplier(int pageNumber = 1, int pageSize = size)
         {
-            listViewGeneral.Clear();
+            var suppliers = await SupplierDAO.Instance.GetPagedList(pageNumber,pageSize);
 
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("Mã nhà cung cấp"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Tên"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Địa chỉ"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Số điện thoại"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
+            dtgvHome.DataSource = new SortableBindingList<Supplier>(suppliers.ToList());
 
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+            //load paged list button
+            btnPrevious.Enabled = suppliers.HasPreviousPage;
+            btnNext.Enabled = suppliers.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{suppliers.PageCount}";
 
-            List<Supplier> supplies = SupplierDAO.Instance.GetListSupplier();
-            foreach (var supplier in supplies)
-            {
-                ListViewItem lvwItem = new ListViewItem(supplier.ID);
-                lvwItem.SubItems.Add(supplier.Name);
-                lvwItem.SubItems.Add(supplier.Address);
-                lvwItem.SubItems.Add(supplier.Phone);
-                lvwItem.SubItems.Add(supplier.Email);
 
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
+            currentPagedList = suppliers;
+            currentPage = pageNumber;
         }
         private void LoadListViewSupplier(List<Supplier> suppliers)
         {
@@ -196,62 +174,21 @@ namespace QuanLyKhoHang
             AutoResizeColumnListView();
         }
 
-        private void LoadListViewReceiveVoucher()
+
+        private async Task LoadDtgvReceiveVoucher(int pageNumber = 1, int pageSize = size)
         {
-            listViewGeneral.Clear();
+            var vouchers = await ReceiveVoucherDAO.Instance.GetPagedList(pageNumber, pageSize);
 
-            //create list view input voucher
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDReceiveVoucher", "ID phieu nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("ID san pham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ten san pham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Don vi"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ngay"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("So luong nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Gia nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ghi chú"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Nha cung cap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("DC"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("SDT"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("ID NCC"));
+            dtgvHome.DataSource = new SortableBindingList<ReceiveVoucherDTO>(vouchers.ToList());
 
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+            //load paged list button
+            btnPrevious.Enabled = vouchers.HasPreviousPage;
+            btnNext.Enabled = vouchers.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{vouchers.PageCount}";
 
-            List<ReceiveVoucher> listVoucher = ReceiveVoucherDAO.Instance.GetListReceiveVoucher();
-            listVoucher = listVoucher.OrderByDescending(o => o.Date).ToList();
 
-            foreach (ReceiveVoucher voucher in listVoucher)
-            {
-                Supplier supplierInVoucher = voucher.Supplier;
-
-                List<ReceiveVoucherInfo> voucherInfos = voucher.ReceiveVoucherInfoes.ToList();
-                if (voucherInfos.Count == 0)
-                {
-                    ListViewItem lvwItem = new ListViewItem(voucher.ID);
-                    listViewGeneral.Items.Add(lvwItem);
-                }
-                foreach (var vouInfo in voucherInfos)
-                {
-                    Product productInVoucher = vouInfo.Product;
-
-                    ListViewItem lvwItem = new ListViewItem(voucher.ID);
-                    lvwItem.SubItems.Add(productInVoucher.ID);
-                    lvwItem.SubItems.Add(productInVoucher.Name);
-                    lvwItem.SubItems.Add(productInVoucher.Unit);
-                    lvwItem.SubItems.Add(voucher.Date.ToString());
-                    lvwItem.SubItems.Add(vouInfo.QuantityInput.ToString());
-                    lvwItem.SubItems.Add(vouInfo.PriceInput.ToString());
-                    lvwItem.SubItems.Add(vouInfo.Note);
-                    lvwItem.SubItems.Add(supplierInVoucher.Name);
-                    lvwItem.SubItems.Add(supplierInVoucher.Address);
-                    lvwItem.SubItems.Add(supplierInVoucher.Phone);
-                    lvwItem.SubItems.Add(supplierInVoucher.Email);
-                    lvwItem.SubItems.Add(supplierInVoucher.ID);
-
-                    listViewGeneral.Items.Add(lvwItem);
-                }
-            }
-            AutoResizeColumnListView();
+            currentPagedList = vouchers;
+            currentPage = pageNumber;
         }
         private void LoadListViewReceiveVoucher(List<ReceiveVoucherInfo> receiveVoucherInfoes)
         {
@@ -313,6 +250,7 @@ namespace QuanLyKhoHang
             }
         }
 
+
         private void LoadListViewDeliveryVoucher(List<DeliveryVoucherView> voucherViews)
         {
             listViewGeneral.Clear();
@@ -348,78 +286,43 @@ namespace QuanLyKhoHang
 
             AutoResizeColumnListView();
         }
-        private void LoadListViewDeliveryVoucher()
+        private async Task LoadDtgvDeliveryVoucher(int pageNumber = 1, int pageSize = size)
         {
-            listViewGeneral.Clear();
+            DeliveryVoucherViewDAO dao = new DeliveryVoucherViewDAO();
+            var vouchers = await dao.GetPagedList(pageNumber, pageSize);
 
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDDeliveryVoucher", "ID phiếu xuất"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("NgayXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("TenSanPham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("DonVi"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("SoLuongXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("GiaXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("TenKhachHang"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Phone", "So dien thoai"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDSanPham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDKhachHang"));
+            dtgvHome.DataSource = new SortableBindingList<DeliveryVoucherView>(vouchers.ToList());
 
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
+            //load paged list button
+            btnPrevious.Enabled = vouchers.HasPreviousPage;
+            btnNext.Enabled = vouchers.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{vouchers.PageCount}";
 
-            DeliveryVoucherViewDAO viewDao = new DeliveryVoucherViewDAO();
-            List<DeliveryVoucherView> voucherViews = viewDao.GetList();
 
-            foreach (var voucher in voucherViews)
-            {
-                ListViewItem lvwItem = new ListViewItem(voucher.VoucherID);
-                lvwItem.SubItems.Add(voucher.Date.ToString());
-                lvwItem.SubItems.Add(voucher.ProductName);
-                lvwItem.SubItems.Add(voucher.Unit);
-                lvwItem.SubItems.Add(voucher.SumQuantity.ToString());
-                lvwItem.SubItems.Add(voucher.PriceOutput.ToString());
-                lvwItem.SubItems.Add(voucher.CustomerName);
-                lvwItem.SubItems.Add(voucher.Phone);
-                lvwItem.SubItems.Add(voucher.ProductID);
-                lvwItem.SubItems.Add(voucher.CustomerID);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
+            currentPagedList = vouchers;
+            currentPage = pageNumber;
         }
+    
+
         private void AutoResizeColumnListView()
         {
             listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
-        private void LoadListViewCustomer()
+
+
+        private async Task LoadDtgvCustomer(int pageNumber = 1, int pageSize = size)
         {
-            listViewGeneral.Clear();
+            var customers = await CustomerDAO.Instance.GetPagedList();
+            dtgvHome.DataSource = new SortableBindingList<Customer>(customers.ToList());
 
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("Mã khách hàng"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Tên"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Địa chỉ"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Số điện thoại"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
+            //load paged list button
+            btnPrevious.Enabled = customers.HasPreviousPage;
+            btnNext.Enabled = customers.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{customers.PageCount}";
 
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            List<Customer> customers = CustomerDAO.Instance.GetListCustomer();
-            foreach (var customer in customers)
-            {
-                ListViewItem lvwItem = new ListViewItem(customer.ID);
-                lvwItem.SubItems.Add(customer.Name);
-                lvwItem.SubItems.Add(customer.Address);
-                lvwItem.SubItems.Add(customer.Phone);
-                lvwItem.SubItems.Add(customer.Email);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
+            currentPagedList = customers;
+            currentPage = pageNumber;
         }
         private void LoadListViewCustomer(List<Customer> customers)
         {
@@ -451,22 +354,9 @@ namespace QuanLyKhoHang
 
         }
 
-        private async void LoadListViewReport()
+
+        private async void LoadListViewReport(List<ReportDTO> reports)
         {
-            /*if (checkBoxDatetimePicker.Checked)
-            {
-                ReportDAO dao = new ReportDAO();
-                List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
-
-                dtgvHome.DataSource = new BindingList<ReportDTO>(reports);
-                dtgvHome.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            }
-
-            else
-            {
-                MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
-            }*/
-
             if (checkBoxDatetimePicker.Checked)
             {
                 listViewGeneral.Clear();
@@ -488,9 +378,6 @@ namespace QuanLyKhoHang
                 listViewGeneral.View = System.Windows.Forms.View.Details;
                 listViewGeneral.ListViewItemSorter = lvwColumnSorter;
 
-                ReportDAO dao = new ReportDAO();
-                List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
-
                 foreach (var r in reports)
                 {
                     ListViewItem lvwItem = new ListViewItem(r.ProductID);
@@ -510,57 +397,29 @@ namespace QuanLyKhoHang
 
                 AutoResizeColumnListView();
 
-                showingList = reports;
+                showingDtgv = reports;
             }
             else
             {
                 MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
             }
-
         }
-        private async void LoadListViewReport(List<ReportDTO>reports)
+        private async Task LoadDtgvReport(int pageNumber = 1, int pageSize = size)
         {
             if (checkBoxDatetimePicker.Checked)
             {
-                listViewGeneral.Clear();
+                ReportDAO dao = new ReportDAO();
+                var reports = await dao.GetListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value,pageNumber,pageSize);
 
-                //create listview
-                listViewGeneral.Columns.Add(CreateListViewHeader("ProductID", "ID sản phẩm"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ProductName", "Tên sản phẩm"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ProductUnit", "Đơn vị"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveQuantity", "Số lượng nhập"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ReceivePrice", "Giá nhập"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveTotalPrice", "Thành tiền"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryQuantity", "Số lượng xuất"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryPrice", "Giá xuất"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryTotalPrice", "Thành tiền"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("InventoryNumber", "Tồn kho cuối kì"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("Profit", "Lợi nhuận"));
+                dtgvHome.DataSource = new SortableBindingList<ReportDTO>(reports.ToList());
 
+                //load paged list button
+                btnPrevious.Enabled = reports.HasPreviousPage;
+                btnNext.Enabled = reports.HasNextPage;
+                labelPageNumber.Text = $"Page {pageNumber}/{reports.PageCount}";
 
-                listViewGeneral.View = System.Windows.Forms.View.Details;
-                listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-                foreach (var r in reports)
-                {
-                    ListViewItem lvwItem = new ListViewItem(r.ProductID);
-                    lvwItem.SubItems.Add(r.ProductName);
-                    lvwItem.SubItems.Add(r.ProductUnit);
-                    lvwItem.SubItems.Add(r.ReceiveQuantity.ToString());
-                    lvwItem.SubItems.Add(r.ReceivePrice.ToString());
-                    lvwItem.SubItems.Add(r.ReceiveTotalPrice.ToString());
-                    lvwItem.SubItems.Add(r.DeliveryQuantity.ToString());
-                    lvwItem.SubItems.Add(r.DeliveryPrice.ToString());
-                    lvwItem.SubItems.Add(r.DeliveryTotalPrice.ToString());
-                    lvwItem.SubItems.Add(r.InventoryNumber.ToString());
-                    lvwItem.SubItems.Add(r.Profit.ToString());
-
-                    listViewGeneral.Items.Add(lvwItem);
-                }
-
-                AutoResizeColumnListView();
-
-                showingList = reports;
+                currentPagedList = reports;
+                currentPage = pageNumber;
             }
             else
             {
@@ -603,6 +462,10 @@ namespace QuanLyKhoHang
             LoadToolTip();
 
             SetMyCustomeFomateDatetimePicker("dd/MM/yyyy");
+
+            checkBoxDatetimePicker.Checked = true;
+
+            dtgvHome.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void listViewInventory_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -702,7 +565,7 @@ namespace QuanLyKhoHang
                 buttonCategoryCustomer.BackColor = colorButtonCategoryWhenClicked;
             }
 
-            if (button ==buttonCategoryReport)
+            if (button == buttonCategoryReport)
             {
                 buttonCategoryReport.BackColor = colorButtonCategoryWhenClicked;
             }
@@ -726,32 +589,33 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryProduct)
             {
-                LoadListViewProduct();
+                LoadDtgvProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
             {
-                LoadListViewSupplier();
+                LoadDtgvSupplier();
             }
 
             if (categoryButtonTagged == buttonCategoryCustomer)
             {
-                LoadListViewCustomer();
+                LoadDtgvCustomer();
             }
 
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
-                LoadListViewReceiveVoucher();
+                LoadDtgvReceiveVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
-                LoadListViewDeliveryVoucher();
+                LoadDtgvDeliveryVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryReport)
             {
-                LoadListViewReport();
+                //LoadListViewReport();
+                LoadDtgvReport();
             }
 
             if (categoryButtonTagged == null)
@@ -769,7 +633,7 @@ namespace QuanLyKhoHang
                 FormAddProduct formAddGood = new FormAddProduct();
                 formAddGood.ShowDialog();
 
-                LoadListViewProduct();
+                LoadDtgvProduct();
             }
 
             if (categoryButtonTagged == buttonCategorySupplier)
@@ -777,7 +641,7 @@ namespace QuanLyKhoHang
                 FormAddSupplier formAddSupplier = new FormAddSupplier();
                 formAddSupplier.ShowDialog();
 
-                LoadListViewSupplier();
+                LoadDtgvSupplier();
             }
 
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
@@ -785,7 +649,7 @@ namespace QuanLyKhoHang
                 FormAddReceiveVoucher fAddInputVoucher = new FormAddReceiveVoucher();
                 fAddInputVoucher.ShowDialog();
 
-                LoadListViewReceiveVoucher();
+                LoadDtgvReceiveVoucher();
             }
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
@@ -801,7 +665,7 @@ namespace QuanLyKhoHang
                 FormAddCustomer fAdd = new FormAddCustomer();
                 fAdd.ShowDialog();
 
-                LoadListViewCustomer();
+                LoadDtgvCustomer();
             }
         }
 
@@ -835,7 +699,7 @@ namespace QuanLyKhoHang
                     fUpSupp.supplierSelectedFromListView = supplierTagged;
                     fUpSupp.ShowDialog();
 
-                    LoadListViewSupplier();
+                    LoadDtgvSupplier();
                 }
                 else
                 {
@@ -856,7 +720,7 @@ namespace QuanLyKhoHang
                         fUpdate.ShowDialog();
                         this.Show();
 
-                        LoadListViewReceiveVoucher();
+                        LoadDtgvReceiveVoucher();
                     }
                 }
                 else
@@ -880,7 +744,7 @@ namespace QuanLyKhoHang
                     fUp.customerSelectedFromListView = customerTagged;
                     fUp.ShowDialog();
 
-                    LoadListViewCustomer();
+                    LoadDtgvCustomer();
                 }
                 else
                 {
@@ -920,7 +784,7 @@ namespace QuanLyKhoHang
                     fDel.supplierSelectedFromListView = supplierTagged;
                     fDel.ShowDialog();
 
-                    LoadListViewSupplier();
+                    LoadDtgvSupplier();
                 }
                 else
                 {
@@ -944,7 +808,7 @@ namespace QuanLyKhoHang
                         this.Hide();
                         f.ShowDialog();
 
-                        LoadListViewReceiveVoucher();
+                        LoadDtgvReceiveVoucher();
 
                         this.Show();
 
@@ -976,7 +840,7 @@ namespace QuanLyKhoHang
                     fDel.customerSelectedFromListView = customerTagged;
                     fDel.ShowDialog();
 
-                    LoadListViewSupplier();
+                    LoadDtgvSupplier();
                 }
                 else
                 {
@@ -1126,7 +990,7 @@ namespace QuanLyKhoHang
                 List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
 
                 //search by key words
-                reports = dao.SearchByWords(reports,keyWord);
+                reports = dao.SearchByWords(reports, keyWord);
 
                 LoadListViewReport(reports);
             }
@@ -1155,25 +1019,139 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryReport && listViewGeneral.Columns.Count > 0)
             {
-                FormReportPrint f = new FormReportPrint(showingList as List<ReportDTO>);
+                FormReportPrint f = new FormReportPrint(showingDtgv as List<ReportDTO>);
                 f.Show();
             }
         }
 
         private async void btnPrevious_Click(object sender, EventArgs e)
         {
-            /*if (pagedList.HasPreviousPage)
+            labelTest.Text = currentPage.ToString();
+
+            var products = currentPagedList as IPagedList<ProductDTO>;
+            if (products != null && products.HasPreviousPage)
             {
-                LoadDtgvProduct(--pageNumber);
-            }*/
+                LoadDtgvProduct(--currentPage);
+            }
+
+
+            var suppliers = currentPagedList as IPagedList<Supplier>;
+            if (suppliers != null && suppliers.HasPreviousPage)
+            {
+                LoadDtgvSupplier(--currentPage);
+            }
+
+            var customers = currentPagedList as IPagedList<Customer>;
+            if (customers != null && customers.HasPreviousPage)
+            {
+                LoadDtgvCustomer(--currentPage);
+            }
+
+            var reports = currentPagedList as IPagedList<ReportDTO>;
+            if (reports != null && reports.HasPreviousPage)
+            {
+                LoadDtgvReport(--currentPage);
+            }
+
+            var reVouchers = currentPagedList as IPagedList<ReceiveVoucherDTO>;
+            if (reVouchers != null && reVouchers.HasPreviousPage)
+            {
+                LoadDtgvReceiveVoucher(--currentPage);
+            }
+
+            var deVouchers = currentPagedList as IPagedList<DeliveryVoucherView>;
+            if (deVouchers != null && deVouchers.HasPreviousPage)
+            {
+                LoadDtgvReceiveVoucher(--currentPage);
+            }
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            /*if (pagedList.HasNextPage)
+            labelTest.Text = currentPage.ToString();
+            var products = currentPagedList as IPagedList<ProductDTO>;
+            if (products != null && products.HasNextPage)
             {
-                LoadDtgvProduct(++pageNumber);
-            }*/
+                LoadDtgvProduct(++currentPage);
+            }
+
+
+            var suppliers = currentPagedList as IPagedList<Supplier>;
+            if (suppliers != null && suppliers.HasNextPage)
+            {
+                LoadDtgvSupplier(++currentPage);
+            }
+
+            var customers = currentPagedList as IPagedList<Customer>;
+            if (customers != null && customers.HasNextPage)
+            {
+                LoadDtgvCustomer(++currentPage);
+            }
+
+            var reports = currentPagedList as IPagedList<ReportDTO>;
+            if (reports != null && reports.HasNextPage)
+            {
+                LoadDtgvReport(++currentPage);
+            }
+
+            var reVouchers = currentPagedList as IPagedList<ReceiveVoucherDTO>;
+            if (reVouchers != null && reVouchers.HasNextPage)
+            {
+                LoadDtgvReceiveVoucher(++currentPage);
+            }
+
+            var deVouchers = currentPagedList as IPagedList<DeliveryVoucherView>;
+            if (deVouchers != null && deVouchers.HasNextPage)
+            {
+                LoadDtgvReceiveVoucher(++currentPage);
+            }
+        }
+
+        private void dtgvHome_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            foreach (DataGridViewColumn column in dtgvHome.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.Programmatic;
+            }
+        }
+
+        private void dtgvHome_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridViewColumn newColumn = dtgvHome.Columns[e.ColumnIndex];
+            DataGridViewColumn oldColumn = dtgvHome.SortedColumn;
+            ListSortDirection direction;
+
+            // If oldColumn is null, then the DataGridView is not sorted.
+            if (oldColumn != null)
+            {
+                // Sort the same column again, reversing the SortOrder.
+                if (oldColumn == newColumn &&
+                    dtgvHome.SortOrder == System.Windows.Forms.SortOrder.Ascending)
+                {
+                    direction = ListSortDirection.Descending;
+                }
+                else
+                {
+                    // Sort a new column and remove the old SortGlyph.
+                    direction = ListSortDirection.Ascending;
+                    oldColumn.HeaderCell.SortGlyphDirection = System.Windows.Forms.SortOrder.None;
+                }
+            }
+            else
+            {
+                direction = ListSortDirection.Ascending;
+            }
+
+            // Sort the selected column.
+            dtgvHome.Sort(newColumn, direction);
+            newColumn.HeaderCell.SortGlyphDirection =
+                direction == ListSortDirection.Ascending ?
+                System.Windows.Forms.SortOrder.Ascending : System.Windows.Forms.SortOrder.Descending;
+        }
+
+        private void dtgvHome_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

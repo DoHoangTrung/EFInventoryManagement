@@ -145,7 +145,7 @@ namespace QuanLyKhoHang.DAO
             return result;
         }
 
-        public async Task<IPagedList<ProductDTO>> GetPagedListProductDTOs(int pageNum = 1, int pageSize = 10)
+        public async Task<IPagedList<ProductDTO>> GetPagedListProductDTOs(int pageNum = 1, int pageSize = 20)
         {
             return await Task.Run(() =>
             {

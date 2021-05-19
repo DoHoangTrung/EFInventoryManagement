@@ -1,4 +1,6 @@
-﻿using QuanLyKhoHang.Entity;
+﻿using PagedList;
+using QuanLyKhoHang.DTO;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +21,6 @@ namespace QuanLyKhoHang.DAO
             set { }
         }
 
-        #region method
         public List<ReceiveVoucher> GetListReceiveVoucher()
         {
             List<ReceiveVoucher> receiveVouchers = db.ReceiveVouchers.ToList();
@@ -184,6 +185,14 @@ namespace QuanLyKhoHang.DAO
             
             return rowAffected;
         }
-        #endregion
+
+        public async Task<IPagedList<ReceiveVoucherDTO>> GetPagedList(int pageNum = 1, int pageSize = 20)
+        {
+            return await Task.Run(() =>
+            {
+                var data = db.Database.SqlQuery<ReceiveVoucherDTO>("select * from ReceiveVoucherDTO");
+                return data.ToPagedList<ReceiveVoucherDTO>(pageNum, pageSize);
+            });
+        }
     }
 }

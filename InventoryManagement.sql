@@ -390,3 +390,26 @@ begin
 	--join Supplier s on s.ID = rVoucher.IDSupplier
 	group by p.id,p.Name, p.Unit
 end
+
+--view receive voucher dto
+create view ReceiveVoucherDTO
+as
+	select 
+		rv.ID as [ReceiveVoucherID],
+		p.ID as [ProductID],
+		p.Name as [ProductName],
+		p.Unit,
+		rv.Date,
+		ri.QuantityInput,
+		ri.PriceInput,
+		ri.Note,
+		s.Name as [SupplierName],
+		s.Address,
+		s.Phone
+	from ReceiveVoucher rv
+	join ReceiveVoucherInfo ri 
+		on rv.ID = ri.IDReceiveVoucher
+	join Supplier s 
+		on rv.IDSupplier = s.ID
+	join Product p 
+		on p.ID = ri.IDProduct
