@@ -1,5 +1,6 @@
 ﻿using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace QuanLyKhoHang
 {
     public partial class FormDeleteProduct : Form
     {
-        internal Product productSelected;
+        internal ProductDTO productSelected;
         public FormDeleteProduct()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace QuanLyKhoHang
                 labelProductName.Text = productSelected.Name;
                 labelProductUnit.Text = productSelected.Unit;
                 
-                string typeName = ProductTypeDAO.Instance.GetTypeByID( productSelected.IdType);
+                string typeName = ProductTypeDAO.Instance.GetTypeByID( productSelected.TypeID);
                 labelProductType.Text = typeName;
             }
         }

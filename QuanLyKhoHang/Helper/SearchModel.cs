@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace QuanLyKhoHang.Helper
 {
+    static class Const
+    {
+        public const int pageSize = 2;
+    }
     public class SearchModel
     {
         public string KeyWords { get; set; }

@@ -29,7 +29,7 @@ namespace QuanLyKhoHang.View
         {
             InitializeComponent();
             sourceProductCanSell = ProductCanSellDAO.Instance.GetProductCanSell();
-            sourceType = ProductTypeDAO.Instance.GetListProductTypes();
+            sourceType = ProductTypeDAO.Instance.GetList();
             sourceCustomer = CustomerDAO.Instance.GetListCustomer();
             bindingSource = new BindingSource();
             sourceIDDeliveryVoucher = DeliveryVoucherDAO.Instance.GetListID();

@@ -36,7 +36,7 @@ namespace QuanLyKhoHang
 
         private void LoadTypeCombobox()
         {
-            List<ProductType> productTypes = ProductTypeDAO.Instance.GetListProductTypes();
+            List<ProductType> productTypes = ProductTypeDAO.Instance.GetList();
             comboBoxProductType.DataSource = productTypes;
             comboBoxProductType.DisplayMember = "name";
             comboBoxProductType.DropDownStyle = ComboBoxStyle.DropDownList;

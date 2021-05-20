@@ -216,7 +216,7 @@ namespace QuanLyKhoHang
 
         private void LoadSupplierCombobox()
         {
-            List<Supplier> suppliers = SupplierDAO.Instance.GetListSupplier();
+            List<Supplier> suppliers = SupplierDAO.Instance.GetList();
 
             comboBoxIDSupplier.DataSource = suppliers;
             comboBoxIDSupplier.DisplayMember = "ID";

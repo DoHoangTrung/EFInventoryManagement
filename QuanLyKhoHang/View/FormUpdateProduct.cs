@@ -1,5 +1,6 @@
 ﻿using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace QuanLyKhoHang
 {
     public partial class FormUpdateProduct : Form
     {
-        public Product selectedProductFromListView; 
+        public ProductDTO selectedProductFromDtgv; 
         public FormUpdateProduct()
         {
             InitializeComponent();
@@ -23,21 +24,21 @@ namespace QuanLyKhoHang
 
         private void FormUpdateProduct_Load(object sender, EventArgs e)
         {
-            labelProductID.Text = selectedProductFromListView.ID;
-            labelProductIDUpdate.Text = selectedProductFromListView.ID;
+            labelProductID.Text = selectedProductFromDtgv.ID;
+            labelProductIDUpdate.Text = selectedProductFromDtgv.ID;
 
-            textBoxProductName.Text = selectedProductFromListView.Name;
+            textBoxProductName.Text = selectedProductFromDtgv.Name;
 
-            textBoxProductUnit.Text = selectedProductFromListView.Unit;
+            textBoxProductUnit.Text = selectedProductFromDtgv.Unit;
 
             LoadComboboxType();
             //set selected item is product type (before update)
-            comboBoxType.SelectedIndex = comboBoxType.FindStringExact(selectedProductFromListView.IdType);
+            comboBoxType.SelectedIndex = comboBoxType.FindStringExact(selectedProductFromDtgv.TypeName);
         }
 
         private void LoadComboboxType()
         {
-            comboBoxType.DataSource = ProductTypeDAO.Instance.GetListProductTypes();
+            comboBoxType.DataSource = ProductTypeDAO.Instance.GetList();
             comboBoxType.DisplayMember = "name";
             comboBoxType.DropDownStyle = ComboBoxStyle.DropDownList;
         }
@@ -55,16 +56,25 @@ namespace QuanLyKhoHang
             unit = textBoxProductUnitUpdate.Text;
             typeID = (comboBoxType.SelectedItem as ProductType).ID;
 
-            int rowAffected = ProductDAO.Instance.UpdateProduct(id, name, unit, typeID);
-            if(rowAffected > 0)
+            if (!string.IsNullOrEmpty(name))
             {
-                MessageBox.Show("Sửa thành công");
-                this.Close();
+                int rowAffected = ProductDAO.Instance.UpdateProduct(id, name, unit, typeID);
+
+                if (rowAffected > 0)
+                {
+                    MessageBox.Show("Cập nhật thành công");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Không thành công");
+                }
             }
             else
             {
-                MessageBox.Show("Không thành công");
+                MessageBox.Show("Bạn chưa nhập tên cho sản phẩm");
             }
         }
+
     }
 }

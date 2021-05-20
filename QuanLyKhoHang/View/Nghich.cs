@@ -1,5 +1,6 @@
 ﻿using DGVPrinterHelper;
 using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.ComponentModel;
@@ -19,27 +20,10 @@ namespace QuanLyKhoHang.View
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DGVPrinter printer = new DGVPrinter();
-            printer.Title = "Product Report";
-            printer.SubTitle = "Your subtitle";
-            printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoWrap;
-            printer.PageNumbers = true;
-            printer.PageNumberInHeader = false;
-            printer.PorportionalColumns = true;
-            printer.HeaderCellAlignment = StringAlignment.Near;
-            printer.Footer = "Create by TrungDH";
-            printer.FooterSpacing = 15;
-            printer.PrintDataGridView(dtgv);
-        }
 
         private void Nghich_Load(object sender, EventArgs e)
         {
-            var products = ProductDAO.Instance.GetListProduct();
 
-            SortableBindingList<Product> data = new SortableBindingList<Product>(products);
-            dtgv.DataSource = data;
         }
 
         private void dtgv_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -82,6 +66,16 @@ namespace QuanLyKhoHang.View
             {
                 column.SortMode = DataGridViewColumnSortMode.Programmatic;
             }
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -413,3 +413,11 @@ as
 		on rv.IDSupplier = s.ID
 	join Product p 
 		on p.ID = ri.IDProduct
+
+--create view productDTO
+alter view ProductDTO
+as
+	select p.ID,p.Name,p.Unit,t.Name as [TypeName], t.ID as [TypeID]
+	from Product p
+	join ProductType t 
+		on p.IdType = t.id

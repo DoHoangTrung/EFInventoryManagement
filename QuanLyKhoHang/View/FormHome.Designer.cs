@@ -34,8 +34,8 @@ namespace QuanLyKhoHang
             this.côngCụToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.càiĐặtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numUpDownMax = new System.Windows.Forms.NumericUpDown();
+            this.numUpDownMin = new System.Windows.Forms.NumericUpDown();
             this.checkBoxDatetimePicker = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -61,6 +61,7 @@ namespace QuanLyKhoHang
             this.btnPrevious = new System.Windows.Forms.Button();
             this.dtgvHome = new System.Windows.Forms.DataGridView();
             this.listViewGeneral = new System.Windows.Forms.ListView();
+            this.labelTest = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.buttonPrint = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
@@ -69,11 +70,10 @@ namespace QuanLyKhoHang
             this.buttonShow = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.labelTest = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDownMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDownMin)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvHome)).BeginInit();
             this.panel3.SuspendLayout();
@@ -108,8 +108,8 @@ namespace QuanLyKhoHang
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.numericUpDown2);
-            this.panel1.Controls.Add(this.numericUpDown1);
+            this.panel1.Controls.Add(this.numUpDownMax);
+            this.panel1.Controls.Add(this.numUpDownMin);
             this.panel1.Controls.Add(this.checkBoxDatetimePicker);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label2);
@@ -134,19 +134,29 @@ namespace QuanLyKhoHang
             this.panel1.Size = new System.Drawing.Size(419, 792);
             this.panel1.TabIndex = 3;
             // 
-            // numericUpDown2
+            // numUpDownMax
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(143, 574);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(157, 22);
-            this.numericUpDown2.TabIndex = 13;
+            this.numUpDownMax.Location = new System.Drawing.Point(143, 574);
+            this.numUpDownMax.Maximum = new decimal(new int[] {
+            -294967296,
+            0,
+            0,
+            0});
+            this.numUpDownMax.Name = "numUpDownMax";
+            this.numUpDownMax.Size = new System.Drawing.Size(157, 22);
+            this.numUpDownMax.TabIndex = 13;
             // 
-            // numericUpDown1
+            // numUpDownMin
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(143, 526);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(157, 22);
-            this.numericUpDown1.TabIndex = 13;
+            this.numUpDownMin.Location = new System.Drawing.Point(143, 526);
+            this.numUpDownMin.Maximum = new decimal(new int[] {
+            1000000,
+            0,
+            0,
+            0});
+            this.numUpDownMin.Name = "numUpDownMin";
+            this.numUpDownMin.Size = new System.Drawing.Size(157, 22);
+            this.numUpDownMin.TabIndex = 13;
             // 
             // checkBoxDatetimePicker
             // 
@@ -380,6 +390,8 @@ namespace QuanLyKhoHang
             // 
             // dtgvHome
             // 
+            this.dtgvHome.AllowUserToAddRows = false;
+            this.dtgvHome.AllowUserToDeleteRows = false;
             this.dtgvHome.BackgroundColor = System.Drawing.SystemColors.HighlightText;
             this.dtgvHome.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvHome.Location = new System.Drawing.Point(0, 46);
@@ -407,6 +419,15 @@ namespace QuanLyKhoHang
             this.listViewGeneral.View = System.Windows.Forms.View.Details;
             this.listViewGeneral.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listViewInventory_ColumnClick);
             this.listViewGeneral.SelectedIndexChanged += new System.EventHandler(this.listViewGeneral_SelectedIndexChanged);
+            // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Location = new System.Drawing.Point(150, 22);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(117, 17);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "Nhập từ tìm kiếm:";
             // 
             // panel3
             // 
@@ -480,15 +501,6 @@ namespace QuanLyKhoHang
             // 
             this.productBindingSource.DataSource = typeof(QuanLyKhoHang.Entity.Product);
             // 
-            // labelTest
-            // 
-            this.labelTest.AutoSize = true;
-            this.labelTest.Location = new System.Drawing.Point(164, 22);
-            this.labelTest.Name = "labelTest";
-            this.labelTest.Size = new System.Drawing.Size(101, 17);
-            this.labelTest.TabIndex = 5;
-            this.labelTest.Text = "Đang cập nhật";
-            // 
             // FormHome
             // 
             this.AcceptButton = this.buttonSearch;
@@ -509,8 +521,8 @@ namespace QuanLyKhoHang
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDownMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDownMin)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvHome)).EndInit();
@@ -547,8 +559,8 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.CheckBox checkBoxDatetimePicker;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numUpDownMax;
+        private System.Windows.Forms.NumericUpDown numUpDownMin;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label5;

@@ -1,5 +1,6 @@
 ﻿using PagedList;
 using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,14 +23,7 @@ namespace QuanLyKhoHang.DAL
             private set { }
         }
 
-        public List<Supplier> GetListSupplier()
-        {
-            List<Supplier> suppliers = new List<Supplier>();
-
-            suppliers = db.Suppliers.ToList();
-
-            return suppliers;
-        }
+      
 
         public int InsertSupplier(string id, string name, string address, string phoneNumber, string email)
         {
@@ -73,7 +67,7 @@ namespace QuanLyKhoHang.DAL
         public List<string> GetListSupplierID()
         {
             List<string> listID = (from s in db.Suppliers
-                          select s.ID).ToList();
+                                   select s.ID).ToList();
 
             return listID;
         }
@@ -113,16 +107,22 @@ namespace QuanLyKhoHang.DAL
             return supplier.Name;
         }
 
-        public List<Supplier> Search(string keyWord)
+        public List<Supplier> GetList()
+        {
+            return db.Suppliers.ToList();
+        }
+        public List<Supplier> GetList(SearchModel searchModel)
         {
             List<Supplier> suppliers = db.Suppliers.ToList();
 
-            var result = suppliers.Where(
+            if (!string.IsNullOrEmpty(searchModel.KeyWords))
+            {
+                suppliers = suppliers.Where(
                     s =>
                     {
                         string str, keyW;// find s1 in s0
                         str = s.ID + " " + s.Name + " " + s.Address + " " + s.Email + s.Phone;
-                        keyW = keyWord;
+                        keyW = searchModel.KeyWords;
 
                         str = str.Format();
                         keyW = keyW.Format();
@@ -133,17 +133,10 @@ namespace QuanLyKhoHang.DAL
                             return false;
                     }
                 ).Select(s => s).ToList();
+            }
+            
 
-            return result;
-        }
-
-        public async Task<IPagedList<Supplier>> GetPagedList(int pageNum =1, int pageSize=20)
-        {
-            return await Task.Run(() =>
-            {
-                var data = db.Suppliers.ToList();
-                return data.ToPagedList<Supplier>(pageNum, pageSize);
-            });
+            return suppliers;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace QuanLyKhoHang
 {
     public partial class FormUpdateSupplier : Form
     {
-        public Supplier supplierSelectedFromListView;
+        public Supplier supplierSelectedFromDtgv;
         public FormUpdateSupplier()
         {
             InitializeComponent();
@@ -22,19 +22,19 @@ namespace QuanLyKhoHang
 
         private void FormUpdateSupplier_Load(object sender, EventArgs e)
         {
-            labelSupplierID.Text = supplierSelectedFromListView.ID;
+            labelSupplierID.Text = supplierSelectedFromDtgv.ID;
 
-            textBoxSupplierName.Text = supplierSelectedFromListView.Name;
-            textBoxSupplierAddress.Text = supplierSelectedFromListView.Address;
-            textBoxSupplierPhone.Text = supplierSelectedFromListView.Phone;
-            textBoxSupplierEmail.Text = supplierSelectedFromListView.Email;
+            textBoxSupplierName.Text = supplierSelectedFromDtgv.Name;
+            textBoxSupplierAddress.Text = supplierSelectedFromDtgv.Address;
+            textBoxSupplierPhone.Text = supplierSelectedFromDtgv.Phone;
+            textBoxSupplierEmail.Text = supplierSelectedFromDtgv.Email;
 
-            textBoxSupplierNameUpdate.Text = supplierSelectedFromListView.Name;
-            textBoxSupplierAddressUpdate.Text = supplierSelectedFromListView.Address;
-            textBoxSupplierPhoneUpdate.Text = supplierSelectedFromListView.Phone;
-            textBoxSupplierEmailUpdate.Text = supplierSelectedFromListView.Email;
+            textBoxSupplierNameUpdate.Text = supplierSelectedFromDtgv.Name;
+            textBoxSupplierAddressUpdate.Text = supplierSelectedFromDtgv.Address;
+            textBoxSupplierPhoneUpdate.Text = supplierSelectedFromDtgv.Phone;
+            textBoxSupplierEmailUpdate.Text = supplierSelectedFromDtgv.Email;
 
-            labelSupplierIDUpdate.Text = supplierSelectedFromListView.ID;
+            labelSupplierIDUpdate.Text = supplierSelectedFromDtgv.ID;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

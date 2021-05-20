@@ -17,18 +17,20 @@ using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Helper;
 using QuanLyKhoHang.View;
 
 namespace QuanLyKhoHang
 {
+    
     public partial class FormHome : Form
     {
-        const int size = 10;
         private Color colorButtonCategoryWhenClicked;
         private ListViewColumnSorter lvwColumnSorter;
 
         private int currentPage;
-        private object currentPagedList;
+        object currentDataSource;       
+        object currentPagedList;
         object showingDtgv;
         public FormHome()
         {
@@ -56,84 +58,38 @@ namespace QuanLyKhoHang
             dtpickerToDate.MaxDate = DateTime.Now;
         }
 
-        private async Task LoadDtgvProduct(int pageNumber=1,int pageSize= size)
+        
+        private void LoadDtgvProduct(int pageNum =1,int pageSize = Const.pageSize)
         {
-            currentPage = pageNumber;
-
-            IPagedList<ProductDTO> products = await ProductDAO.Instance.GetPagedListProductDTOs(pageNumber,pageSize);
-
-            currentPagedList = products;
-
+            SearchModel searchModel = GetSearchModel();
+            var data = ProductDAO.Instance.GetList(searchModel);
+            var products = data.ToPagedList(pageNum, pageSize);
+            
+            bool b = products.HasNextPage;
+            bool bc = products.HasPreviousPage;
+            var a = products.ToList();
             //load paged list button
             btnPrevious.Enabled = products.HasPreviousPage;
             btnNext.Enabled = products.HasNextPage;
-            labelPageNumber.Text = $"Page {pageNumber}/{products.PageCount}";
+            labelPageNumber.Text = $"Page {products.PageNumber}/{products.PageCount}";
 
             //load dtgvHome
             dtgvHome.DataSource = new SortableBindingList<ProductDTO>(products.ToList());
-
-        }
-
-        private void LoadListViewProduct()
-        {
-            listViewGeneral.Clear();
-
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("productID", "ID sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("productName", "Tên sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("unit", "Đơn vị"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("typeName", "Loại sản phẩm"));
+            dtgvHome.Columns["ID"].Visible = false;
+            dtgvHome.Columns["TypeID"].Visible = false;
 
 
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            List<Product> products = ProductDAO.Instance.GetListProduct();
-
-
-            foreach (var p in products)
-            {
-                ListViewItem lvwItem = new ListViewItem(p.ID);
-                lvwItem.SubItems.Add(p.Name);
-                lvwItem.SubItems.Add(p.Unit);
-                lvwItem.SubItems.Add(p.ProductType.Name);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
-        }
-        private void LoadListViewProduct(List<Product> products)
-        {
-            listViewGeneral.Clear();
-
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("productID", "ID sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("productName", "Tên sản phẩm"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("unit", "Đơn vị"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("typeName", "Loại sản phẩm"));
-
-
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            foreach (var p in products)
-            {
-                ListViewItem lvwItem = new ListViewItem(p.ID);
-                lvwItem.SubItems.Add(p.Name);
-                lvwItem.SubItems.Add(p.Unit);
-                lvwItem.SubItems.Add(p.ProductType.Name);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
+            currentDataSource = data;
+            currentPagedList = products;
         }
 
 
-        private async Task LoadDtgvSupplier(int pageNumber = 1, int pageSize = size)
+        private void LoadDtgvSupplier(int pageNumber = 1, int pageSize = Const.pageSize)
         {
-            var suppliers = await SupplierDAO.Instance.GetPagedList(pageNumber,pageSize);
+            SearchModel searchModel = GetSearchModel();
+            var data = SupplierDAO.Instance.GetList(searchModel);
+
+            var suppliers = data.ToPagedList(pageNumber, pageSize);
 
             dtgvHome.DataSource = new SortableBindingList<Supplier>(suppliers.ToList());
 
@@ -144,38 +100,10 @@ namespace QuanLyKhoHang
 
 
             currentPagedList = suppliers;
-            currentPage = pageNumber;
-        }
-        private void LoadListViewSupplier(List<Supplier> suppliers)
-        {
-            listViewGeneral.Clear();
-
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("Mã nhà cung cấp"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Tên"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Địa chỉ"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Số điện thoại"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
-
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            foreach (var supplier in suppliers)
-            {
-                ListViewItem lvwItem = new ListViewItem(supplier.ID);
-                lvwItem.SubItems.Add(supplier.Name);
-                lvwItem.SubItems.Add(supplier.Address);
-                lvwItem.SubItems.Add(supplier.Phone);
-                lvwItem.SubItems.Add(supplier.Email);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
         }
 
 
-        private async Task LoadDtgvReceiveVoucher(int pageNumber = 1, int pageSize = size)
+        private async Task LoadDtgvReceiveVoucher(int pageNumber = 1, int pageSize = Const.pageSize)
         {
             var vouchers = await ReceiveVoucherDAO.Instance.GetPagedList(pageNumber, pageSize);
 
@@ -286,7 +214,7 @@ namespace QuanLyKhoHang
 
             AutoResizeColumnListView();
         }
-        private async Task LoadDtgvDeliveryVoucher(int pageNumber = 1, int pageSize = size)
+        private async Task LoadDtgvDeliveryVoucher(int pageNumber = 1, int pageSize = Const.pageSize)
         {
             DeliveryVoucherViewDAO dao = new DeliveryVoucherViewDAO();
             var vouchers = await dao.GetPagedList(pageNumber, pageSize);
@@ -311,7 +239,7 @@ namespace QuanLyKhoHang
         }
 
 
-        private async Task LoadDtgvCustomer(int pageNumber = 1, int pageSize = size)
+        private async Task LoadDtgvCustomer(int pageNumber = 1, int pageSize = Const.pageSize)
         {
             var customers = await CustomerDAO.Instance.GetPagedList();
             dtgvHome.DataSource = new SortableBindingList<Customer>(customers.ToList());
@@ -404,7 +332,7 @@ namespace QuanLyKhoHang
                 MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
             }
         }
-        private async Task LoadDtgvReport(int pageNumber = 1, int pageSize = size)
+        private async Task LoadDtgvReport(int pageNumber = 1, int pageSize = Const.pageSize)
         {
             if (checkBoxDatetimePicker.Checked)
             {
@@ -642,6 +570,7 @@ namespace QuanLyKhoHang
                 formAddSupplier.ShowDialog();
 
                 LoadDtgvSupplier();
+
             }
 
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
@@ -676,13 +605,14 @@ namespace QuanLyKhoHang
             if (categoryButtonClicked == buttonCategoryProduct)
             {
                 FormUpdateProduct formUpdate = new FormUpdateProduct();
-                Product selectedProduct = listViewGeneral.Tag as Product;
+                ProductDTO selectedProduct = rowSelectedObj as ProductDTO;
                 if (selectedProduct != null)
                 {
-                    formUpdate.selectedProductFromListView = selectedProduct;
+                    formUpdate.selectedProductFromDtgv = selectedProduct;
                     formUpdate.ShowDialog();
 
-                    LoadListViewProduct();
+                    //reload dtgv
+                    LoadDtgvProduct();
                 }
                 else
                 {
@@ -692,11 +622,11 @@ namespace QuanLyKhoHang
 
             if (categoryButtonClicked == buttonCategorySupplier)
             {
-                Supplier supplierTagged = listViewGeneral.Tag as Supplier;
-                if (supplierTagged != null)
+                Supplier supplierSelected = rowSelectedObj as Supplier;
+                if (supplierSelected != null)
                 {
                     FormUpdateSupplier fUpSupp = new FormUpdateSupplier();
-                    fUpSupp.supplierSelectedFromListView = supplierTagged;
+                    fUpSupp.supplierSelectedFromDtgv = supplierSelected;
                     fUpSupp.ShowDialog();
 
                     LoadDtgvSupplier();
@@ -759,14 +689,14 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryProduct)
             {
-                Product productSelected = listViewGeneral.Tag as Product;
+                ProductDTO productSelected = rowSelectedObj as ProductDTO;
                 if (productSelected != null)
                 {
                     FormDeleteProduct formDelete = new FormDeleteProduct();
                     formDelete.productSelected = productSelected;
                     formDelete.ShowDialog();
 
-                    LoadListViewProduct();
+                    LoadDtgvProduct();
                 }
                 else
                 {
@@ -777,14 +707,14 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategorySupplier)
             {
-                Supplier supplierTagged = listViewGeneral.Tag as Supplier;
-                if (supplierTagged != null)
+                Supplier supplierSelected = rowSelectedObj as Supplier;
+                if (supplierSelected != null)
                 {
                     FormDeleteSupplier fDel = new FormDeleteSupplier();
-                    fDel.supplierSelectedFromListView = supplierTagged;
+                    fDel.supplierSelectedFromListView = supplierSelected;
                     fDel.ShowDialog();
 
-                    LoadDtgvSupplier();
+                    //LoadDtgvSupplier();
                 }
                 else
                 {
@@ -840,7 +770,7 @@ namespace QuanLyKhoHang
                     fDel.customerSelectedFromListView = customerTagged;
                     fDel.ShowDialog();
 
-                    LoadDtgvSupplier();
+                    //LoadDtgvSupplier();
                 }
                 else
                 {
@@ -934,20 +864,20 @@ namespace QuanLyKhoHang
 
             if (category == buttonCategoryProduct)
             {
-                List<Product> products = ProductDAO.Instance.Search(keyWord);
-                LoadListViewProduct(products);
+                LoadDtgvProduct();
             }
 
             if (category == buttonCategoryCustomer)
             {
+                SearchModel searchModel = new SearchModel();
+                searchModel.KeyWords = textBoxSearch.Text;
                 List<Customer> searchList = CustomerDAO.Instance.Search(keyWord);
                 LoadListViewCustomer(searchList);
             }
 
             if (category == buttonCategorySupplier)
             {
-                List<Supplier> searchList = SupplierDAO.Instance.Search(keyWord);
-                LoadListViewSupplier(searchList);
+                LoadDtgvSupplier();
             }
 
             if (category == buttonCategoryReceiveVoucher)
@@ -1026,19 +956,18 @@ namespace QuanLyKhoHang
 
         private async void btnPrevious_Click(object sender, EventArgs e)
         {
-            labelTest.Text = currentPage.ToString();
 
             var products = currentPagedList as IPagedList<ProductDTO>;
             if (products != null && products.HasPreviousPage)
             {
-                LoadDtgvProduct(--currentPage);
+                LoadDtgvProduct(products.PageNumber-1, products.PageSize);
             }
 
 
             var suppliers = currentPagedList as IPagedList<Supplier>;
             if (suppliers != null && suppliers.HasPreviousPage)
             {
-                LoadDtgvSupplier(--currentPage);
+                LoadDtgvSupplier(suppliers.PageNumber-1, suppliers.PageSize);
             }
 
             var customers = currentPagedList as IPagedList<Customer>;
@@ -1068,18 +997,17 @@ namespace QuanLyKhoHang
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            labelTest.Text = currentPage.ToString();
             var products = currentPagedList as IPagedList<ProductDTO>;
             if (products != null && products.HasNextPage)
             {
-                LoadDtgvProduct(++currentPage);
+                LoadDtgvProduct( products.PageNumber+1,products.PageSize);
             }
 
 
             var suppliers = currentPagedList as IPagedList<Supplier>;
             if (suppliers != null && suppliers.HasNextPage)
             {
-                LoadDtgvSupplier(++currentPage);
+                LoadDtgvSupplier(suppliers.PageNumber + 1, suppliers.PageSize);
             }
 
             var customers = currentPagedList as IPagedList<Customer>;
@@ -1149,9 +1077,69 @@ namespace QuanLyKhoHang
                 System.Windows.Forms.SortOrder.Ascending : System.Windows.Forms.SortOrder.Descending;
         }
 
+
+        object rowSelectedObj;
         private void dtgvHome_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex > -1)
+            {
+                Button btnCatgory = buttonShow.Tag as Button;
 
+
+                if (btnCatgory == buttonCategoryProduct)
+                {
+                    var product = dtgvHome.Rows[e.RowIndex].DataBoundItem as ProductDTO;
+                    rowSelectedObj = product;
+                }
+
+                if (btnCatgory == buttonCategorySupplier)
+                {
+                    var supplier = dtgvHome.Rows[e.RowIndex].DataBoundItem as Supplier;
+                    rowSelectedObj = supplier;
+                }
+
+                if (btnCatgory == buttonCategoryCustomer)
+                {
+                    
+                }
+
+                if (btnCatgory == buttonCategoryReceiveVoucher)
+                {
+                    
+                }
+
+                if (btnCatgory == buttonCategoryDeliveryVoucher)
+                {
+                }
+            }
+        }
+
+        SearchModel GetSearchModel()
+        {
+            SearchModel searchModel = new SearchModel();
+
+            string keyWords = textBoxSearch.Text.Format();
+            if (!string.IsNullOrEmpty(keyWords))
+            {
+                searchModel.KeyWords = keyWords;
+            }
+
+            if (checkBoxDatetimePicker.Checked)
+            {
+                searchModel.FromDate = dtpickerFromDate.Value;;
+                searchModel.ToDate = dtpickerToDate.Value;
+            }
+
+            int min = (int)numUpDownMin.Value;
+            int max = (int)numUpDownMax.Value;
+
+            if (max > min)
+            {
+                searchModel.MinValue = min;
+                searchModel.MaxValue = max;
+            }
+
+            return searchModel;
         }
     }
 }

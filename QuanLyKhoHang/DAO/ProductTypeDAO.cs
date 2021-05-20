@@ -18,7 +18,7 @@ namespace QuanLyKhoHang.DAO
             private set { }
         }
 
-        public List<ProductType> GetListProductTypes()
+        public List<ProductType> GetList()
         {
             List<ProductType> productTypes = db.ProductTypes.ToList();
             return productTypes;

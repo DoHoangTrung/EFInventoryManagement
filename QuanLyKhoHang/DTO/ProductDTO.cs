@@ -12,5 +12,6 @@ namespace QuanLyKhoHang.DTO
         public string Name { get; set; }
         public string Unit { get; set; }
         public string TypeName { get; set; }
+        public string TypeID { get; set; }
     }
 }

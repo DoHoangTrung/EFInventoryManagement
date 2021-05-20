@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,16 +51,20 @@ namespace QuanLyKhoHang.DAO
 
         public int UpdateProduct(string id, string name, string unit, string typeID)
         {
-            int rowAffected = 0;
+            if (!string.IsNullOrEmpty(name))
+            {
+                int rowAffected = 0;
 
-            Product product = db.Products.Find(id);
-            product.Name = name;
-            product.Unit = unit;
-            product.IdType = typeID;
+                Product product = db.Products.Find(id);
+                product.Name = name;
+                product.Unit = unit;
+                product.IdType = typeID;
 
-            rowAffected = db.SaveChanges();
+                rowAffected = db.SaveChanges();
 
-            return rowAffected;
+                return rowAffected;
+            }
+            return -1;
         }
 
         public int DeleteProductByID(string id)
@@ -121,16 +126,19 @@ namespace QuanLyKhoHang.DAO
             return name;
         }
 
-        public List<Product> Search(string keyWord)
+        public List<ProductDTO> GetList(SearchModel seachModel, int pageNum =1, int pageSize = Const.pageSize)
         {
-            List<Product> products = db.Products.ToList();
+            var products = db.Database.SqlQuery<ProductDTO>("select * from ProductDTO").ToList();
 
-            var result = products.Where(
+            //search by key words
+            if (!string.IsNullOrEmpty(seachModel.KeyWords))
+            {
+                products = products.Where(
                     p =>
                     {
                         string str, keyW;// find s1 in s0
-                        str = p.ID + " " + p.Name + " " + p.Unit + " " + p.ProductType.Name;
-                        keyW = keyWord;
+                        str = p.ID + " " + p.Name + " " + p.Unit + " " + p.TypeName;
+                        keyW = seachModel.KeyWords;
 
                         str = str.Format();
                         keyW = keyW.Format();
@@ -140,26 +148,12 @@ namespace QuanLyKhoHang.DAO
                         else
                             return false;
                     }
-                ).Select(p => p).ToList();
+                ).Select(p=>p).ToList();
+            }
 
-            return result;
+            return products;
         }
 
-        public async Task<IPagedList<ProductDTO>> GetPagedListProductDTOs(int pageNum = 1, int pageSize = 20)
-        {
-            return await Task.Run(() =>
-            {
-                var productDTOs = (from p in db.Products
-                                   join t in db.ProductTypes on p.IdType equals t.ID
-                                   select new ProductDTO()
-                                   {
-                                       ID = p.ID,
-                                       Name = p.Name,
-                                       Unit = p.Unit,
-                                       TypeName = t.Name
-                                   }).OrderBy(p => p.ID).ToPagedList(pageNum, pageSize);
-                return productDTOs;
-            });
-        }
+
     }
 }

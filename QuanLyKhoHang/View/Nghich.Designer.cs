@@ -29,44 +29,27 @@ namespace QuanLyKhoHang.View
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPrevious = new System.Windows.Forms.Button();
             this.dtgv = new System.Windows.Forms.DataGridView();
-            this.supplierBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
+            this.btnNext = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dtgv)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // productBindingSource
+            // btnPrevious
             // 
-            this.productBindingSource.DataSource = typeof(QuanLyKhoHang.Entity.Product);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(77, 50);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(188, 22);
-            this.textBox1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(339, 49);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnPrevious.Location = new System.Drawing.Point(311, 425);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevious.TabIndex = 1;
+            this.btnPrevious.Text = "<";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
             // dtgv
             // 
             this.dtgv.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dtgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgv.Location = new System.Drawing.Point(99, 126);
+            this.dtgv.Location = new System.Drawing.Point(82, 40);
             this.dtgv.Name = "dtgv";
             this.dtgv.RowHeadersWidth = 51;
             this.dtgv.RowTemplate.Height = 24;
@@ -75,9 +58,15 @@ namespace QuanLyKhoHang.View
             this.dtgv.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dtgv_ColumnHeaderMouseClick);
             this.dtgv.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dtgv_DataBindingComplete);
             // 
-            // supplierBindingSource
+            // btnNext
             // 
-            this.supplierBindingSource.DataSource = typeof(QuanLyKhoHang.Entity.Supplier);
+            this.btnNext.Location = new System.Drawing.Point(451, 425);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 23);
+            this.btnNext.TabIndex = 1;
+            this.btnNext.Text = ">";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // Nghich
             // 
@@ -85,25 +74,19 @@ namespace QuanLyKhoHang.View
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(948, 549);
             this.Controls.Add(this.dtgv);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnPrevious);
             this.Name = "Nghich";
             this.Text = "Nghich";
             this.Load += new System.EventHandler(this.Nghich_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dtgv)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.supplierBindingSource)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.BindingSource productBindingSource;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.DataGridView dtgv;
-        private System.Windows.Forms.BindingSource supplierBindingSource;
+        private System.Windows.Forms.Button btnNext;
     }
 }
