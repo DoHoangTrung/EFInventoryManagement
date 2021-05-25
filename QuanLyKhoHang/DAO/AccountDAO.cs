@@ -5,27 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 using QuanLyKhoHang.DAL;
 using System.Data;
+using QuanLyKhoHang.Entity;
 
 namespace QuanLyKhoHang.DAL
 {
     public class AccountDAO
-    {
-        private AccountDAO() { }
+    { 
+        private InventoryContext db;
 
-        private static AccountDAO instance;
-
-        public static AccountDAO Instance
+        public AccountDAO()
         {
-            get { if (instance == null) instance = new AccountDAO(); return instance; }
-            private set { }
+            db = new InventoryContext();
         }
 
         public bool Login(string userName, string passWord)
         {
-            /*string query = "exec dbo.GetAccountByUserName @userName , @passWord";
-            DataTable data = DataProvider.Instance.ExecuteQuery(query, userName, passWord);
-            return data.Rows.Count > 0;*/
-            return false;
+            bool result = false;
+
+            var account = (from a in db.Accounts
+                           where a.UserName == userName && a.PassWord == passWord
+                           select a).ToList();
+            if(account.Count == 1)
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
     }
 }

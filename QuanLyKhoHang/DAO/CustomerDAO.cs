@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -106,21 +107,22 @@ namespace QuanLyKhoHang.DAL
             return ANDCondition;
         }
 
-        public Customer GetCustomerByID(string idCustomer)
+        public Customer GetByID(string idCustomer)
         {
             return db.Customers.Find(idCustomer);
         }
 
-        public List<Customer> Search(string keyWord)
+        public List<Customer> GetList(SearchModel searchModel)
         {
             List<Customer> customers = db.Customers.ToList();
 
-            var result = customers.Where(
+            if(!string.IsNullOrEmpty(searchModel.KeyWords))
+            customers = customers.Where(
                     c =>
                     {
                         string str, keyW;// find s1 in s0
                         str = c.ID + " " + c.Name + " " + c.Address+ " " + c.Email + c.Phone;
-                        keyW = keyWord;
+                        keyW = searchModel.KeyWords;
 
                         str = str.Format();
                         keyW = keyW.Format();
@@ -132,17 +134,8 @@ namespace QuanLyKhoHang.DAL
                     }
                 ).Select(c => c).ToList();
 
-            return result;
+            return customers;
         }
 
-
-        public async Task<IPagedList<Customer>> GetPagedList(int pageNum = 1, int pageSize = 3)
-        {
-            return await Task.Run(() =>
-            {
-                var customers = db.Customers.OrderBy(c=>c.ID).ToPagedList(pageNum, pageSize);
-                return customers;
-            });
-        }
     }
 }

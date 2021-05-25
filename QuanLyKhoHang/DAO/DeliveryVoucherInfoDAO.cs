@@ -27,14 +27,28 @@ namespace QuanLyKhoHang.DAO
             return deliveryVoucherInfos;
         }
 
-        public void Add(DeliveryVoucherInfo info)
+        public void Insert(DeliveryVoucherInfo info)
         {
             if (info != null)
             {
                 db.DeliveryVoucherInfoes.Add(info);
                 db.SaveChanges();
+                db.Entry(info).Reference(i=>i.DeliveryVoucher).Load();
             }
         }
 
+
+        public int Delete (DeliveryVoucherInfo _info)
+        {
+            int rowAffected = 0;
+            DeliveryVoucherInfo info = db.DeliveryVoucherInfoes.Find(_info.IDProduct, _info.IDDeliveryVoucher, _info.IDReceiveVoucher);
+            if(info!= null)
+            {
+                db.DeliveryVoucherInfoes.Remove(info);
+                rowAffected = db.SaveChanges();
+            }
+
+            return rowAffected;
+        }
     }
 }

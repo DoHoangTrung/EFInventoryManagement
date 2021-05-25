@@ -8,7 +8,7 @@ namespace QuanLyKhoHang.Helper
 {
     static class Const
     {
-        public const int pageSize = 2;
+        public const int pageSize = 15;
     }
     public class SearchModel
     {

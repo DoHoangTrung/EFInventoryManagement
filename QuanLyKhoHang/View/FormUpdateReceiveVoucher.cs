@@ -1,5 +1,6 @@
 ﻿using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using QuanLyKhoHang.View;
 using System;
@@ -18,200 +19,57 @@ namespace QuanLyKhoHang
     {
         public string idInputVoucher { get; set; }
 
-        public ReceiveVoucher receiveVoucherTagged;
+        private ReceiveVoucher reVoucherSelected;
 
-        private List<ReceiveVoucherInfo> receicveVoucherInfos;
+        private List<ReceiveVoucherInfoDTO> reVoucherInfos;
 
         private Supplier supplierInVoucher;
 
         private List<Product> listProductOutOfReceiveVoucher;
-        public FormUpdateReceiveVoucher()
+
+
+        ReceiveVoucherInfoDTO rowSeletedObj;
+
+        #region EVENT   
+
+        public FormUpdateReceiveVoucher(ReceiveVoucher voucher)
         {
             InitializeComponent();
+
+            reVoucherSelected = voucher;
+
+            reVoucherInfos = ReceiveVoucherInfoDAO.Instance.GetListDTO(reVoucherSelected.ID);
+
+            supplierInVoucher = reVoucherSelected.Supplier;
+
+            listProductOutOfReceiveVoucher = ProductDAO.Instance.GetListProductOutOfReceiveVoucher(reVoucherSelected.ID);
         }
 
-        private ReceiveVoucherInfo voucherInfoUpdate;
-        #region EVENT   
         private void FormUpdateInputVoucher_Load(object sender, EventArgs e)
         {
-            InitField();
             LoadVoucherCombobox();
             LoadProductCombobox();
             LoadSupplierCombobox();
-            LoadVoucherInfoDatagridview();
+            LoadDtgvVoucherInfo();
         }
-
-        private void comboBoxIDSupplier_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            labelAddressSupplier.Text = (comboBoxIDSupplier.SelectedItem as Supplier).Address;
-        }
-
-        private void buttonAddProduct_Click(object sender, EventArgs e)
-        {
-            string id, name, note;
-            int inputQuantity, inputPrice, outputPrice;
-            id = comboBoxProductID.Text;
-            name = comboBoxProductName.Text;
-            inputQuantity = (int)numericUpDownInputQuantity.Value;
-            inputPrice = (int)numericUpDownInputPrice.Value;
-            outputPrice = (int)numericUpDownOutputPrice.Value;
-            note = textBoxNote.Text;
-            const int outputQuantity = 0;
-            if (inputQuantity > 0)
-            {
-                dataGridViewProduct.Rows.Add(id, name, inputQuantity, inputPrice, outputPrice, outputQuantity, note);
-            }
-            else
-            {
-                MessageBox.Show("Bạn chưa nhập số lượng");
-            }
-
-            //after add good: remove id of that good from combobox (id good can't dupplication)
-            //and clear textboxNote
-            var products = comboBoxProductID.Items.Cast<Product>().ToList();
-            products.RemoveAt(comboBoxProductID.SelectedIndex);
-            textBoxNote.Clear();
-
-            LoadProductCombobox(products);
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void buttonDeleteProduct_Click(object sender, EventArgs e)
-        {
-            if(dataGridViewProduct.Tag != null)
-            {
-                int rowIndex = (int)dataGridViewProduct.Tag;
-                //you can't delete product  if it's quantityOutput > 0 (has been sold)
-                if ((int)dataGridViewProduct.Rows[rowIndex].Cells["quantityOutput"].Value == 0)
-                {
-                    string idProduct = dataGridViewProduct.Rows[rowIndex].Cells["productID"].Value.ToString();
-                    Product productRemoved = ProductDAO.Instance.GetProductByID(idProduct);
-
-                    //before delete product in datagridview, we must add that product to comboboxProduct
-                    List<Product> productsCombobox = comboBoxProductID.Items.Cast<Product>().ToList();
-                    productsCombobox.Add(productRemoved);
-
-                    LoadProductCombobox(productsCombobox);
-
-                    dataGridViewProduct.Rows.RemoveAt(rowIndex);
-
-                    dataGridViewProduct.Tag = null;
-                }
-                else
-                {
-                    MessageBox.Show("Bạn không thể xóa sản phẩm đã được bán");
-                }
-            }
-        }
-
-        private void dataGridViewProduct_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if(e.RowIndex>= 0 && e.RowIndex < dataGridViewProduct.RowCount - 1)
-            {
-                dataGridViewProduct.Tag = e.RowIndex;
-            }
-        }
-
-        private void buttonUpdateProduct_Click(object sender, EventArgs e)
-        {
-
-            ReceiveVoucherInfo voucherInfo = new ReceiveVoucherInfo();
-            string idVoucher = receiveVoucherTagged.ID;
-            string idProduct, nameProduct, note;
-            int quantityInput, inputPrice, outputPrice, quantityOutput;
-
-
-            if (dataGridViewProduct.Tag != null)
-            {
-                int idxRow = (int)dataGridViewProduct.Tag;
-
-                voucherInfo = GetValueFromDTGViewReceiveVoucherInfo(idxRow);
-                dataGridViewProduct.Tag = null;
-
-                FormUpdateReceiveVoucherInfo f = new FormUpdateReceiveVoucherInfo();
-                //send data to form f
-                f.receiveVoucherInfoTransfer = voucherInfo;
-                f.productsOutOfVoucherAndThisSelected = listProductOutOfReceiveVoucher;
-                f.ShowDialog();
-
-                //get data update from form f
-                voucherInfoUpdate = f.receiveVoucherInfoTransfer;
-                UpdateDTGViewReceiveVoucherInfo(idxRow,voucherInfoUpdate);
-            }
-            else
-            {
-                MessageBox.Show("Hãy chọn thông tin bạn muốn sửa trong bảng");
-            }
-        }
-        #endregion
-
-        private ReceiveVoucherInfo GetValueFromDTGViewReceiveVoucherInfo(int rowIndex)
-        {
-            ReceiveVoucherInfo voucherInfo = new ReceiveVoucherInfo();
-
-            voucherInfo.IDReceiveVoucher = receiveVoucherTagged.ID;
-            voucherInfo.IDProduct = dataGridViewProduct.Rows[rowIndex].Cells["productID"].Value.ToString();
-            voucherInfo.QuantityInput = (int)dataGridViewProduct.Rows[rowIndex].Cells["quantityInput"].Value;
-            voucherInfo.PriceInput = (int)dataGridViewProduct.Rows[rowIndex].Cells["inputPrice"].Value;
-            voucherInfo.QuantityOutput = (int)dataGridViewProduct.Rows[rowIndex].Cells["quantityOutput"].Value;
-            if (dataGridViewProduct.Rows[rowIndex].Cells["note"].Value == null)
-            {
-                voucherInfo.Note = string.Empty;
-            }
-            else
-            {
-                voucherInfo.Note = dataGridViewProduct.Rows[rowIndex].Cells["note"].Value.ToString();
-            }
-
-            return voucherInfo;
-        }
-
-        private void UpdateDTGViewReceiveVoucherInfo(int rowIndex, ReceiveVoucherInfo voucherInfo)
-        {
-            //update row
-            dataGridViewProduct.Rows[rowIndex].Cells["productID"].Value = voucherInfo.IDProduct;
-            dataGridViewProduct.Rows[rowIndex].Cells["productName"].Value = ProductDAO.Instance.GetNameByID(voucherInfo.IDProduct);
-            dataGridViewProduct.Rows[rowIndex].Cells["quantityInput"].Value = voucherInfo.QuantityInput;
-            dataGridViewProduct.Rows[rowIndex].Cells["inputPrice"].Value = voucherInfo.PriceInput;
-            dataGridViewProduct.Rows[rowIndex].Cells["quantityOutput"].Value = voucherInfo.QuantityOutput;
-            dataGridViewProduct.Rows[rowIndex].Cells["note"].Value = voucherInfo.Note;
-        }
-
-        private void LoadVoucherInfoDatagridview()
+        private void LoadDtgvVoucherInfo()
         {
             //Create dataGridView product
-            dataGridViewProduct.Columns.Add("productID", "ID");
-            dataGridViewProduct.Columns.Add("productName", "Tên sản phẩm");
-            dataGridViewProduct.Columns.Add("quantityInput", "Số lượng nhập");
-            dataGridViewProduct.Columns.Add("inputPrice", "Giá nhập");
-            dataGridViewProduct.Columns.Add("outputPrice", "Giá xuất");
-            dataGridViewProduct.Columns.Add("quantityOutput", "Số lượng xuất");
-            dataGridViewProduct.Columns.Add("note", "Ghi chú");
+            /*dtgvProduct.Columns.Add("productID", "ID");
+            dtgvProduct.Columns.Add("productName", "Tên sản phẩm");
+            dtgvProduct.Columns.Add("quantityInput", "Số lượng nhập");
+            dtgvProduct.Columns.Add("inputPrice", "Giá nhập");
+            dtgvProduct.Columns.Add("outputPrice", "Giá xuất");
+            dtgvProduct.Columns.Add("quantityOutput", "Số lượng xuất");
+            dtgvProduct.Columns.Add("note", "Ghi chú");
 
-            dataGridViewProduct.Columns["quantityOutput"].DefaultCellStyle.ForeColor = Color.FromArgb(255, 51, 51);
+            dtgvProduct.Columns["quantityOutput"].DefaultCellStyle.ForeColor = Color.FromArgb(255, 51, 51);
+            */
 
-            //add data
-            foreach (var voucherInfo in receicveVoucherInfos)
-            {
-                Product productInVoucherInfo = voucherInfo.Product;
-
-                string id, name, note;
-                int? quantityInput, inputPrice, quantityOutput;
-
-                id = productInVoucherInfo.ID;
-                name = productInVoucherInfo.Name;
-                quantityInput = voucherInfo.QuantityInput;
-                inputPrice = voucherInfo.PriceInput;
-                quantityOutput = voucherInfo.QuantityOutput;
-                note = voucherInfo.Note;
-                
-                dataGridViewProduct.Rows.Add(id, name, quantityInput, inputPrice, quantityOutput, note);
-            }
-
+            dtgvProduct.DataSource = new SortableBindingList<ReceiveVoucherInfoDTO>(reVoucherInfos);
+            dtgvProduct.Columns["IDProduct"].Visible = false;
+            dtgvProduct.Columns["IDReceiveVoucher"].Visible = false;
+            dtgvProduct.Columns["QuantityOutput"].DefaultCellStyle.ForeColor = Color.FromArgb(255, 51, 51);
         }
 
         private void LoadSupplierCombobox()
@@ -224,12 +82,12 @@ namespace QuanLyKhoHang
             comboBoxNameSupplier.DataSource = suppliers;
             comboBoxNameSupplier.DisplayMember = "Name";
 
-            comboBoxIDSupplier.SelectedIndex = comboBoxIDSupplier.FindStringExact(receiveVoucherTagged.IDSupplier);
+            comboBoxIDSupplier.SelectedIndex = comboBoxIDSupplier.FindStringExact(reVoucherSelected.IDSupplier);
         }
 
         private void LoadProductCombobox()
         {
-            listProductOutOfReceiveVoucher = listProductOutOfReceiveVoucher.OrderBy(p => p.ID).ToList() ;
+            listProductOutOfReceiveVoucher = listProductOutOfReceiveVoucher.OrderBy(p => p.ID).ToList();
 
             comboBoxProductID.DataSource = listProductOutOfReceiveVoucher;
             comboBoxProductID.DisplayMember = "ID";
@@ -251,63 +109,196 @@ namespace QuanLyKhoHang
 
         private void LoadVoucherCombobox()
         {
-            textBoxIDInputVoucher.Text = receiveVoucherTagged.ID;
+            textBoxIDInputVoucher.Text = reVoucherSelected.ID;
 
-            if(receiveVoucherTagged != null)
+            if (reVoucherSelected != null)
             {
-                dateTimePickerInputDate.Value = (DateTime)receiveVoucherTagged.Date;
+                dateTimePickerInputDate.Value = (DateTime)reVoucherSelected.Date;
             }
         }
 
-        private void InitField()
+        private void comboBoxIDSupplier_SelectedIndexChanged(object sender, EventArgs e)
         {
-            receicveVoucherInfos = receiveVoucherTagged.ReceiveVoucherInfoes.ToList();
-
-            supplierInVoucher = receiveVoucherTagged.Supplier;
-
-            listProductOutOfReceiveVoucher = ProductDAO.Instance.GetListProductOutOfReceiveVoucher(receiveVoucherTagged.ID);
+            labelAddressSupplier.Text = (comboBoxIDSupplier.SelectedItem as Supplier).Address;
         }
+
+        private void buttonAddProduct_Click(object sender, EventArgs e)
+        {
+            //if there are at least one product on combobox
+            if ((comboBoxProductID.SelectedItem as Product) != null)
+            {
+                string pID, pName, note, voucherID;
+                int inputQuantity, inputPrice;
+
+                voucherID = reVoucherSelected.ID;
+                pID = comboBoxProductID.Text;
+                pName = comboBoxProductName.Text;
+                inputQuantity = (int)numericUpDownInputQuantity.Value;
+                inputPrice = (int)numericUpDownInputPrice.Value;
+                note = textBoxNote.Text;
+                const int outputQuantity = 0;
+
+                if (inputQuantity > 0)
+                {
+                    ReceiveVoucherInfoDTO info = new ReceiveVoucherInfoDTO();
+                    info.IDProduct = pID;
+                    info.ProductName = pName;
+                    info.QuantityInput = inputQuantity;
+                    info.PriceInput = inputPrice;
+                    info.QuantityOutput = outputQuantity;
+                    info.Note = note;
+                    info.IDReceiveVoucher = voucherID;
+
+                    reVoucherInfos.Add(info);
+
+                    LoadDtgvVoucherInfo();
+                }
+                else
+                {
+                    MessageBox.Show("Bạn chưa nhập số lượng");
+                }
+
+                //after add good: remove id of that good from combobox (id good can't dupplication)
+                //and clear textboxNote
+                var products = comboBoxProductID.Items.Cast<Product>().ToList();
+                products.RemoveAt(comboBoxProductID.SelectedIndex);
+                textBoxNote.Clear();
+
+                LoadProductCombobox(products);
+            }
+
+        }
+
+
+        private void buttonDeleteProduct_Click(object sender, EventArgs e)
+        {
+            //if still have data row on dtgv
+            if (rowSeletedObj != null)
+            {
+                //you can't delete product  if it's quantityOutput > 0 (has been sold)
+                if (rowSeletedObj.QuantityOutput == 0)
+                {
+                    string idProduct = rowSeletedObj.IDProduct;
+                    Product productRemoved = ProductDAO.Instance.GetByID(idProduct);
+
+                    //before delete product in datagridview, we must add that product to comboboxProduct
+                    List<Product> productsCombobox = comboBoxProductID.Items.Cast<Product>().ToList();
+                    productsCombobox.Add(productRemoved);
+
+                    LoadProductCombobox(productsCombobox);
+
+                    reVoucherInfos.Remove(rowSeletedObj);
+                    LoadDtgvVoucherInfo();
+
+                    rowSeletedObj = null;
+                }
+                else
+                {
+                    MessageBox.Show("Bạn không thể xóa sản phẩm đã được bán");
+                }
+            }
+        }
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void dataGridViewProduct_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < dtgvProduct.RowCount)
+            {
+                rowSeletedObj = dtgvProduct.Rows[e.RowIndex].DataBoundItem as ReceiveVoucherInfoDTO;
+            }
+            else
+            {
+                rowSeletedObj = null;
+            }
+        }
+
+        private void buttonUpdateProduct_Click(object sender, EventArgs e)
+        {
+            ReceiveVoucherInfo voucherInfo = new ReceiveVoucherInfo();
+            string idVoucher = reVoucherSelected.ID;
+            string idProduct, nameProduct, note;
+            int quantityInput, inputPrice, outputPrice, quantityOutput;
+
+
+            if (rowSeletedObj != null)
+            {
+
+                FormUpdateReceiveVoucherInfo f = new FormUpdateReceiveVoucherInfo();
+                //send data to form f
+                f.reVoucherInfoSelected = rowSeletedObj;
+                f.productHaveNotChosenAndThisSelectedProduct = listProductOutOfReceiveVoucher;
+                f.ShowDialog();
+
+                //get data update from form f
+                var infoAfterUpdate = f.infoUpdate;
+                if(infoAfterUpdate != null)
+                {
+                    reVoucherInfos.Remove(rowSeletedObj);
+                    reVoucherInfos.Add(infoAfterUpdate);
+                    rowSeletedObj = null;
+
+                    LoadDtgvVoucherInfo();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Hãy chọn thông tin bạn muốn sửa trong bảng");
+            }
+        }
+        #endregion
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            int rowAffected = 0;
-            //step1: update receive voucher
-            ReceiveVoucher voucherUpdate = new ReceiveVoucher();
-            voucherUpdate.ID = receiveVoucherTagged.ID;
-            voucherUpdate.IDSupplier = (comboBoxIDSupplier.SelectedItem as Supplier).ID;
-            voucherUpdate.Date = dateTimePickerInputDate.Value;
-
-            ReceiveVoucherDAO.Instance.UpdateReceiveVoucher(voucherUpdate);
-
-            //step2: update receive voucher infomation
-            //step2.1: remove all product have quantityOutput = 0( not been sold)
-            //step2.2: if product in dtgview has been sold, the only thing we can do is update it
-            //step2.3: add product in dtgrview never be sold, add it to receive voucher
-
-            //remove product info have quantity output = 0
-            ReceiveVoucherInfoDAO.Instance.RemoveReceiveVoucherInfoNeverSell(receiveVoucherTagged.ID);
-
-            for (int i = 0; i < dataGridViewProduct.RowCount-1; i++)
+            var result = MessageBox.Show("Xác nhận thay đổi?", "Xác nhận", MessageBoxButtons.OKCancel);
+            if(result == DialogResult.OK)
             {
-                ReceiveVoucherInfo voucherInfo = GetValueFromDTGViewReceiveVoucherInfo(i);
+                int rowAffected = 0;
+                //step1: update receive voucher
+                ReceiveVoucher voucherUpdate = new ReceiveVoucher();
+                voucherUpdate.ID = reVoucherSelected.ID;
+                voucherUpdate.IDSupplier = (comboBoxIDSupplier.SelectedItem as Supplier).ID;
+                voucherUpdate.Date = dateTimePickerInputDate.Value;
 
-                int quantityOutput = (int)voucherInfo.QuantityOutput;
-                if(quantityOutput > 0) // the product has been sold can only be updated
+                //ReceiveVoucherDAO.Instance.UpdateReceiveVoucher(voucherUpdate);
+
+                //step2: update receive voucher infomation
+                //step2.1: remove all product have quantityOutput = 0( not been sold)
+                //step2.2: if product in dtgview has been sold, the only thing we can do is update it
+                //step2.3: add product in dtgrview never be sold, add it to receive voucher
+
+                //add new product info have quantity output = 0 
+                //or update if it's quantity output > 0
+
+                for (int i = 0; i < dtgvProduct.RowCount; i++)
                 {
-                    rowAffected = ReceiveVoucherInfoDAO.Instance.UpdateReceiveVoucherInfo(voucherInfo);
+                    ReceiveVoucherInfoDTO infoDTO = dtgvProduct.Rows[i].DataBoundItem as ReceiveVoucherInfoDTO;
+
+                    ReceiveVoucherInfo voucherInfo = new ReceiveVoucherInfo();
+                    voucherInfo.IDProduct = infoDTO.IDProduct;
+                    voucherInfo.IDReceiveVoucher = infoDTO.IDReceiveVoucher;
+                    voucherInfo.QuantityInput = infoDTO.QuantityInput;
+                    voucherInfo.PriceInput = infoDTO.PriceInput;
+                    voucherInfo.QuantityOutput = infoDTO.QuantityOutput;
+                    voucherInfo.Note = infoDTO.Note;
+
+                    voucherUpdate.ReceiveVoucherInfoes.Add(voucherInfo);
                 }
-                else if(quantityOutput == 0)
+
+                rowAffected = ReceiveVoucherDAO.Instance.UpdateReceiveVoucher(voucherUpdate);
+                if (rowAffected > 0)
                 {
-                    // add new product info into receive voucher info
-                    ReceiveVoucherInfoDAO.Instance.InsertReceiveVoucherInfo(voucherInfo);
+                    MessageBox.Show("Cập nhật thành công");
                 }
+                else
+                {
+                    MessageBox.Show("Không thành công");
+                }
+                this.Close();
             }
-
-        }
-
-        void ShowMessage(int rowAffected)
-        {
-            MessageBox.Show(rowAffected.ToString());
+            
         }
     }
 }

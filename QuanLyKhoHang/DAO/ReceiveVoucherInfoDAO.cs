@@ -1,4 +1,5 @@
-﻿using QuanLyKhoHang.Entity;
+﻿using QuanLyKhoHang.DTO;
+using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,33 @@ namespace QuanLyKhoHang.DAO
 
         InventoryContext db = new InventoryContext();
 
-        public List<ReceiveVoucherInfo> GetList()
+        public List<ReceiveVoucherInfoDTO> GetListDTO(string voucherID)
         {
-            return db.ReceiveVoucherInfoes.ToList();
+            var dtos = (from i in db.ReceiveVoucherInfoes
+                        join p in db.Products on i.IDProduct equals p.ID
+                        where i.IDReceiveVoucher == voucherID
+                        select new ReceiveVoucherInfoDTO()
+                        {
+                            IDProduct = p.ID,
+                            ProductName = p.Name,
+                            IDReceiveVoucher = i.IDReceiveVoucher,
+                            QuantityInput = i.QuantityInput,
+                            PriceInput = i.PriceInput,
+                            QuantityOutput = i.QuantityOutput,
+                            Note = i.Note,
+                        }).ToList();
+
+            return dtos;
+        }
+        public List<ReceiveVoucherInfo> GetListInfoOfVoucher(string idReceiveVoucher)
+        {
+            var infoes = (from i in db.ReceiveVoucherInfoes
+                          where i.IDReceiveVoucher == idReceiveVoucher
+                          select i).ToList();
+            return infoes;
         }
 
-        public int InsertReceiveVoucherInfo(string idProduct, string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
+        public int Inser(string idProduct, string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
         {
             int rowAffected = 0;
 
@@ -44,7 +66,20 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public int InsertReceiveVoucherInfo(ReceiveVoucherInfo infoes)
+        public int Inser(ReceiveVoucherInfoDTO infoes)
+        {
+            int rowAffected = 0;
+
+            if (infoes != null)
+            {
+                db.ReceiveVoucherInfoes.Add(dtoToEntity(infoes));
+
+                rowAffected = db.SaveChanges();
+            }
+            return rowAffected;
+        }
+
+        public int Inser(ReceiveVoucherInfo infoes)
         {
             int rowAffected = 0;
 
@@ -55,7 +90,7 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public int InsertReceiveVoucherInfo(List<ReceiveVoucherInfo> infoes)
+        public int Inser(List<ReceiveVoucherInfo> infoes)
         {
             int rowAffected = 0;
 
@@ -69,19 +104,35 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public ReceiveVoucherInfo InitReceiveVoucherInfo(string idProduct, string idVoucher, int quantityInput, int priceInput, int quantityOutput, string note)
+        public ReceiveVoucherInfo dtoToEntity(ReceiveVoucherInfoDTO dto)
         {
-            ReceiveVoucherInfo voucherInfo = new ReceiveVoucherInfo();
-            voucherInfo.IDProduct = idProduct;
-            voucherInfo.IDReceiveVoucher = idVoucher;
-            voucherInfo.QuantityInput = quantityInput;
-            voucherInfo.PriceInput = priceInput;
-            voucherInfo.QuantityOutput = quantityOutput;
-            voucherInfo.Note = note;
+            ReceiveVoucherInfo info = new ReceiveVoucherInfo();
+            info.IDReceiveVoucher = dto.IDReceiveVoucher;
+            info.IDProduct = dto.IDProduct;
+            info.QuantityInput = dto.QuantityInput;
+            info.PriceInput = dto.PriceInput;
+            info.QuantityOutput = dto.QuantityOutput;
+            info.Note = dto.Note;
 
-            return voucherInfo;
+            return info;
         }
 
+        public int UpdateReceiveVoucherInfo(ReceiveVoucherInfoDTO voucherInfo)
+        {
+            int rowAffected = 0;
+            string idProduct, idVoucher;
+            idProduct = voucherInfo.IDProduct;
+            idVoucher = voucherInfo.IDReceiveVoucher;
+
+            ReceiveVoucherInfo voucherInfoUpdate = db.ReceiveVoucherInfoes.Find(idProduct, idVoucher);
+            voucherInfoUpdate.PriceInput = voucherInfo.PriceInput;
+            voucherInfoUpdate.QuantityInput = voucherInfo.QuantityInput;
+            voucherInfoUpdate.QuantityOutput = voucherInfo.QuantityOutput;
+            voucherInfoUpdate.Note = voucherInfo.Note;
+
+            rowAffected = db.SaveChanges();
+            return rowAffected;
+        }
         public int UpdateReceiveVoucherInfo(ReceiveVoucherInfo voucherInfo)
         {
             int rowAffected = 0;
@@ -115,7 +166,7 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public int RemoveReceiveVoucherInfoByID(string idProduct, string idReceiveVoucher)
+        public int RemoveByID(string idProduct, string idReceiveVoucher)
         {
             ReceiveVoucherInfo info = db.ReceiveVoucherInfoes.Find(idProduct, idReceiveVoucher);
             db.ReceiveVoucherInfoes.Remove(info);

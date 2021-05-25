@@ -42,7 +42,7 @@ CREATE TABLE ReceiveVoucher
 (
 	ID VARCHAR(30) PRIMARY KEY,
 	Date DATETIME DEFAULT GETDATE(),
-	IDSupplier VARCHAR(30) REFERENCES Supplier(ID)
+	IDSupplier VARCHAR(30) REFERENCES Supplier(ID)  
 )
 
 GO
@@ -215,9 +215,18 @@ GO
 
 --GO
 
-create view ProductCanSellView
+alter view ProductCanSellView
 as 
-	select pt.Name as [TypeName], p.ID as [ProductID],p.Name as [ProductName],p.Unit,sum(i.PriceInput) as [SumPriceInput],sum(i.QuantityInput) as [SumQuantityInput] , sum(i.QuantityOutput) as [SumQuantityOutput], count(p.ID) as [Count], pt.ID as[IDType]
+	select 
+		pt.Name as [TypeName],
+		p.ID as [ProductID],
+		p.Name as [ProductName],
+		p.Unit,
+		sum(isnull( i.PriceInput,0)) as [SumPriceInput],
+		sum(isnull(i.QuantityInput,0)) as [SumQuantityInput] ,
+		sum(isnull(i.QuantityOutput,0)) as [SumQuantityOutput],
+		count(p.ID) as [Count],
+		pt.ID as[IDType]
 	from ReceiveVoucherInfo i
 	join Product p on p.ID = i.IDProduct
 	join ProductType pt on pt.id = p.IdType
@@ -245,7 +254,7 @@ as
 		c.ID as[CustomerID]
 	from DeliveryVoucher v
 	left join DeliveryVoucherInfo i on v.ID = i.IDDeliveryVoucher
-	join Product p on i.IDProduct = p.ID
+	left join Product p on i.IDProduct = p.ID
 	join Customer c on v.IDCustomer = c.ID
 	group by v.ID, i.IDProduct,i.PriceOutput,p.Name,p.Unit,v.Date,c.Name,c.Phone,c.Email,c.ID
 
@@ -272,7 +281,7 @@ go
 --EXEC dbo.InsertProduct @ID = '@-/\70000001' , @Name='banh xe ben' , @Unit = 'qua'
 
 --create trigger insert deliveryvoucherinfo
-create trigger InsertDeliveryVoucherInfo
+alter trigger InsertDeliveryVoucherInfo
 on deliveryvoucherInfo
 after insert
 as
@@ -290,10 +299,12 @@ begin
 	from inserted i
 	
 	update ReceiveVoucherInfo 
-	set QuantityOutput += @quantityOutput
+	set QuantityOutput = ISNULL(QuantityOutput,0) + @quantityOutput
 	where IDReceiveVoucher = @idReceiveVoucher 
 		and IDProduct = @idProduct
 end
+
+
 --create trigger for delete delivery voucher info
 create trigger DeleteDeliveryVoucherInfo
 on DeliveryVoucherInfo
@@ -313,6 +324,22 @@ begin
 	update ReceiveVoucherInfo 
 	set QuantityOutput -=@quantityOutput
 	where IDReceiveVoucher = @idReceiveVoucher and IDProduct = @idProduct
+end
+--trigger update deliveryvoucherinfo
+alter trigger UpdateDeliveryVoucherInfo on DeliveryVoucherInfo
+after update as
+begin
+
+	-- minus from iddevoucher, idproduct
+	--update to idReVoucher,idProduct
+	update ReceiveVoucherInfo 
+	set QuantityOutput += i.Quantity-d.Quantity
+	from deleted d 
+	join inserted i
+		on d.IDDeliveryVoucher = i.IDDeliveryVoucher and d.IDProduct = i.IDProduct 
+			and d.IDReceiveVoucher = i.IDReceiveVoucher
+	where ReceiveVoucherInfo.IDReceiveVoucher = i.IDReceiveVoucher 
+			and ReceiveVoucherInfo.IDProduct = i.IDProduct 
 end
 
 
@@ -392,7 +419,7 @@ begin
 end
 
 --view receive voucher dto
-create view ReceiveVoucherDTO
+alter view ReceiveVoucherDTO
 as
 	select 
 		rv.ID as [ReceiveVoucherID],
@@ -402,16 +429,18 @@ as
 		rv.Date,
 		ri.QuantityInput,
 		ri.PriceInput,
+		ri.QuantityOutput,
 		ri.Note,
+		s.ID as [SupplierID],
 		s.Name as [SupplierName],
 		s.Address,
 		s.Phone
 	from ReceiveVoucher rv
-	join ReceiveVoucherInfo ri 
+	left join ReceiveVoucherInfo ri 
 		on rv.ID = ri.IDReceiveVoucher
-	join Supplier s 
+	left join Supplier s 
 		on rv.IDSupplier = s.ID
-	join Product p 
+	left join Product p 
 		on p.ID = ri.IDProduct
 
 --create view productDTO

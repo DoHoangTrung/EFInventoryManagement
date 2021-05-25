@@ -23,7 +23,6 @@ namespace QuanLyKhoHang.DAL
             private set { }
         }
 
-      
 
         public int InsertSupplier(string id, string name, string address, string phoneNumber, string email)
         {
@@ -134,9 +133,14 @@ namespace QuanLyKhoHang.DAL
                     }
                 ).Select(s => s).ToList();
             }
-            
+
 
             return suppliers;
+        }
+
+        public Supplier GetByID(string id)
+        {
+            return db.Suppliers.Find(id);
         }
     }
 }

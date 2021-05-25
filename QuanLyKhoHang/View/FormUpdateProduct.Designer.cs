@@ -54,22 +54,24 @@ namespace QuanLyKhoHang
             // 
             // buttonOK
             // 
+            this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonOK.Location = new System.Drawing.Point(321, 497);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(142, 39);
-            this.buttonOK.TabIndex = 6;
+            this.buttonOK.TabIndex = 3;
             this.buttonOK.Text = "Đồng ý";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
             // buttonCancel
             // 
+            this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonCancel.Location = new System.Drawing.Point(523, 497);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(142, 39);
-            this.buttonCancel.TabIndex = 7;
+            this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Thoát";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -80,7 +82,7 @@ namespace QuanLyKhoHang
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.00559F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.99442F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 365F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 366F));
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 5);
@@ -118,7 +120,7 @@ namespace QuanLyKhoHang
             this.label2.Location = new System.Drawing.Point(3, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 20);
-            this.label2.TabIndex = 0;
+            this.label2.TabIndex = 10;
             this.label2.Text = "ID:";
             // 
             // label3
@@ -128,7 +130,7 @@ namespace QuanLyKhoHang
             this.label3.Location = new System.Drawing.Point(3, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 20);
-            this.label3.TabIndex = 0;
+            this.label3.TabIndex = 10;
             this.label3.Text = "Tên:";
             // 
             // label4
@@ -138,14 +140,14 @@ namespace QuanLyKhoHang
             this.label4.Location = new System.Drawing.Point(3, 240);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 20);
-            this.label4.TabIndex = 0;
+            this.label4.TabIndex = 10;
             this.label4.Text = "Đơn vị:";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(448, 48);
+            this.label5.Location = new System.Drawing.Point(447, 48);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(24, 20);
             this.label5.TabIndex = 0;
@@ -155,7 +157,7 @@ namespace QuanLyKhoHang
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(448, 144);
+            this.label6.Location = new System.Drawing.Point(447, 144);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(24, 20);
             this.label6.TabIndex = 0;
@@ -165,7 +167,7 @@ namespace QuanLyKhoHang
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(448, 240);
+            this.label7.Location = new System.Drawing.Point(447, 240);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(24, 20);
             this.label7.TabIndex = 0;
@@ -174,7 +176,7 @@ namespace QuanLyKhoHang
             // textBoxProductNameUpdate
             // 
             this.textBoxProductNameUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxProductNameUpdate.Location = new System.Drawing.Point(491, 147);
+            this.textBoxProductNameUpdate.Location = new System.Drawing.Point(490, 147);
             this.textBoxProductNameUpdate.Name = "textBoxProductNameUpdate";
             this.textBoxProductNameUpdate.Size = new System.Drawing.Size(351, 27);
             this.textBoxProductNameUpdate.TabIndex = 1;
@@ -182,68 +184,68 @@ namespace QuanLyKhoHang
             // textBoxProductUnitUpdate
             // 
             this.textBoxProductUnitUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxProductUnitUpdate.Location = new System.Drawing.Point(491, 243);
+            this.textBoxProductUnitUpdate.Location = new System.Drawing.Point(490, 243);
             this.textBoxProductUnitUpdate.Name = "textBoxProductUnitUpdate";
             this.textBoxProductUnitUpdate.Size = new System.Drawing.Size(351, 27);
-            this.textBoxProductUnitUpdate.TabIndex = 1;
+            this.textBoxProductUnitUpdate.TabIndex = 2;
             // 
             // labelNameNotification
             // 
             this.labelNameNotification.AutoSize = true;
             this.labelNameNotification.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelNameNotification.Location = new System.Drawing.Point(491, 192);
+            this.labelNameNotification.Location = new System.Drawing.Point(490, 192);
             this.labelNameNotification.Name = "labelNameNotification";
             this.labelNameNotification.Size = new System.Drawing.Size(53, 20);
-            this.labelNameNotification.TabIndex = 2;
+            this.labelNameNotification.TabIndex = 10;
             this.labelNameNotification.Text = "label8";
             // 
             // labelUnitNotification
             // 
             this.labelUnitNotification.AutoSize = true;
             this.labelUnitNotification.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUnitNotification.Location = new System.Drawing.Point(491, 288);
+            this.labelUnitNotification.Location = new System.Drawing.Point(490, 288);
             this.labelUnitNotification.Name = "labelUnitNotification";
             this.labelUnitNotification.Size = new System.Drawing.Size(53, 20);
-            this.labelUnitNotification.TabIndex = 2;
+            this.labelUnitNotification.TabIndex = 10;
             this.labelUnitNotification.Text = "label8";
             // 
             // labelProductIDUpdate
             // 
             this.labelProductIDUpdate.AutoSize = true;
             this.labelProductIDUpdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelProductIDUpdate.Location = new System.Drawing.Point(491, 48);
+            this.labelProductIDUpdate.Location = new System.Drawing.Point(490, 48);
             this.labelProductIDUpdate.Name = "labelProductIDUpdate";
             this.labelProductIDUpdate.Size = new System.Drawing.Size(101, 20);
-            this.labelProductIDUpdate.TabIndex = 0;
+            this.labelProductIDUpdate.TabIndex = 10;
             this.labelProductIDUpdate.Text = "labelGoodID";
             // 
             // labelProductID
             // 
             this.labelProductID.AutoSize = true;
             this.labelProductID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelProductID.Location = new System.Drawing.Point(141, 48);
+            this.labelProductID.Location = new System.Drawing.Point(140, 48);
             this.labelProductID.Name = "labelProductID";
             this.labelProductID.Size = new System.Drawing.Size(101, 20);
-            this.labelProductID.TabIndex = 0;
+            this.labelProductID.TabIndex = 10;
             this.labelProductID.Text = "labelGoodID";
             // 
             // textBoxProductUnit
             // 
             this.textBoxProductUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxProductUnit.Location = new System.Drawing.Point(141, 243);
+            this.textBoxProductUnit.Location = new System.Drawing.Point(140, 243);
             this.textBoxProductUnit.Name = "textBoxProductUnit";
             this.textBoxProductUnit.ReadOnly = true;
             this.textBoxProductUnit.Size = new System.Drawing.Size(239, 27);
-            this.textBoxProductUnit.TabIndex = 1;
+            this.textBoxProductUnit.TabIndex = 10;
             // 
             // textBoxProductName
             // 
             this.textBoxProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxProductName.Location = new System.Drawing.Point(141, 147);
+            this.textBoxProductName.Location = new System.Drawing.Point(140, 147);
             this.textBoxProductName.Name = "textBoxProductName";
             this.textBoxProductName.ReadOnly = true;
             this.textBoxProductName.Size = new System.Drawing.Size(239, 27);
-            this.textBoxProductName.TabIndex = 1;
+            this.textBoxProductName.TabIndex = 10;
             // 
             // label8
             // 
@@ -252,17 +254,17 @@ namespace QuanLyKhoHang
             this.label8.Location = new System.Drawing.Point(3, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(124, 20);
-            this.label8.TabIndex = 0;
+            this.label8.TabIndex = 10;
             this.label8.Text = "Loại sản phẩm:";
             // 
             // comboBoxType
             // 
             this.comboBoxType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxType.FormattingEnabled = true;
-            this.comboBoxType.Location = new System.Drawing.Point(491, 3);
+            this.comboBoxType.Location = new System.Drawing.Point(490, 3);
             this.comboBoxType.Name = "comboBoxType";
             this.comboBoxType.Size = new System.Drawing.Size(121, 28);
-            this.comboBoxType.TabIndex = 3;
+            this.comboBoxType.TabIndex = 0;
             // 
             // label1
             // 
@@ -271,13 +273,15 @@ namespace QuanLyKhoHang
             this.label1.Location = new System.Drawing.Point(325, 52);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(195, 20);
-            this.label1.TabIndex = 4;
+            this.label1.TabIndex = 10;
             this.label1.Text = "Bạn muốn sửa sản phấm";
             // 
             // FormUpdateProduct
             // 
+            this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(977, 561);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);

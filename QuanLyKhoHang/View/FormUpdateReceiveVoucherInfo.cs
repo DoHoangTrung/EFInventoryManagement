@@ -1,4 +1,5 @@
 ﻿using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,11 @@ namespace QuanLyKhoHang.View
 {
     public partial class FormUpdateReceiveVoucherInfo : Form
     {
-        public ReceiveVoucherInfo receiveVoucherInfoTransfer;
+        public ReceiveVoucherInfoDTO reVoucherInfoSelected;
 
-        public List<Product> productsOutOfVoucherAndThisSelected;
+        public ReceiveVoucherInfoDTO infoUpdate;
+
+        public List<Product> productHaveNotChosenAndThisSelectedProduct;
 
         public FormUpdateReceiveVoucherInfo()
         {
@@ -27,14 +30,14 @@ namespace QuanLyKhoHang.View
         {
             LoadComboboxProduct();
 
-            labelInputQuantity.Text = receiveVoucherInfoTransfer.QuantityInput.ToString();
-            labelInputPrice.Text = receiveVoucherInfoTransfer.PriceInput.ToString();
-            labelQuantityOutput.Text = receiveVoucherInfoTransfer.QuantityOutput.ToString();
-            labelNote.Text = receiveVoucherInfoTransfer.Note;
+            labelInputQuantity.Text = reVoucherInfoSelected.QuantityInput.ToString();
+            labelInputPrice.Text = reVoucherInfoSelected.PriceInput.ToString();
+            labelQuantityOutput.Text = reVoucherInfoSelected.QuantityOutput.ToString();
+            labelNote.Text = reVoucherInfoSelected.Note;
 
-            numericUpDownInputQuantity.Value = (decimal)receiveVoucherInfoTransfer.QuantityInput;
-            numericUpDownInputPrice.Value = (decimal)receiveVoucherInfoTransfer.PriceInput;
-            textBoxNote.Text = receiveVoucherInfoTransfer.Note;
+            numericUpDownInputQuantity.Value = (decimal)reVoucherInfoSelected.QuantityInput;
+            numericUpDownInputPrice.Value = (decimal)reVoucherInfoSelected.PriceInput;
+            textBoxNote.Text = reVoucherInfoSelected.Note;
 
             FieldCantChangeIfProductSold();
         }
@@ -48,17 +51,18 @@ namespace QuanLyKhoHang.View
         {
             if (CheckQuantityInput())
             {
-                string idProduct, note;
-                int quantityInput, inputPrice, outputPrice, quantityOutput;
+                string idProduct, note, productName, voucherID;
+                int quantityInput, priceInput, outputPrice, quantityOutput;
 
+                voucherID = reVoucherInfoSelected.IDReceiveVoucher;
                 idProduct = (comboBoxProductID.SelectedItem as Product).ID;
+                productName = (comboBoxProductName.SelectedItem as Product).Name;
                 quantityInput = (int)numericUpDownInputQuantity.Value;
-                inputPrice = (int)numericUpDownInputPrice.Value;
+                priceInput = (int)numericUpDownInputPrice.Value;
                 quantityOutput = int.Parse(labelQuantityOutput.Text);
-                outputPrice = (int)numericUpDownOutputPrice.Value;
                 note = textBoxNote.Text;
 
-                receiveVoucherInfoTransfer = ReceiveVoucherInfoDAO.Instance.InitReceiveVoucherInfo(idProduct, "", quantityInput, inputPrice, quantityOutput, note);
+                infoUpdate = new ReceiveVoucherInfoDTO(idProduct, productName, voucherID, quantityInput, priceInput, quantityOutput, note);
 
                 this.Close();
             }
@@ -87,7 +91,7 @@ namespace QuanLyKhoHang.View
         private void FieldCantChangeIfProductSold()
         {
             //if product had been sold, you can't change productID, name
-            int quantityOutput = (int)receiveVoucherInfoTransfer.QuantityOutput;
+            int quantityOutput = (int)reVoucherInfoSelected.QuantityOutput;
 
             if (quantityOutput > 0)
             {
@@ -100,11 +104,11 @@ namespace QuanLyKhoHang.View
         {
             //get product: include selected product and products that aren't in voucher
 
-            string idProduct = receiveVoucherInfoTransfer.IDProduct;
-            productsOutOfVoucherAndThisSelected.Add(ProductDAO.Instance.GetProductByID(idProduct));
+            string idProduct = reVoucherInfoSelected.IDProduct;
+            productHaveNotChosenAndThisSelectedProduct.Add(ProductDAO.Instance.GetByID(idProduct));
 
-            comboBoxProductID.DataSource = productsOutOfVoucherAndThisSelected;
-            comboBoxProductName.DataSource = productsOutOfVoucherAndThisSelected;
+            comboBoxProductID.DataSource = productHaveNotChosenAndThisSelectedProduct;
+            comboBoxProductName.DataSource = productHaveNotChosenAndThisSelectedProduct;
 
             comboBoxProductID.DisplayMember = "ID";
             comboBoxProductName.DisplayMember = "Name";

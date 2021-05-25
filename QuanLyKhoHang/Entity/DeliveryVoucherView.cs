@@ -16,13 +16,9 @@ namespace QuanLyKhoHang.Entity
 
         public DateTime? Date { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
         [StringLength(30)]
         public string ProductID { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
         [StringLength(100)]
         public string ProductName { get; set; }
 
@@ -43,7 +39,7 @@ namespace QuanLyKhoHang.Entity
         public string Email { get; set; }
 
         [Key]
-        [Column(Order = 3)]
+        [Column(Order = 1)]
         [StringLength(30)]
         public string CustomerID { get; set; }
     }

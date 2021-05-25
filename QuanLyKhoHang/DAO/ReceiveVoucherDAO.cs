@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
+using QuanLyKhoHang.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -105,6 +106,26 @@ namespace QuanLyKhoHang.DAO
             return result;
         }
 
+        public int InserReceivetVoucher(string idVoucher, DateTime date, string IDSupplier , List<ReceiveVoucherInfo> voucherInfos)
+        {
+            int rowAffected = 0;
+
+            ReceiveVoucher voucher = new ReceiveVoucher();
+            voucher.ID = idVoucher;
+            voucher.Date = date;
+            voucher.IDSupplier = IDSupplier;
+            foreach (var info in voucherInfos)
+            {
+                voucher.ReceiveVoucherInfoes.Add(info);
+            }
+
+            db.ReceiveVouchers.Add(voucher);
+            rowAffected = db.SaveChanges();
+
+            db.Entry(voucher).Reference(v => v.Supplier).Load();
+
+            return rowAffected;
+        }
         public int InserReceivetVoucher(string id, DateTime date, string IDSupplier)
         {
             int rowAffected = 0;
@@ -120,35 +141,38 @@ namespace QuanLyKhoHang.DAO
             return rowAffected;
         }
 
-        public ReceiveVoucher GetReceiveVoucherAllInfoByID(string id)
+        public ReceiveVoucher GetByID(string id)
         {
-            ReceiveVoucher voucher = db.ReceiveVouchers.Find(id);
-            //a receive voucher has a supplier
-            voucher.Supplier = db.Suppliers.Find(voucher.IDSupplier);
-
-            //a receive voucher has a list of infomation
-            voucher.ReceiveVoucherInfoes = (from i in db.ReceiveVoucherInfoes
-                                            where i.IDReceiveVoucher == voucher.ID
-                                            select i).ToList();
-            foreach (var vInfo in voucher.ReceiveVoucherInfoes)
-            {
-                //in a voucher information has a product 
-                vInfo.Product = db.Products.Find(vInfo.IDProduct);
-            }
-
-            return voucher;
+            return db.ReceiveVouchers.Find(id);
         }
 
-        public int UpdateReceiveVoucher(ReceiveVoucher voucherUpdate)
+        public int UpdateReceiveVoucher(ReceiveVoucher vUpdate)
         {
             int rowAffected = 0;
-            string idVoucher = voucherUpdate.ID;
+            string idVoucher = vUpdate.ID;
 
             ReceiveVoucher voucher = db.ReceiveVouchers.Find(idVoucher);
-            voucher.IDSupplier = voucherUpdate.IDSupplier;
-            voucher.Date = voucherUpdate.Date;
+            if (voucher != null)
+            {
+                //voucher.Supplier = null;
+                voucher.IDSupplier = vUpdate.IDSupplier;
+                voucher.Date = vUpdate.Date;
 
-            rowAffected = db.SaveChanges();
+                //remove old info
+                foreach (var oInfo in voucher.ReceiveVoucherInfoes.ToList())
+                {
+                    voucher.ReceiveVoucherInfoes.Remove(oInfo);
+                }
+
+                //add new info
+                foreach (var nInfo in vUpdate.ReceiveVoucherInfoes)
+                {
+                    voucher.ReceiveVoucherInfoes.Add(nInfo);
+                }
+
+                rowAffected = db.SaveChanges();
+                db.Entry(voucher).Reference(v => v.Supplier).Load();
+            }
 
             return rowAffected;
         }
@@ -157,7 +181,7 @@ namespace QuanLyKhoHang.DAO
         {
             bool check = false;
 
-            ReceiveVoucher voucher = GetReceiveVoucherAllInfoByID(idVoucher);
+            ReceiveVoucher voucher = GetByID(idVoucher);
             foreach (var info in voucher.ReceiveVoucherInfoes)
             {
                 if (info.QuantityOutput > 0) check = true;
@@ -170,29 +194,79 @@ namespace QuanLyKhoHang.DAO
         public int RemoveReceiveVoucher(string idVoucher)
         {
             int rowAffected = 0;
-            //we check HaveTheProductBeenSold before event remove fire
-            ReceiveVoucher voucher = GetReceiveVoucherAllInfoByID(idVoucher);
 
-            //step1: remove voucher info 
-            foreach (var info in voucher.ReceiveVoucherInfoes)
+            //we check HaveTheProductBeenSold before remove
+
+            if (!HaveTheProductBeenSold(idVoucher))
             {
-                ReceiveVoucherInfoDAO.Instance.RemoveReceiveVoucherInfoByID(info.IDProduct, info.IDReceiveVoucher);
-            }
-            //step2: remove voucher
-            db.ReceiveVouchers.Remove(voucher);
+                ReceiveVoucher voucher = GetByID(idVoucher);
+                if(voucher != null)
+                {
+                    foreach (var info in voucher.ReceiveVoucherInfoes.ToList())
+                    {
+                        voucher.ReceiveVoucherInfoes.Remove(info);
+                    }
 
-            rowAffected = db.SaveChanges();
-            
+                    db.ReceiveVouchers.Remove(voucher);
+
+                    rowAffected = db.SaveChanges();
+                }
+            }
             return rowAffected;
         }
 
-        public async Task<IPagedList<ReceiveVoucherDTO>> GetPagedList(int pageNum = 1, int pageSize = 20)
+        public List<ReceiveVoucherDTO> GetList(SearchModel searchModel)
         {
-            return await Task.Run(() =>
+            var vouchers = db.Database.SqlQuery<ReceiveVoucherDTO>("select * from ReceiveVoucherDTO").ToList();
+
+            if (!string.IsNullOrEmpty(searchModel.KeyWords))
             {
-                var data = db.Database.SqlQuery<ReceiveVoucherDTO>("select * from ReceiveVoucherDTO");
-                return data.ToPagedList<ReceiveVoucherDTO>(pageNum, pageSize);
-            });
+                vouchers = vouchers.Where((v) =>
+                {
+                    //find keywords in text
+                    string text, key;
+                    text = v.ReceiveVoucherID + " " + v.ProductID + " " + v.ProductName + " " + v.Unit + " "
+                    + v.Note + " " + v.SupplierName + " " + v.Phone
+                    + " " + v.Address;
+                    key = searchModel.KeyWords;
+
+                    text = text.Format();
+                    key = key.Format();
+
+                    if (text.Contains(key))
+                        return true;
+                    else
+                        return false;
+                }).Select(v => v).ToList();
+            }
+
+            if (searchModel.MaxValue != null)
+            {
+                int max, min;
+                max = (int)searchModel.MaxValue;
+                min = (int)searchModel.MinValue;
+
+                vouchers = vouchers.Where(v =>
+                {
+                    return min <= v.PriceInput && v.PriceInput <= max;
+
+                }).Select(v => v).ToList();
+            }
+
+            if (searchModel.FromDate != null)
+            {
+                DateTime fromDate, toDate;
+                fromDate = (DateTime)searchModel.FromDate;
+                toDate = (DateTime)searchModel.ToDate;
+
+                vouchers = vouchers.Where(v =>
+                {
+                    return fromDate <= v.Date && v.Date <= toDate;
+
+                }).Select(v => v).ToList();
+            }
+
+            return vouchers;
         }
     }
 }

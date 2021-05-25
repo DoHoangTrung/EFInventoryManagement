@@ -2,6 +2,7 @@
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,13 @@ namespace QuanLyKhoHang.DAO
             List<DeliveryVoucher> deliveryVouchers = db.DeliveryVouchers.ToList();
             foreach (var voucher in deliveryVouchers)
             {
-                Customer customerInVoucher = CustomerDAO.Instance.GetCustomerByID(voucher.IDCustomer);
+                Customer customerInVoucher = CustomerDAO.Instance.GetByID(voucher.IDCustomer);
                 voucher.Customer = customerInVoucher;
 
                 List<DeliveryVoucherInfo> deliveryVoucherInfos = DeliveryVoucherInfoDAO.Instance.GetDeliveryVoucherInfosByIDVoucher(voucher.ID);
                 foreach (var info in deliveryVoucherInfos)
                 {
-                    Product productInVoucher = ProductDAO.Instance.GetProductByID(info.IDProduct);
+                    Product productInVoucher = ProductDAO.Instance.GetByID(info.IDProduct);
                     info.Product = productInVoucher;
                 }
 
@@ -44,7 +45,7 @@ namespace QuanLyKhoHang.DAO
         public DeliveryVoucher GetByID(string idVoucher)
         {
             DeliveryVoucher deliveryVouchers = db.DeliveryVouchers.Find(idVoucher);
-            
+
             return deliveryVouchers;
         }
 
@@ -55,13 +56,19 @@ namespace QuanLyKhoHang.DAO
             return ids;
         }
 
-        public void Insert(DeliveryVoucher v)
+        public void Insert(string idVoucher, string idCustomer, DateTime date,List<DeliveryVoucherInfo> voucherInfos)
         {
-            if (v != null)
+            DeliveryVoucher newVoucher = new DeliveryVoucher();
+            newVoucher.ID = idVoucher;
+            newVoucher.Date = date;
+            newVoucher.IDCustomer = idCustomer;
+            foreach (var info in voucherInfos)
             {
-                db.DeliveryVouchers.Add(v);
-                db.SaveChanges();
+                newVoucher.DeliveryVoucherInfoes.Add(info);
             }
+            db.DeliveryVouchers.Add(newVoucher);
+            db.SaveChanges();
+            db.Entry(newVoucher).Reference(p => p.Customer).Load();
         }
 
         public List<DeliveryVoucher> GetList()
@@ -69,20 +76,28 @@ namespace QuanLyKhoHang.DAO
             return db.DeliveryVouchers.ToList();
         }
 
-        public void DeleteByID(string idDeliveryVoucher)
+        public int DeleteByID(string idDeliveryVoucher)
         {
+            int rowAffected = 0;
             DeliveryVoucher voucher = db.DeliveryVouchers.Find(idDeliveryVoucher);
-            if(voucher.DeliveryVoucherInfoes != null)
+            int row = db.DeliveryVoucherInfoes.Count();
+            if (voucher != null)
             {
+                if (voucher.DeliveryVoucherInfoes.Count > 0)
+                {
+                    foreach (var info in voucher.DeliveryVoucherInfoes.ToList())
+                    {
+                        voucher.DeliveryVoucherInfoes.Remove(info);
+                    }
+                }
+
+                DeliveryVoucher v = db.DeliveryVouchers.Find(idDeliveryVoucher);
+
                 db.DeliveryVouchers.Remove(voucher);
-                db.SaveChanges();
+                rowAffected = db.SaveChanges();
             }
-            else
-            {
-                db.DeliveryVoucherInfoes.RemoveRange(voucher.DeliveryVoucherInfoes);
-                db.DeliveryVouchers.Remove(voucher);
-                db.SaveChanges();
-            }
+
+            return rowAffected;
         }
     }
 }

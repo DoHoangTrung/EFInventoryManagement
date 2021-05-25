@@ -22,34 +22,37 @@ namespace QuanLyKhoHang.View
 
         private void FormDeleteDeliveryVoucher_Load(object sender, EventArgs e)
         {
-            var DeliVoucher = DeliveryVoucherDAO.Instance.GetByID(DeliveryVoucherID);
+            var deliVoucher = DeliveryVoucherDAO.Instance.GetByID(DeliveryVoucherID);
 
             //load voucher
-            textBoxDeliveryVoucherID.Text = DeliVoucher.ID;
-            dateTimePickerDeliveryDate.Value = (DateTime)DeliVoucher.Date;
-            textBoxNote.Text = DeliVoucher.Note;
+            textBoxDeliveryVoucherID.Text = deliVoucher.ID;
+            dateTimePickerDeliveryDate.Value = (DateTime)deliVoucher.Date;
+            textBoxNote.Text = deliVoucher.Note;
 
             //load customer
-            textBoxCustomerID.Text = DeliVoucher.Customer.ID;
-            textBoxCustomerName.Text = DeliVoucher.Customer.Name;
-            labelPhone.Text = DeliVoucher.Customer.Phone;
+            Customer customer = deliVoucher.Customer;
+            textBoxCustomerID.Text = deliVoucher.Customer.ID;
+            textBoxCustomerName.Text = deliVoucher.Customer.Name;
+            labelPhone.Text = deliVoucher.Customer.Phone;
 
             //load list product
             DeliveryVoucherInfoViewDAO voucherDao = new DeliveryVoucherInfoViewDAO();
-            var products = voucherDao.GetListByIDVoucher(DeliVoucher.ID);
+            var products = voucherDao.GetListByIDVoucher(deliVoucher.ID);
 
-            dataGridViewDeliveryInfo.DataSource = products;
+            dtgvDeliveryInfo.DataSource = products;
 
             //rename column header text
-            dataGridViewDeliveryInfo.Columns["ProductID"].HeaderText = "ID sản phẩm";
-            dataGridViewDeliveryInfo.Columns["ProductName"].HeaderText = "Tên sản phẩm";
-            dataGridViewDeliveryInfo.Columns["SumQuantity"].HeaderText = "Số lượng xuất";
-            dataGridViewDeliveryInfo.Columns["PriceOutput"].HeaderText = "Giá xuất";
-            dataGridViewDeliveryInfo.Columns["DeliveryVoucherID"].HeaderText = "ID phiếu xuất";
+            dtgvDeliveryInfo.Columns["ProductID"].HeaderText = "ID sản phẩm";
+            dtgvDeliveryInfo.Columns["ProductName"].HeaderText = "Tên sản phẩm";
+            dtgvDeliveryInfo.Columns["SumQuantity"].HeaderText = "Số lượng xuất";
+            dtgvDeliveryInfo.Columns["PriceOutput"].HeaderText = "Giá xuất";
+            dtgvDeliveryInfo.Columns["DeliveryVoucherID"].HeaderText = "ID phiếu xuất";
 
             //hide column of dtgv:
-            dataGridViewDeliveryInfo.Columns["ProductID"].Visible = false;
-            dataGridViewDeliveryInfo.Columns["DeliveryVoucherID"].Visible = false;
+            dtgvDeliveryInfo.Columns["ProductID"].Visible = false;
+            dtgvDeliveryInfo.Columns["DeliveryVoucherID"].Visible = false;
+
+            dtgvDeliveryInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -62,7 +65,15 @@ namespace QuanLyKhoHang.View
             var action = MessageBox.Show("Bạn chắc chắn muốn xóa", "Xác nhận", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (action == DialogResult.OK)
             {
-                DeliveryVoucherDAO.Instance.DeleteByID(DeliveryVoucherID);
+                int rowAffected = DeliveryVoucherDAO.Instance.DeleteByID(DeliveryVoucherID);
+                if(rowAffected > 0)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Không thành công");
+                }
             }
         }
     }

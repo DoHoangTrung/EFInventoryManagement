@@ -28,8 +28,10 @@ namespace QuanLyKhoHang
             labelProductIDUpdate.Text = selectedProductFromDtgv.ID;
 
             textBoxProductName.Text = selectedProductFromDtgv.Name;
+            textBoxProductNameUpdate.Text = selectedProductFromDtgv.Name;
 
             textBoxProductUnit.Text = selectedProductFromDtgv.Unit;
+            textBoxProductUnitUpdate.Text = selectedProductFromDtgv.Unit;
 
             LoadComboboxType();
             //set selected item is product type (before update)

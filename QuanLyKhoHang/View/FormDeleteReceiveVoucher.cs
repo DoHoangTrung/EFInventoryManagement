@@ -1,5 +1,6 @@
 ﻿using QuanLyKhoHang.DAL;
 using QuanLyKhoHang.DAO;
+using QuanLyKhoHang.DTO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace QuanLyKhoHang.View
 {
     public partial class FormDeleteReceiveVoucher : Form
     {
-        public ReceiveVoucher voucherTagged;
+        public ReceiveVoucher voucherSelected;
         public FormDeleteReceiveVoucher()
         {
             InitializeComponent();
@@ -23,45 +24,23 @@ namespace QuanLyKhoHang.View
 
         private void FormDeleteReceiveVoucher_Load(object sender, EventArgs e)
         {
-            labelReceiveVoucherID.Text = voucherTagged.ID;
-            labelDateReceive.Text = voucherTagged.Date.ToString();
-            labelSupplierID.Text= voucherTagged.IDSupplier;
-            labelSupplierName.Text = SupplierDAO.Instance.GetNameByID(voucherTagged.IDSupplier);
+            labelReceiveVoucherID.Text = voucherSelected.ID;
+            labelDateReceive.Text = voucherSelected.Date.ToString();
+            labelSupplierID.Text = voucherSelected.IDSupplier;
+            labelSupplierName.Text = voucherSelected.Supplier.Name;
 
             LoadDTGViewVoucherInfo();
         }
 
         private void LoadDTGViewVoucherInfo()
         {
-                //Create dataGridView product
-                dataGridViewVoucherInfo.Columns.Add("productID", "ID");
-                dataGridViewVoucherInfo.Columns.Add("productName", "Tên sản phẩm");
-                dataGridViewVoucherInfo.Columns.Add("quantityInput", "Số lượng nhập");
-                dataGridViewVoucherInfo.Columns.Add("inputPrice", "Giá nhập");
-                dataGridViewVoucherInfo.Columns.Add("quantityOutput", "Số lượng xuất");
-                dataGridViewVoucherInfo.Columns.Add("note", "Ghi chú");
+            var reVoucherInfos = ReceiveVoucherInfoDAO.Instance.GetListDTO(voucherSelected.ID);
 
-                dataGridViewVoucherInfo.Columns["quantityOutput"].DefaultCellStyle.ForeColor = Color.FromArgb(255, 51, 51);
-
-                //add data
-                foreach (var voucherInfo in voucherTagged.ReceiveVoucherInfoes)
-                {
-                    Product productInVoucherInfo = voucherInfo.Product;
-
-                    string id, name, note;
-                    int? quantityInput, inputPrice, outputPrice, quantityOutput;
-
-                    id = productInVoucherInfo.ID;
-                    name = productInVoucherInfo.Name;
-                    quantityInput = voucherInfo.QuantityInput;
-                    inputPrice = voucherInfo.PriceInput;
-                    quantityOutput = voucherInfo.QuantityOutput;
-                    note = voucherInfo.Note;
-
-                    dataGridViewVoucherInfo.Rows.Add(id, name, quantityInput, inputPrice, quantityOutput, note);
-                }
+            dtgvVoucherInfo.DataSource = new SortableBindingList<ReceiveVoucherInfoDTO>(reVoucherInfos);
+            dtgvVoucherInfo.Columns["IDProduct"].Visible = false;
+            dtgvVoucherInfo.Columns["IDReceiveVoucher"].Visible = false;
+            dtgvVoucherInfo.Columns["QuantityOutput"].DefaultCellStyle.ForeColor = Color.FromArgb(255, 51, 51);
         }
-
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -69,15 +48,22 @@ namespace QuanLyKhoHang.View
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            int rowAffected = ReceiveVoucherDAO.Instance.RemoveReceiveVoucher(voucherTagged.ID);
-            if(rowAffected > 0)
-            {
-                MessageBox.Show("Xóa thành công");
-                this.Close();
+            //if this receive voucher doesn't have products that been sold
+            if (!ReceiveVoucherDAO.Instance.HaveTheProductBeenSold(voucherSelected.ID)){
+                int rowAffected = ReceiveVoucherDAO.Instance.RemoveReceiveVoucher(voucherSelected.ID);
+                if (rowAffected > 0)
+                {
+                    MessageBox.Show("Xóa thành công");
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Không thành công");
+                }
             }
             else
             {
-                MessageBox.Show("Không thành công");
+                MessageBox.Show("Không thể xóa phiếu nhập tồn tại sản phẩm đã xuất kho");
             }
         }
     }

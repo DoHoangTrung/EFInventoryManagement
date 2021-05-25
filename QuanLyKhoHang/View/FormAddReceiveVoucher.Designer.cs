@@ -33,12 +33,10 @@ namespace QuanLyKhoHang
             this.textBoxNote = new System.Windows.Forms.TextBox();
             this.buttonAddGoodForm = new System.Windows.Forms.Button();
             this.dataGridViewProduct = new System.Windows.Forms.DataGridView();
-            this.numericUpDownOutputPrice = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownInputPrice = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownInputQuantity = new System.Windows.Forms.NumericUpDown();
             this.comboBoxProductName = new System.Windows.Forms.ComboBox();
             this.comboBoxProductID = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -63,7 +61,6 @@ namespace QuanLyKhoHang
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutputPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputQuantity)).BeginInit();
             this.panel1.SuspendLayout();
@@ -75,12 +72,10 @@ namespace QuanLyKhoHang
             this.panel2.Controls.Add(this.textBoxNote);
             this.panel2.Controls.Add(this.buttonAddGoodForm);
             this.panel2.Controls.Add(this.dataGridViewProduct);
-            this.panel2.Controls.Add(this.numericUpDownOutputPrice);
             this.panel2.Controls.Add(this.numericUpDownInputPrice);
             this.panel2.Controls.Add(this.numericUpDownInputQuantity);
             this.panel2.Controls.Add(this.comboBoxProductName);
             this.panel2.Controls.Add(this.comboBoxProductID);
-            this.panel2.Controls.Add(this.label9);
             this.panel2.Controls.Add(this.label10);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label7);
@@ -122,18 +117,6 @@ namespace QuanLyKhoHang
             this.dataGridViewProduct.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewProduct.Size = new System.Drawing.Size(779, 351);
             this.dataGridViewProduct.TabIndex = 30;
-            // 
-            // numericUpDownOutputPrice
-            // 
-            this.numericUpDownOutputPrice.Location = new System.Drawing.Point(217, 214);
-            this.numericUpDownOutputPrice.Maximum = new decimal(new int[] {
-            10000000,
-            0,
-            0,
-            0});
-            this.numericUpDownOutputPrice.Name = "numericUpDownOutputPrice";
-            this.numericUpDownOutputPrice.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDownOutputPrice.TabIndex = 11;
             // 
             // numericUpDownInputPrice
             // 
@@ -181,15 +164,6 @@ namespace QuanLyKhoHang
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductID.TabIndex = 6;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(18, 218);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(149, 17);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "Giá xuất (nghìn đồng):";
             // 
             // label10
             // 
@@ -428,7 +402,6 @@ namespace QuanLyKhoHang
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProduct)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownOutputPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownInputQuantity)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -442,12 +415,10 @@ namespace QuanLyKhoHang
         #endregion
 
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.NumericUpDown numericUpDownOutputPrice;
         private System.Windows.Forms.NumericUpDown numericUpDownInputPrice;
         private System.Windows.Forms.NumericUpDown numericUpDownInputQuantity;
         private System.Windows.Forms.ComboBox comboBoxProductName;
         private System.Windows.Forms.ComboBox comboBoxProductID;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label3;

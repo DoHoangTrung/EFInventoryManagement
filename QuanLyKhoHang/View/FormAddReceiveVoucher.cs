@@ -15,7 +15,7 @@ namespace QuanLyKhoHang
 {
     public partial class FormAddReceiveVoucher : Form
     {
-        
+
         public FormAddReceiveVoucher()
         {
             InitializeComponent();
@@ -64,7 +64,7 @@ namespace QuanLyKhoHang
             var sortedProducts = products.OrderBy(p => p.ID).ToList();
             comboBoxProductID.DataSource = sortedProducts;
             comboBoxProductID.DisplayMember = "ID";
-            
+
             comboBoxProductName.DataSource = sortedProducts;
             comboBoxProductName.DisplayMember = "Name";
         }
@@ -136,7 +136,7 @@ namespace QuanLyKhoHang
                 {
                     //before delete good, add that good's id into combobox id good
                     var products = comboBoxProductID.Items.Cast<Product>().ToList();
-                    Product proRemoved = ProductDAO.Instance.GetProductByID(idProductRemove);
+                    Product proRemoved = ProductDAO.Instance.GetByID(idProductRemove);
                     products.Add(proRemoved);
                     LoadProductCombobox(products);
 
@@ -157,6 +157,8 @@ namespace QuanLyKhoHang
             const int outputQuantity = 0;
             DateTime inputDate;
 
+            List<ReceiveVoucherInfo> voucherInfos = new List<ReceiveVoucherInfo>();
+
             idVoucher = comboBoxIDInputVoucher.Text;
             inputDate = dateTimePickerInputDate.Value;
             idSupplier = comboBoxIDSupplier.Text;
@@ -165,28 +167,22 @@ namespace QuanLyKhoHang
 
             if (ReceiveVoucherDAO.Instance.CheckID(idVoucher))
             {
-                //step1:insert receive voucher
-
-                rowAffected = ReceiveVoucherDAO.Instance.InserReceivetVoucher(idVoucher,inputDate,idSupplier);
-                if(rowAffected<=0)
+                int indexLastRow = dataGridViewProduct.Rows.Count - 1;
+                for (int i = 0; i < indexLastRow; i++)
                 {
-                    MessageBox.Show("khong them duoc phieu nhap");
-                }
-                else
-                {
-                    //step2: insert receive voucher information
-                    int indexLastRow = dataGridViewProduct.Rows.Count - 1;
-                    for (int i = 0; i < indexLastRow; i++)
-                    {
-                        idProduct = dataGridViewProduct.Rows[i].Cells["ProductID"].Value.ToString();
-                        inputQuantity = (int)dataGridViewProduct.Rows[i].Cells["quantityInput"].Value;
-                        inputPrice = (int)dataGridViewProduct.Rows[i].Cells["inputPrice"].Value;
-                        note = dataGridViewProduct.Rows[i].Cells["note"].Value.ToString();
+                    ReceiveVoucherInfo info = new ReceiveVoucherInfo();
+                    info.IDProduct = dataGridViewProduct.Rows[i].Cells["ProductID"].Value.ToString();
+                    info.QuantityInput = (int)dataGridViewProduct.Rows[i].Cells["quantityInput"].Value;
+                    info.PriceInput = (int)dataGridViewProduct.Rows[i].Cells["inputPrice"].Value;
+                    info.Note = dataGridViewProduct.Rows[i].Cells["note"].Value.ToString();
+                    info.QuantityOutput = outputQuantity;
+                    info.IDReceiveVoucher = idVoucher;
 
-                        rowAffected = ReceiveVoucherInfoDAO.Instance.InsertReceiveVoucherInfo(idProduct, idVoucher, inputQuantity, inputPrice, outputQuantity, note);
-                    }
+                    voucherInfos.Add(info);
                 }
-                
+
+                rowAffected = ReceiveVoucherDAO.Instance.InserReceivetVoucher(idVoucher, inputDate, idSupplier, voucherInfos);
+
             }
             return rowAffected;
         }
@@ -222,7 +218,7 @@ namespace QuanLyKhoHang
         private void comboBoxIDSupplier_SelectedIndexChanged(object sender, EventArgs e)
         {
             Supplier supplierSelected = comboBoxIDSupplier.SelectedItem as Supplier;
-            labelAddressSupplier.Text = "Địa chỉ: "+supplierSelected.Address;
+            labelAddressSupplier.Text = "Địa chỉ: " + supplierSelected.Address;
         }
 
         private void buttonAddSupplierForm_Click(object sender, EventArgs e)

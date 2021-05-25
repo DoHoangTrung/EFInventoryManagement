@@ -31,10 +31,13 @@ namespace QuanLyKhoHang.View
         {
             this.panel3 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
+            this.textBoxCustomerName = new System.Windows.Forms.TextBox();
+            this.textBoxCustomerID = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.labelPhone = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textBoxDeliveryVoucherID = new System.Windows.Forms.TextBox();
             this.textBoxNote = new System.Windows.Forms.TextBox();
             this.labelInputVoucherIDNotification = new System.Windows.Forms.Label();
             this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
@@ -42,16 +45,13 @@ namespace QuanLyKhoHang.View
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.dataGridViewDeliveryInfo = new System.Windows.Forms.DataGridView();
+            this.dtgvDeliveryInfo = new System.Windows.Forms.DataGridView();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.textBoxDeliveryVoucherID = new System.Windows.Forms.TextBox();
-            this.textBoxCustomerID = new System.Windows.Forms.TextBox();
-            this.textBoxCustomerName = new System.Windows.Forms.TextBox();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDeliveryInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvDeliveryInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // panel3
@@ -75,6 +75,22 @@ namespace QuanLyKhoHang.View
             this.label6.Size = new System.Drawing.Size(99, 17);
             this.label6.TabIndex = 23;
             this.label6.Text = "ID khách hàng";
+            // 
+            // textBoxCustomerName
+            // 
+            this.textBoxCustomerName.Location = new System.Drawing.Point(176, 123);
+            this.textBoxCustomerName.Name = "textBoxCustomerName";
+            this.textBoxCustomerName.ReadOnly = true;
+            this.textBoxCustomerName.Size = new System.Drawing.Size(338, 22);
+            this.textBoxCustomerName.TabIndex = 31;
+            // 
+            // textBoxCustomerID
+            // 
+            this.textBoxCustomerID.Location = new System.Drawing.Point(176, 78);
+            this.textBoxCustomerID.Name = "textBoxCustomerID";
+            this.textBoxCustomerID.ReadOnly = true;
+            this.textBoxCustomerID.Size = new System.Drawing.Size(338, 22);
+            this.textBoxCustomerID.TabIndex = 31;
             // 
             // label8
             // 
@@ -118,6 +134,14 @@ namespace QuanLyKhoHang.View
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(663, 282);
             this.panel1.TabIndex = 32;
+            // 
+            // textBoxDeliveryVoucherID
+            // 
+            this.textBoxDeliveryVoucherID.Location = new System.Drawing.Point(177, 78);
+            this.textBoxDeliveryVoucherID.Name = "textBoxDeliveryVoucherID";
+            this.textBoxDeliveryVoucherID.ReadOnly = true;
+            this.textBoxDeliveryVoucherID.Size = new System.Drawing.Size(166, 22);
+            this.textBoxDeliveryVoucherID.TabIndex = 31;
             // 
             // textBoxNote
             // 
@@ -175,7 +199,7 @@ namespace QuanLyKhoHang.View
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.dataGridViewDeliveryInfo);
+            this.panel2.Controls.Add(this.dtgvDeliveryInfo);
             this.panel2.Location = new System.Drawing.Point(22, 298);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1353, 404);
@@ -183,16 +207,16 @@ namespace QuanLyKhoHang.View
             // 
             // dataGridViewDeliveryInfo
             // 
-            this.dataGridViewDeliveryInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewDeliveryInfo.Location = new System.Drawing.Point(16, 13);
-            this.dataGridViewDeliveryInfo.MultiSelect = false;
-            this.dataGridViewDeliveryInfo.Name = "dataGridViewDeliveryInfo";
-            this.dataGridViewDeliveryInfo.ReadOnly = true;
-            this.dataGridViewDeliveryInfo.RowHeadersWidth = 51;
-            this.dataGridViewDeliveryInfo.RowTemplate.Height = 24;
-            this.dataGridViewDeliveryInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewDeliveryInfo.Size = new System.Drawing.Size(1324, 350);
-            this.dataGridViewDeliveryInfo.TabIndex = 30;
+            this.dtgvDeliveryInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvDeliveryInfo.Location = new System.Drawing.Point(16, 13);
+            this.dtgvDeliveryInfo.MultiSelect = false;
+            this.dtgvDeliveryInfo.Name = "dataGridViewDeliveryInfo";
+            this.dtgvDeliveryInfo.ReadOnly = true;
+            this.dtgvDeliveryInfo.RowHeadersWidth = 51;
+            this.dtgvDeliveryInfo.RowTemplate.Height = 24;
+            this.dtgvDeliveryInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtgvDeliveryInfo.Size = new System.Drawing.Size(1324, 350);
+            this.dtgvDeliveryInfo.TabIndex = 30;
             // 
             // buttonCancel
             // 
@@ -214,30 +238,6 @@ namespace QuanLyKhoHang.View
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // textBoxDeliveryVoucherID
-            // 
-            this.textBoxDeliveryVoucherID.Location = new System.Drawing.Point(177, 78);
-            this.textBoxDeliveryVoucherID.Name = "textBoxDeliveryVoucherID";
-            this.textBoxDeliveryVoucherID.ReadOnly = true;
-            this.textBoxDeliveryVoucherID.Size = new System.Drawing.Size(166, 22);
-            this.textBoxDeliveryVoucherID.TabIndex = 31;
-            // 
-            // textBoxCustomerID
-            // 
-            this.textBoxCustomerID.Location = new System.Drawing.Point(176, 78);
-            this.textBoxCustomerID.Name = "textBoxCustomerID";
-            this.textBoxCustomerID.ReadOnly = true;
-            this.textBoxCustomerID.Size = new System.Drawing.Size(338, 22);
-            this.textBoxCustomerID.TabIndex = 31;
-            // 
-            // textBoxCustomerName
-            // 
-            this.textBoxCustomerName.Location = new System.Drawing.Point(176, 123);
-            this.textBoxCustomerName.Name = "textBoxCustomerName";
-            this.textBoxCustomerName.ReadOnly = true;
-            this.textBoxCustomerName.Size = new System.Drawing.Size(338, 22);
-            this.textBoxCustomerName.TabIndex = 31;
-            // 
             // FormDeleteDeliveryVoucher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -249,6 +249,7 @@ namespace QuanLyKhoHang.View
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Name = "FormDeleteDeliveryVoucher";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormDeleteDeliveryVoucher";
             this.Load += new System.EventHandler(this.FormDeleteDeliveryVoucher_Load);
             this.panel3.ResumeLayout(false);
@@ -256,7 +257,7 @@ namespace QuanLyKhoHang.View
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDeliveryInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvDeliveryInfo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -276,7 +277,7 @@ namespace QuanLyKhoHang.View
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.DataGridView dataGridViewDeliveryInfo;
+        private System.Windows.Forms.DataGridView dtgvDeliveryInfo;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.TextBox textBoxCustomerName;

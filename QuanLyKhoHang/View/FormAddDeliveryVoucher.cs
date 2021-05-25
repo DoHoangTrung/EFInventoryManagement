@@ -3,36 +3,37 @@ using QuanLyKhoHang.DAO;
 using QuanLyKhoHang.Entity;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyKhoHang.DTO;
+using System.ComponentModel;
 
 namespace QuanLyKhoHang.View
 {
     public partial class FormAddDeliveryVoucher : Form
     {
-        private List<ProductType> sourceType;
+        private List<ProductType> sourceProductType;
 
         private List<ProductCanSellView> sourceProductCanSell;
 
         private List<Customer> sourceCustomer;
 
-        private BindingSource bindingSource;
-
         private List<string> sourceIDDeliveryVoucher;
+
+        private List<DTGViewAddDeliveryVoucherDTO> sourceProductDtgv;
+
+        private DTGViewAddDeliveryVoucherDTO rowSelectedObj;
+
         public FormAddDeliveryVoucher()
         {
             InitializeComponent();
             sourceProductCanSell = ProductCanSellDAO.Instance.GetProductCanSell();
-            sourceType = ProductTypeDAO.Instance.GetList();
+            sourceProductType = ProductTypeDAO.Instance.GetList();
             sourceCustomer = CustomerDAO.Instance.GetListCustomer();
-            bindingSource = new BindingSource();
             sourceIDDeliveryVoucher = DeliveryVoucherDAO.Instance.GetListID();
+            sourceProductDtgv = new List<DTGViewAddDeliveryVoucherDTO>();
         }
 
         private void FormAddDeliveryVoucher_Load(object sender, EventArgs e)
@@ -42,11 +43,11 @@ namespace QuanLyKhoHang.View
             LoadDeliveryVoucher(sourceIDDeliveryVoucher);
             LoadCustomer(sourceCustomer);
 
-            LoadProductType(sourceType);
+            LoadProductType(sourceProductType);
             LoadDTGViewInfo();
         }
 
-       
+
         private void LoadProductType(List<ProductType> types)
         {
             comboBoxProductType.DataSource = null;
@@ -124,7 +125,7 @@ namespace QuanLyKhoHang.View
         public void LoadDTGViewInfo()
         {
             //create dtgv
-            dataGridViewDeliveryInfo.Columns.Add("productType", "Loại sản phẩm");
+            /*dataGridViewDeliveryInfo.Columns.Add("productType", "Loại sản phẩm");
             dataGridViewDeliveryInfo.Columns.Add("productID", "ID sản phẩm");
             dataGridViewDeliveryInfo.Columns.Add("productName", "Tên sản phẩm");
             dataGridViewDeliveryInfo.Columns.Add("deliveryQuantity", "Số lượng xuất");
@@ -134,13 +135,21 @@ namespace QuanLyKhoHang.View
             dataGridViewDeliveryInfo.Columns["productID"].DataPropertyName = "ProductID";
             dataGridViewDeliveryInfo.Columns["productName"].DataPropertyName = "ProductName";
             dataGridViewDeliveryInfo.Columns["deliveryQuantity"].DataPropertyName = "DeliveryQuantity";
-            dataGridViewDeliveryInfo.Columns["deliveryPrice"].DataPropertyName = "DeliveryPrice";
+            dataGridViewDeliveryInfo.Columns["deliveryPrice"].DataPropertyName = "DeliveryPrice";*/
+
+            dtgvDeliveryInfo.DataSource = new SortableBindingList<DTGViewAddDeliveryVoucherDTO>(sourceProductDtgv);
+
+            dtgvDeliveryInfo.Columns["TypeID"].Visible = false;
+            dtgvDeliveryInfo.Columns["ProductID"].Visible = false;
+
+            dtgvDeliveryInfo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
-        private bool CheckDeliveryQuantity()
+        private bool CheckValidDeliveryQuantity()
         {
             decimal deliveryQuantity, inventoryNumber;
             deliveryQuantity = numericUpDownDeliveryQuantity.Value;
+
             if (!decimal.TryParse(labelInventoryNumber.Text, out inventoryNumber))
             {
                 return false;
@@ -150,26 +159,26 @@ namespace QuanLyKhoHang.View
         }
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
-            if (CheckDeliveryQuantity())
+            if (CheckValidDeliveryQuantity())
             {
                 string productType, productName, productID, typeID;
                 decimal deliveryQuantity, deliveryPrice;
 
                 ProductType type = (comboBoxProductType.SelectedItem as ProductType);
-                ProductCanSellView pSell = (comboBoxProductName.SelectedItem as ProductCanSellView);
+                ProductCanSellView proSell = (comboBoxProductName.SelectedItem as ProductCanSellView);
 
                 typeID = type.ID;
-                productID = pSell.ProductID;
+                productID = proSell.ProductID;
                 productType = type.Name;
-                productName = pSell.ProductName;
+                productName = proSell.ProductName;
                 deliveryQuantity = numericUpDownDeliveryQuantity.Value;
                 deliveryPrice = numericUpDownDeliveryPrice.Value;
 
                 DTGViewAddDeliveryVoucherDTO dto = new DTGViewAddDeliveryVoucherDTO(productType, productID, productName, deliveryQuantity, deliveryPrice, typeID);
 
-                bindingSource.Add(dto);
+                sourceProductDtgv.Add(dto);
 
-                dataGridViewDeliveryInfo.DataSource = bindingSource;
+                LoadDTGViewInfo();
 
                 // after add productcansell to dtgv, remove it in combobox
                 ProductCanSellView product = sourceProductCanSell.Where(p => p.ProductID == productID).FirstOrDefault();
@@ -200,36 +209,53 @@ namespace QuanLyKhoHang.View
             toolStripStatusLabel1.ForeColor = Color.Black;
         }
 
+        
         private void dataGridViewDeliveryInfo_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridViewDeliveryInfo.Tag = e.RowIndex;
+            int rowIndex = e.RowIndex;
+            if (0 <= rowIndex && rowIndex < dtgvDeliveryInfo.RowCount)
+            {
+                rowSelectedObj = dtgvDeliveryInfo.Rows[e.RowIndex].DataBoundItem as DTGViewAddDeliveryVoucherDTO;
+            }
+            else
+            {
+                rowSelectedObj = null;
+            }
         }
 
         private void buttonDeleteProduct_Click(object sender, EventArgs e)
         {
-            if (dataGridViewDeliveryInfo.Tag != null)
+            if (rowSelectedObj != null)
             {
-                int rowIndex = int.Parse(dataGridViewDeliveryInfo.Tag.ToString());
-                {
-                    if (rowIndex >= 0 && rowIndex < dataGridViewDeliveryInfo.Rows.Count - 1)
-                    {
-                        DTGViewAddDeliveryVoucherDTO rowObj = dataGridViewDeliveryInfo.Rows[rowIndex].DataBoundItem as DTGViewAddDeliveryVoucherDTO;
-                        ProductCanSellView product = ProductCanSellDAO.Instance.GetProductCanSellByProductID(rowObj.ProductID);
+                ProductCanSellView product = ProductCanSellDAO.Instance.GetProductCanSellByProductID(rowSelectedObj.ProductID);
 
-                        //remove row clicked from dtgv
-                        bindingSource.Remove(rowObj);
-                        dataGridViewDeliveryInfo.DataSource = bindingSource;
-                        //add productcansell that removed to combobox product
-                        sourceProductCanSell.Add(product);
-                        LoadProductByType(rowObj.TypeID);
-                    }
-                }
+                //remove row clicked from dtgv
+                sourceProductDtgv.Remove(rowSelectedObj);
+
+                LoadDTGViewInfo();
+
+                //add productcansell that removed to combobox product
+                sourceProductCanSell.Add(product);
+                LoadProductByType(rowSelectedObj.TypeID);
+
+                rowSelectedObj = null;
             }
+            else
             {
                 MessageBox.Show("Bạn hãy chọn dòng muốn xóa");
             }
         }
+        private void buttonUpdateProduct_Click(object sender, EventArgs e)
+        {
+            if(rowSelectedObj != null)
+            {
 
+            }
+            else
+            {
+                MessageBox.Show("Bạn hãy chọn dòng muốn sửa");
+            }
+        }
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -256,32 +282,28 @@ namespace QuanLyKhoHang.View
         }
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            DialogResult action = MessageBox.Show("Bạn đồng ý thêm sản phẩm", "Xác nhận", MessageBoxButtons.OKCancel);   
-            if(action == DialogResult.OK)
+            DialogResult action = MessageBox.Show("Bạn đồng ý thêm sản phẩm", "Xác nhận", MessageBoxButtons.OKCancel);
+            if (action == DialogResult.OK)
             {
-                if(dataGridViewDeliveryInfo.Rows.Count > 0)
+                if (dtgvDeliveryInfo.Rows.Count > 0)
                 {
                     string idDeliveryVoucher, idCustomer;
                     DateTime date = dateTimePickerDeliveryDate.Value;
                     idDeliveryVoucher = comboBoxIDDeliveryVoucher.Text;
                     idCustomer = sourceCustomer[comboBoxIDCustomer.SelectedIndex].ID;
+                    List<DeliveryVoucherInfo> voucherInfos = new List<DeliveryVoucherInfo>();
 
                     if (CheckIDValid(idDeliveryVoucher))
                     {
-                        DeliveryVoucher deliveryVoucher = new DeliveryVoucher();
-                        deliveryVoucher.ID = idDeliveryVoucher;
-                        deliveryVoucher.IDCustomer = idCustomer;
-                        deliveryVoucher.Date = date;
-                        DeliveryVoucherDAO.Instance.Insert(deliveryVoucher);
+                        //DeliveryVoucherDAO.Instance.Insert(idDeliveryVoucher,idCustomer,date);
 
                         //insert delivery voucher info, sell product one by one
-                        foreach (var proCanSell in bindingSource)
+                        foreach (var dtgvRowData in sourceProductDtgv)
                         {
-                            DTGViewAddDeliveryVoucherDTO dtgvDTO = (proCanSell as DTGViewAddDeliveryVoucherDTO);
-                            int quantity = (int)dtgvDTO.DeliveryQuantity;
+                            int quantity = (int)dtgvRowData.DeliveryQuantity;
 
-                            List<ReceiveVoucherInfo> thisProductInManyReiceveVoucher = ReceiveVoucherInfoDAO.Instance.GetListProductCanSellByID(dtgvDTO.ProductID)
-                            .OrderBy(i => i.ReceiveVoucher.Date).ToList();
+                            List<ReceiveVoucherInfo> thisProductInManyReiceveVoucher = ReceiveVoucherInfoDAO.Instance.GetListProductCanSellByID(dtgvRowData.ProductID)
+                                .OrderBy(i => i.ReceiveVoucher.Date).ToList();
 
                             foreach (var inAVoucher in thisProductInManyReiceveVoucher)
                             {
@@ -292,12 +314,13 @@ namespace QuanLyKhoHang.View
                                     //update delivery voucher infomation 
                                     DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
                                     deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
-                                    deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
+                                    deliVoucherInfo.IDDeliveryVoucher = idDeliveryVoucher;
                                     deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
-                                    deliVoucherInfo.PriceOutput = (int)dtgvDTO.DeliveryPrice;
+                                    deliVoucherInfo.PriceOutput = (int)dtgvRowData.DeliveryPrice;
                                     deliVoucherInfo.Quantity = inventoryNum;
 
-                                    DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+                                    //DeliveryVoucherInfoDAO.Instance.Insert(deliVoucherInfo);
+                                    voucherInfos.Add(deliVoucherInfo);
 
                                     quantity = quantity - inventoryNum;
                                 }
@@ -306,15 +329,20 @@ namespace QuanLyKhoHang.View
                                     //update delivery voucher infomation 
                                     DeliveryVoucherInfo deliVoucherInfo = new DeliveryVoucherInfo();
                                     deliVoucherInfo.IDProduct = inAVoucher.IDProduct;
-                                    deliVoucherInfo.IDDeliveryVoucher = deliveryVoucher.ID;
+                                    deliVoucherInfo.IDDeliveryVoucher = idDeliveryVoucher;
                                     deliVoucherInfo.IDReceiveVoucher = inAVoucher.IDReceiveVoucher;
                                     deliVoucherInfo.PriceOutput = (int)numericUpDownDeliveryPrice.Value;
                                     deliVoucherInfo.Quantity = quantity;
 
-                                    DeliveryVoucherInfoDAO.Instance.Add(deliVoucherInfo);
+                                    //DeliveryVoucherInfoDAO.Instance.Insert(deliVoucherInfo);
+                                    voucherInfos.Add(deliVoucherInfo);
+
+                                    break;
                                 }
                             }
                         }
+
+                        DeliveryVoucherDAO.Instance.Insert(idDeliveryVoucher,idCustomer,date,voucherInfos);
 
                         MessageBox.Show("Thêm thành công");
                         this.Close();
@@ -328,8 +356,10 @@ namespace QuanLyKhoHang.View
                 {
                     MessageBox.Show("Bạn chưa chọn sản phẩm muốn xuất kho");
                 }
-                
+
             }
         }
+
+        
     }
 }

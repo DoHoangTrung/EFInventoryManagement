@@ -13,11 +13,14 @@ namespace QuanLyKhoHang.DTO
         public string ProductName { get; set; }
         public string Unit { get; set; }
         public DateTime Date { get; set; }
-        public int QuantityInput { get; set; }
-        public int PriceInput { get; set; }
+        public int? QuantityInput { get; set; }
+        public int? PriceInput { get; set; }
+        public int? QuantityOutput { get; set; }
         public string Note { get; set; }
+        public string SupplierID { get; set; }
         public string SupplierName { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+
     }
 }

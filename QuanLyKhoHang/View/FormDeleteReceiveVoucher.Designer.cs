@@ -39,11 +39,11 @@ namespace QuanLyKhoHang.View
             this.labelDateReceive = new System.Windows.Forms.Label();
             this.labelSupplierID = new System.Windows.Forms.Label();
             this.labelSupplierName = new System.Windows.Forms.Label();
-            this.dataGridViewVoucherInfo = new System.Windows.Forms.DataGridView();
+            this.dtgvVoucherInfo = new System.Windows.Forms.DataGridView();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVoucherInfo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvVoucherInfo)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -152,16 +152,16 @@ namespace QuanLyKhoHang.View
             // 
             // dataGridViewVoucherInfo
             // 
-            this.dataGridViewVoucherInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewVoucherInfo.Location = new System.Drawing.Point(156, 351);
-            this.dataGridViewVoucherInfo.MultiSelect = false;
-            this.dataGridViewVoucherInfo.Name = "dataGridViewVoucherInfo";
-            this.dataGridViewVoucherInfo.ReadOnly = true;
-            this.dataGridViewVoucherInfo.RowHeadersWidth = 51;
-            this.dataGridViewVoucherInfo.RowTemplate.Height = 24;
-            this.dataGridViewVoucherInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewVoucherInfo.Size = new System.Drawing.Size(779, 351);
-            this.dataGridViewVoucherInfo.TabIndex = 31;
+            this.dtgvVoucherInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvVoucherInfo.Location = new System.Drawing.Point(156, 351);
+            this.dtgvVoucherInfo.MultiSelect = false;
+            this.dtgvVoucherInfo.Name = "dataGridViewVoucherInfo";
+            this.dtgvVoucherInfo.ReadOnly = true;
+            this.dtgvVoucherInfo.RowHeadersWidth = 51;
+            this.dtgvVoucherInfo.RowTemplate.Height = 24;
+            this.dtgvVoucherInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtgvVoucherInfo.Size = new System.Drawing.Size(779, 351);
+            this.dtgvVoucherInfo.TabIndex = 31;
             // 
             // buttonOK
             // 
@@ -190,7 +190,7 @@ namespace QuanLyKhoHang.View
             this.ClientSize = new System.Drawing.Size(1138, 782);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.dataGridViewVoucherInfo);
+            this.Controls.Add(this.dtgvVoucherInfo);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.label1);
             this.Name = "FormDeleteReceiveVoucher";
@@ -199,7 +199,7 @@ namespace QuanLyKhoHang.View
             this.Load += new System.EventHandler(this.FormDeleteReceiveVoucher_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewVoucherInfo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvVoucherInfo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -213,7 +213,7 @@ namespace QuanLyKhoHang.View
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.DataGridView dataGridViewVoucherInfo;
+        private System.Windows.Forms.DataGridView dtgvVoucherInfo;
         private System.Windows.Forms.Button buttonOK;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Label labelReceiveVoucherID;

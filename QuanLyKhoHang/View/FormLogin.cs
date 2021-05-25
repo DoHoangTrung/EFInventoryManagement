@@ -20,7 +20,7 @@ namespace QuanLyKhoHang
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-
+            lbNotification.Text = "";
         }
 
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
@@ -40,20 +40,71 @@ namespace QuanLyKhoHang
 
             if (Login(userName,passWord))
             {
-                FormHome fAdd = new FormHome();
+                FormHome f = new FormHome();
                 this.Hide();
-                fAdd.ShowDialog();
+                f.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Ban da nhap sai, hay nhap lai","Thông báo");
+                lbNotification.ForeColor = Color.DarkRed;
+                lbNotification.Text = "Tài khoản hoặc mật khẩu không chính xác.\r\n Vui lòng nhập lại";
+                textBoxUserName.Text = "Tài khoản";
+                textBoxPassword.Text = "Mật khẩu";
+
+                userClick = 1;
+                passwordClick = 1;
+                textBoxPassword.UseSystemPasswordChar = false;
             }
         }
 
         private bool Login(string userName, string passWord)
         {
-            return AccountDAO.Instance.Login(userName, passWord);
+            AccountDAO dao = new AccountDAO();
+            return dao.Login(userName, passWord);
         }
 
+        int userClick = 1;
+       
+        private void textBoxUserName_Enter(object sender, EventArgs e)
+        {
+            if (userClick == 1) //first click
+            {
+                textBoxUserName.Text = "";
+
+                userClick++;
+            }
+
+            textBoxUserName.SelectAll();
+            textBoxPassword.SelectionLength = 0;
+
+            textBoxUserName.ForeColor = Color.FromArgb(20, 39, 82);
+            panel1.BackColor = Color.FromArgb(20, 39, 82);
+
+            textBoxPassword.ForeColor = Color.White;
+            panel2.BackColor = Color.White;
+        }
+
+        int passwordClick = 1;
+
+        private void textBoxPassword_Enter(object sender, EventArgs e)
+        {
+            if (passwordClick == 1)//first click
+            {
+                textBoxPassword.Text = "";
+                textBoxPassword.UseSystemPasswordChar = true;
+
+                passwordClick++;
+            }
+
+            textBoxPassword.SelectAll();
+            textBoxUserName.SelectionLength = 0;
+
+            textBoxPassword.ForeColor = Color.FromArgb(20, 39, 82);
+            panel2.BackColor = Color.FromArgb(20, 39, 82);
+
+            textBoxUserName.ForeColor = Color.White;
+            panel1.BackColor = Color.White;
+
+        }
     }
 }

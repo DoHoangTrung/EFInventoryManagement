@@ -155,3 +155,4 @@ C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\ru\Microsoft
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\zh-CHS\Microsoft.ReportViewer.WinForms.resources.dll
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\bin\Debug\zh-CHT\Microsoft.ReportViewer.WinForms.resources.dll
 C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\InventoryManagement.csprojAssemblyReference.cache
+C:\Users\Trung Do Hoang\Desktop\EFQuanLyKho\QuanLyKhoHang\obj\Debug\QuanLyKhoHang.View.FormUpdateDeliveryVoucher.resources

@@ -14,7 +14,7 @@ namespace QuanLyKhoHang
 {
     public partial class FormDeleteSupplier : Form
     {
-        public Supplier supplierSelectedFromListView;
+        public Supplier supplierSelectedFromDtgv;
         public FormDeleteSupplier()
         {
             InitializeComponent();
@@ -22,11 +22,11 @@ namespace QuanLyKhoHang
 
         private void FormDeleteSupplier_Load(object sender, EventArgs e)
         {
-            labelSupplierID.Text = supplierSelectedFromListView.ID;
-            labelSupplierName.Text = supplierSelectedFromListView.Name;
-            labelSupplierAddress.Text = supplierSelectedFromListView.Address;
-            labelSupplierPhone.Text = supplierSelectedFromListView.Phone;
-            labelSupplierEmail.Text = supplierSelectedFromListView.Email;
+            labelSupplierID.Text = supplierSelectedFromDtgv.ID;
+            labelSupplierName.Text = supplierSelectedFromDtgv.Name;
+            labelSupplierAddress.Text = supplierSelectedFromDtgv.Address;
+            labelSupplierPhone.Text = supplierSelectedFromDtgv.Phone;
+            labelSupplierEmail.Text = supplierSelectedFromDtgv.Email;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)

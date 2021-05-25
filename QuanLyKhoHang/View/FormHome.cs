@@ -22,14 +22,12 @@ using QuanLyKhoHang.View;
 
 namespace QuanLyKhoHang
 {
-    
+
     public partial class FormHome : Form
     {
         private Color colorButtonCategoryWhenClicked;
         private ListViewColumnSorter lvwColumnSorter;
 
-        private int currentPage;
-        object currentDataSource;       
         object currentPagedList;
         object showingDtgv;
         public FormHome()
@@ -58,13 +56,16 @@ namespace QuanLyKhoHang
             dtpickerToDate.MaxDate = DateTime.Now;
         }
 
-        
-        private void LoadDtgvProduct(int pageNum =1,int pageSize = Const.pageSize)
+
+        private void LoadDtgvProduct(int pageNum = 1, int pageSize = Const.pageSize)
         {
+
             SearchModel searchModel = GetSearchModel();
             var data = ProductDAO.Instance.GetList(searchModel);
+
+
             var products = data.ToPagedList(pageNum, pageSize);
-            
+
             bool b = products.HasNextPage;
             bool bc = products.HasPreviousPage;
             var a = products.ToList();
@@ -78,8 +79,6 @@ namespace QuanLyKhoHang
             dtgvHome.Columns["ID"].Visible = false;
             dtgvHome.Columns["TypeID"].Visible = false;
 
-
-            currentDataSource = data;
             currentPagedList = products;
         }
 
@@ -103,11 +102,36 @@ namespace QuanLyKhoHang
         }
 
 
-        private async Task LoadDtgvReceiveVoucher(int pageNumber = 1, int pageSize = Const.pageSize)
+        private void LoadDtgvCustomer(int pageNumber = 1, int pageSize = Const.pageSize)
         {
-            var vouchers = await ReceiveVoucherDAO.Instance.GetPagedList(pageNumber, pageSize);
+            SearchModel searchModel = GetSearchModel();
+            var data = CustomerDAO.Instance.GetList(searchModel);
+
+            var customers = data.ToPagedList(pageNumber, pageSize);
+
+            dtgvHome.DataSource = new SortableBindingList<Customer>(customers.ToList());
+
+            //load paged list button
+            btnPrevious.Enabled = customers.HasPreviousPage;
+            btnNext.Enabled = customers.HasNextPage;
+            labelPageNumber.Text = $"Page {pageNumber}/{customers.PageCount}";
+
+            currentPagedList = customers;
+        }
+
+
+        private void LoadDtgvReceiveVoucher(int pageNumber = 1, int pageSize = Const.pageSize)
+        {
+            SearchModel searchModel = GetSearchModel();
+
+            var data = ReceiveVoucherDAO.Instance.GetList(searchModel);
+            var vouchers = data.ToPagedList(pageNumber, pageSize);
 
             dtgvHome.DataSource = new SortableBindingList<ReceiveVoucherDTO>(vouchers.ToList());
+
+            dtgvHome.Columns["ProductID"].Visible = false;
+            dtgvHome.Columns["QuantityOutput"].Visible = false;
+            dtgvHome.Columns["SupplierID"].Visible = false;
 
             //load paged list button
             btnPrevious.Enabled = vouchers.HasPreviousPage;
@@ -116,108 +140,17 @@ namespace QuanLyKhoHang
 
 
             currentPagedList = vouchers;
-            currentPage = pageNumber;
-        }
-        private void LoadListViewReceiveVoucher(List<ReceiveVoucherInfo> receiveVoucherInfoes)
-        {
-            listViewGeneral.Clear();
-
-            //create list view input voucher
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDReceiveVoucher", "ID phieu nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("ID san pham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ten san pham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Don vi"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ngay"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("So luong nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Gia nhap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Ghi chú"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Nha cung cap"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("DC"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("SDT"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("ID NCC"));
-
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            if (receiveVoucherInfoes == null)
-            {
-                List<ReceiveVoucher> receiveVouchers = ReceiveVoucherDAO.Instance.GetListReceiveVoucher();
-
-                foreach (var v in receiveVouchers)
-                {
-                    ListViewItem lvwItem = new ListViewItem(v.ID);
-                }
-
-            }
-            else
-            {
-                receiveVoucherInfoes = receiveVoucherInfoes.OrderByDescending(i =>
-                    {
-                        return i.ReceiveVoucher.Date;
-                    }).ToList();
-
-                foreach (var v in receiveVoucherInfoes)
-                {
-                    ListViewItem lvwItem = new ListViewItem(v.ReceiveVoucher.ID);
-                    lvwItem.SubItems.Add(v.Product.ID);
-                    lvwItem.SubItems.Add(v.Product.Name);
-                    lvwItem.SubItems.Add(v.Product.Unit);
-                    lvwItem.SubItems.Add(v.ReceiveVoucher.Date.ToString());
-                    lvwItem.SubItems.Add(v.QuantityInput.ToString());
-                    lvwItem.SubItems.Add(v.PriceInput.ToString());
-                    lvwItem.SubItems.Add(v.Note);
-                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Name);
-                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Address);
-                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Phone);
-                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.Email);
-                    lvwItem.SubItems.Add(v.ReceiveVoucher.Supplier.ID);
-
-                    listViewGeneral.Items.Add(lvwItem);
-                }
-                AutoResizeColumnListView();
-            }
         }
 
 
-        private void LoadListViewDeliveryVoucher(List<DeliveryVoucherView> voucherViews)
+        private void LoadDtgvDeliveryVoucher(int pageNumber = 1, int pageSize = Const.pageSize)
         {
-            listViewGeneral.Clear();
 
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDDeliveryVoucher", "ID phiếu xuất"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("NgayXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("TenSanPham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("DonVi"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("SoLuongXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("GiaXuat"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("TenKhachHang"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Phone", "So dien thoai"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDSanPham"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("IDKhachHang"));
+            SearchModel searchModel = GetSearchModel();
 
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            foreach (var voucher in voucherViews)
-            {
-                ListViewItem lvwItem = new ListViewItem(voucher.VoucherID);
-                lvwItem.SubItems.Add(voucher.Date.ToString());
-                lvwItem.SubItems.Add(voucher.ProductName);
-                lvwItem.SubItems.Add(voucher.Unit);
-                lvwItem.SubItems.Add(voucher.SumQuantity.ToString());
-                lvwItem.SubItems.Add(voucher.PriceOutput.ToString());
-                lvwItem.SubItems.Add(voucher.CustomerName);
-                lvwItem.SubItems.Add(voucher.Phone);
-                lvwItem.SubItems.Add(voucher.ProductID);
-                lvwItem.SubItems.Add(voucher.CustomerID);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            AutoResizeColumnListView();
-        }
-        private async Task LoadDtgvDeliveryVoucher(int pageNumber = 1, int pageSize = Const.pageSize)
-        {
             DeliveryVoucherViewDAO dao = new DeliveryVoucherViewDAO();
-            var vouchers = await dao.GetPagedList(pageNumber, pageSize);
+            var data = dao.GetList(searchModel);
+            var vouchers = data.ToPagedList(pageNumber, pageSize);
 
             dtgvHome.DataSource = new SortableBindingList<DeliveryVoucherView>(vouchers.ToList());
 
@@ -228,116 +161,18 @@ namespace QuanLyKhoHang
 
 
             currentPagedList = vouchers;
-            currentPage = pageNumber;
-        }
-    
-
-        private void AutoResizeColumnListView()
-        {
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
 
 
-        private async Task LoadDtgvCustomer(int pageNumber = 1, int pageSize = Const.pageSize)
-        {
-            var customers = await CustomerDAO.Instance.GetPagedList();
-            dtgvHome.DataSource = new SortableBindingList<Customer>(customers.ToList());
-
-            //load paged list button
-            btnPrevious.Enabled = customers.HasPreviousPage;
-            btnNext.Enabled = customers.HasNextPage;
-            labelPageNumber.Text = $"Page {pageNumber}/{customers.PageCount}";
-
-            currentPagedList = customers;
-            currentPage = pageNumber;
-        }
-        private void LoadListViewCustomer(List<Customer> customers)
-        {
-            listViewGeneral.Clear();
-
-            //create listview
-            listViewGeneral.Columns.Add(CreateListViewHeader("Mã khách hàng"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Tên"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Địa chỉ"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Số điện thoại"));
-            listViewGeneral.Columns.Add(CreateListViewHeader("Email"));
-
-            listViewGeneral.View = System.Windows.Forms.View.Details;
-            listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-            foreach (var customer in customers)
-            {
-                ListViewItem lvwItem = new ListViewItem(customer.ID);
-                lvwItem.SubItems.Add(customer.Name);
-                lvwItem.SubItems.Add(customer.Address);
-                lvwItem.SubItems.Add(customer.Phone);
-                lvwItem.SubItems.Add(customer.Email);
-
-                listViewGeneral.Items.Add(lvwItem);
-            }
-
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-            listViewGeneral.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-
-        }
-
-
-        private async void LoadListViewReport(List<ReportDTO> reports)
+        private void LoadDtgvReport(int pageNumber = 1, int pageSize = Const.pageSize)
         {
             if (checkBoxDatetimePicker.Checked)
             {
-                listViewGeneral.Clear();
+                SearchModel searchModel = GetSearchModel();
 
-                //create listview
-                listViewGeneral.Columns.Add(CreateListViewHeader("ProductID", "ID sản phẩm"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ProductName", "Tên sản phẩm"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ProductUnit", "Đơn vị"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveQuantity", "Số lượng nhập"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ReceivePrice", "Giá nhập"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("ReceiveTotalPrice", "Thành tiền"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryQuantity", "Số lượng xuất"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryPrice", "Giá xuất"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("DeliveryTotalPrice", "Thành tiền"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("InventoryNumber", "Tồn kho cuối kì"));
-                listViewGeneral.Columns.Add(CreateListViewHeader("Profit", "Lợi nhuận"));
-
-
-                listViewGeneral.View = System.Windows.Forms.View.Details;
-                listViewGeneral.ListViewItemSorter = lvwColumnSorter;
-
-                foreach (var r in reports)
-                {
-                    ListViewItem lvwItem = new ListViewItem(r.ProductID);
-                    lvwItem.SubItems.Add(r.ProductName);
-                    lvwItem.SubItems.Add(r.ProductUnit);
-                    lvwItem.SubItems.Add(r.ReceiveQuantity.ToString());
-                    lvwItem.SubItems.Add(r.ReceivePrice.ToString());
-                    lvwItem.SubItems.Add(r.ReceiveTotalPrice.ToString());
-                    lvwItem.SubItems.Add(r.DeliveryQuantity.ToString());
-                    lvwItem.SubItems.Add(r.DeliveryPrice.ToString());
-                    lvwItem.SubItems.Add(r.DeliveryTotalPrice.ToString());
-                    lvwItem.SubItems.Add(r.InventoryNumber.ToString());
-                    lvwItem.SubItems.Add(r.Profit.ToString());
-
-                    listViewGeneral.Items.Add(lvwItem);
-                }
-
-                AutoResizeColumnListView();
-
-                showingDtgv = reports;
-            }
-            else
-            {
-                MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
-            }
-        }
-        private async Task LoadDtgvReport(int pageNumber = 1, int pageSize = Const.pageSize)
-        {
-            if (checkBoxDatetimePicker.Checked)
-            {
                 ReportDAO dao = new ReportDAO();
-                var reports = await dao.GetListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value,pageNumber,pageSize);
+                var data = dao.GetList(searchModel);
+                var reports = data.ToPagedList(pageNumber, pageSize);
 
                 dtgvHome.DataSource = new SortableBindingList<ReportDTO>(reports.ToList());
 
@@ -347,30 +182,11 @@ namespace QuanLyKhoHang
                 labelPageNumber.Text = $"Page {pageNumber}/{reports.PageCount}";
 
                 currentPagedList = reports;
-                currentPage = pageNumber;
             }
             else
             {
                 MessageBox.Show("Bạn hãy xem báo cáo theo khoảng thời gian");
             }
-        }
-
-        private ColumnHeader CreateListViewHeader(string text)
-        {
-            ColumnHeader columnHeader;
-            columnHeader = new ColumnHeader();
-            columnHeader.Text = text;
-            columnHeader.Name = text;
-            return columnHeader;
-        }
-
-        private ColumnHeader CreateListViewHeader(string name, string displayText)
-        {
-            ColumnHeader columnHeader;
-            columnHeader = new ColumnHeader();
-            columnHeader.Text = displayText;
-            columnHeader.Name = name;
-            return columnHeader;
         }
 
         private void LoadToolTip()
@@ -390,8 +206,6 @@ namespace QuanLyKhoHang
             LoadToolTip();
 
             SetMyCustomeFomateDatetimePicker("dd/MM/yyyy");
-
-            checkBoxDatetimePicker.Checked = true;
 
             dtgvHome.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
@@ -542,7 +356,6 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryReport)
             {
-                //LoadListViewReport();
                 LoadDtgvReport();
             }
 
@@ -586,6 +399,7 @@ namespace QuanLyKhoHang
                 FormAddDeliveryVoucher f = new FormAddDeliveryVoucher();
                 f.ShowDialog();
 
+                LoadDtgvDeliveryVoucher();
             }
 
 
@@ -637,21 +451,38 @@ namespace QuanLyKhoHang
                 }
             }
 
+            if (categoryButtonClicked == buttonCategoryCustomer)
+            {
+                Customer customerSelected = rowSelectedObj as Customer;
+                if (customerSelected != null)
+                {
+                    FormUpdateCustomer f = new FormUpdateCustomer();
+                    f.customerSelectedFromListView = customerSelected;
+                    f.ShowDialog();
+
+                    LoadDtgvCustomer();
+                }
+                else
+                {
+                    MessageBox.Show("Hãy click vào khách hàng bạn muốn");
+                }
+            }
+
             if (categoryButtonClicked == buttonCategoryReceiveVoucher)
             {
-                if (listViewGeneral.Tag != null)
+                ReceiveVoucherDTO voucherInfoSelected = rowSelectedObj as ReceiveVoucherDTO;
+                if (voucherInfoSelected != null)
                 {
-                    ReceiveVoucher voucherTagged = listViewGeneral.Tag as ReceiveVoucher;
-                    if (voucherTagged != null)
-                    {
-                        FormUpdateReceiveVoucher fUpdate = new FormUpdateReceiveVoucher();
-                        fUpdate.receiveVoucherTagged = voucherTagged;
-                        this.Hide();
-                        fUpdate.ShowDialog();
-                        this.Show();
+                    string idVoucher = voucherInfoSelected.ReceiveVoucherID;
 
-                        LoadDtgvReceiveVoucher();
-                    }
+                    ReceiveVoucher voucher = ReceiveVoucherDAO.Instance.GetByID(idVoucher);
+
+                    FormUpdateReceiveVoucher fUpdate = new FormUpdateReceiveVoucher(voucher);
+                    this.Hide();
+                    fUpdate.ShowDialog();
+                    this.Show();
+
+                    LoadDtgvReceiveVoucher();
                 }
                 else
                 {
@@ -662,24 +493,6 @@ namespace QuanLyKhoHang
             if (categoryButtonClicked == buttonCategoryDeliveryVoucher)
             {
 
-            }
-
-
-            if (categoryButtonClicked == buttonCategoryCustomer)
-            {
-                Customer customerTagged = listViewGeneral.Tag as Customer;
-                if (customerTagged != null)
-                {
-                    FormUpdateCustomer fUp = new FormUpdateCustomer();
-                    fUp.customerSelectedFromListView = customerTagged;
-                    fUp.ShowDialog();
-
-                    LoadDtgvCustomer();
-                }
-                else
-                {
-                    MessageBox.Show("Hãy click vào khách hàng bạn muốn");
-                }
             }
         }
 
@@ -711,10 +524,10 @@ namespace QuanLyKhoHang
                 if (supplierSelected != null)
                 {
                     FormDeleteSupplier fDel = new FormDeleteSupplier();
-                    fDel.supplierSelectedFromListView = supplierSelected;
+                    fDel.supplierSelectedFromDtgv = supplierSelected;
                     fDel.ShowDialog();
 
-                    //LoadDtgvSupplier();
+                    LoadDtgvSupplier();
                 }
                 else
                 {
@@ -722,19 +535,38 @@ namespace QuanLyKhoHang
                 }
             }
 
+            if (categoryButtonTagged == buttonCategoryCustomer)
+            {
+                Customer customerSelected = rowSelectedObj as Customer;
+                if (customerSelected != null)
+                {
+                    FormDeleteCustomer fDel = new FormDeleteCustomer();
+                    fDel.customerSelectedFromListView = customerSelected;
+                    fDel.ShowDialog();
+
+                    LoadDtgvCustomer();
+                }
+                else
+                {
+                    MessageBox.Show("Bạn chưa chọn khách hàng");
+                }
+            }
+
             if (categoryButtonTagged == buttonCategoryReceiveVoucher)
             {
-                ReceiveVoucher voucherTagged = listViewGeneral.Tag as ReceiveVoucher;
-                if (voucherTagged != null)
+                ReceiveVoucherDTO voucherInfoSelected = rowSelectedObj as ReceiveVoucherDTO;
+                if (voucherInfoSelected != null)
                 {
-                    if (ReceiveVoucherDAO.Instance.HaveTheProductBeenSold(voucherTagged.ID))
+                    if (ReceiveVoucherDAO.Instance.HaveTheProductBeenSold(voucherInfoSelected.ReceiveVoucherID))
                     {
                         MessageBox.Show("Phiếu nhập hàng này đã có sản phẩm được xuất kho. Bạn không thể xóa");
                     }
                     else
                     {
+                        ReceiveVoucher voucher = ReceiveVoucherDAO.Instance.GetByID(voucherInfoSelected.ReceiveVoucherID);
+
                         FormDeleteReceiveVoucher f = new FormDeleteReceiveVoucher();
-                        f.voucherTagged = voucherTagged;
+                        f.voucherSelected = voucher;
                         this.Hide();
                         f.ShowDialog();
 
@@ -752,31 +584,23 @@ namespace QuanLyKhoHang
 
             if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
             {
-                if (listViewGeneral.Tag != null)
+                var voucher = rowSelectedObj as DeliveryVoucherView;
+                if (voucher != null)
                 {
-                    string deliveryVoucherID = listViewGeneral.Tag.ToString();
+                    string deliveryVoucherID = voucher.VoucherID.ToString();
 
                     FormDeleteDeliveryVoucher f = new FormDeleteDeliveryVoucher();
                     f.DeliveryVoucherID = deliveryVoucherID;
                     f.ShowDialog();
-                }
-            }
-            if (categoryButtonTagged == buttonCategoryCustomer)
-            {
-                Customer customerTagged = listViewGeneral.Tag as Customer;
-                if (customerTagged != null)
-                {
-                    FormDeleteCustomer fDel = new FormDeleteCustomer();
-                    fDel.customerSelectedFromListView = customerTagged;
-                    fDel.ShowDialog();
 
-                    //LoadDtgvSupplier();
+                    LoadDtgvDeliveryVoucher();
                 }
                 else
                 {
-                    MessageBox.Show("Bạn chưa chọn khách hàng");
+                    MessageBox.Show("Hãy chọn phiếu xuất bạn muốn xóa");
                 }
             }
+            
         }
 
         private void listViewGeneral_SelectedIndexChanged(object sender, EventArgs e)
@@ -837,7 +661,7 @@ namespace QuanLyKhoHang
                     int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDReceiveVoucher");
                     string idReceiveVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
 
-                    ReceiveVoucher receiveVoucher = ReceiveVoucherDAO.Instance.GetReceiveVoucherAllInfoByID(idReceiveVoucher);
+                    ReceiveVoucher receiveVoucher = ReceiveVoucherDAO.Instance.GetByID(idReceiveVoucher);
 
                     listViewGeneral.Tag = receiveVoucher as object;
                 }
@@ -869,10 +693,7 @@ namespace QuanLyKhoHang
 
             if (category == buttonCategoryCustomer)
             {
-                SearchModel searchModel = new SearchModel();
-                searchModel.KeyWords = textBoxSearch.Text;
-                List<Customer> searchList = CustomerDAO.Instance.Search(keyWord);
-                LoadListViewCustomer(searchList);
+                LoadDtgvCustomer();
             }
 
             if (category == buttonCategorySupplier)
@@ -882,47 +703,17 @@ namespace QuanLyKhoHang
 
             if (category == buttonCategoryReceiveVoucher)
             {
-                List<ReceiveVoucherInfo> searchList = ReceiveVoucherInfoDAO.Instance.GetList();
-
-                //search by time duration
-                if (checkBoxDatetimePicker.Checked)
-                {
-                    searchList = ReceiveVoucherInfoDAO.Instance.SearchByTime(searchList, dtpickerFromDate.Value, dtpickerToDate.Value);
-                }
-                //keep searching by key words
-                string keyWords = textBoxSearch.Text;
-                if (!string.IsNullOrEmpty(keyWords))
-                {
-                    searchList = ReceiveVoucherInfoDAO.Instance.SearchByWords(searchList, keyWord);
-                }
-
-                LoadListViewReceiveVoucher(searchList);
+                LoadDtgvReceiveVoucher();
             }
 
             if (category == buttonCategoryDeliveryVoucher)
             {
-                DeliveryVoucherViewDAO dao = new DeliveryVoucherViewDAO();
-
-                List<DeliveryVoucherView> voucherInfoViews = dao.SearchByWords(keyWord);
-
-                //keep searching by time range
-                if (checkBoxDatetimePicker.Checked)
-                {
-                    voucherInfoViews = dao.SearchByTimeRange(voucherInfoViews, dtpickerFromDate.Value, dtpickerToDate.Value);
-                }
-
-                LoadListViewDeliveryVoucher(voucherInfoViews);
+                LoadDtgvDeliveryVoucher();
             }
 
             if (category == buttonCategoryReport)
             {
-                ReportDAO dao = new ReportDAO();
-                List<ReportDTO> reports = dao.GetPagedListByDuration(dtpickerFromDate.Value, dtpickerToDate.Value);
-
-                //search by key words
-                reports = dao.SearchByWords(reports, keyWord);
-
-                LoadListViewReport(reports);
+                LoadDtgvReport();
             }
         }
 
@@ -954,44 +745,44 @@ namespace QuanLyKhoHang
             }
         }
 
-        private async void btnPrevious_Click(object sender, EventArgs e)
+        private void btnPrevious_Click(object sender, EventArgs e)
         {
 
             var products = currentPagedList as IPagedList<ProductDTO>;
             if (products != null && products.HasPreviousPage)
             {
-                LoadDtgvProduct(products.PageNumber-1, products.PageSize);
+                LoadDtgvProduct(products.PageNumber - 1, products.PageSize);
             }
 
 
             var suppliers = currentPagedList as IPagedList<Supplier>;
             if (suppliers != null && suppliers.HasPreviousPage)
             {
-                LoadDtgvSupplier(suppliers.PageNumber-1, suppliers.PageSize);
+                LoadDtgvSupplier(suppliers.PageNumber - 1, suppliers.PageSize);
             }
 
             var customers = currentPagedList as IPagedList<Customer>;
             if (customers != null && customers.HasPreviousPage)
             {
-                LoadDtgvCustomer(--currentPage);
+                LoadDtgvCustomer(customers.PageNumber - 1, customers.PageSize);
             }
 
             var reports = currentPagedList as IPagedList<ReportDTO>;
             if (reports != null && reports.HasPreviousPage)
             {
-                LoadDtgvReport(--currentPage);
+                LoadDtgvReport(reports.PageNumber - 1, reports.PageSize);
             }
 
             var reVouchers = currentPagedList as IPagedList<ReceiveVoucherDTO>;
             if (reVouchers != null && reVouchers.HasPreviousPage)
             {
-                LoadDtgvReceiveVoucher(--currentPage);
+                LoadDtgvReceiveVoucher(reVouchers.PageNumber - 1, reVouchers.PageSize);
             }
 
             var deVouchers = currentPagedList as IPagedList<DeliveryVoucherView>;
             if (deVouchers != null && deVouchers.HasPreviousPage)
             {
-                LoadDtgvReceiveVoucher(--currentPage);
+                LoadDtgvReceiveVoucher(deVouchers.PageNumber - 1, deVouchers.PageSize);
             }
         }
 
@@ -1000,7 +791,7 @@ namespace QuanLyKhoHang
             var products = currentPagedList as IPagedList<ProductDTO>;
             if (products != null && products.HasNextPage)
             {
-                LoadDtgvProduct( products.PageNumber+1,products.PageSize);
+                LoadDtgvProduct(products.PageNumber + 1, products.PageSize);
             }
 
 
@@ -1013,25 +804,25 @@ namespace QuanLyKhoHang
             var customers = currentPagedList as IPagedList<Customer>;
             if (customers != null && customers.HasNextPage)
             {
-                LoadDtgvCustomer(++currentPage);
+                LoadDtgvCustomer(customers.PageNumber+1,customers.PageSize);
             }
 
             var reports = currentPagedList as IPagedList<ReportDTO>;
             if (reports != null && reports.HasNextPage)
             {
-                LoadDtgvReport(++currentPage);
+                LoadDtgvReport(reports.PageNumber + 1, reports.PageSize);
             }
 
             var reVouchers = currentPagedList as IPagedList<ReceiveVoucherDTO>;
             if (reVouchers != null && reVouchers.HasNextPage)
             {
-                LoadDtgvReceiveVoucher(++currentPage);
+                LoadDtgvReceiveVoucher(reVouchers.PageNumber + 1, reVouchers.PageSize);
             }
 
             var deVouchers = currentPagedList as IPagedList<DeliveryVoucherView>;
             if (deVouchers != null && deVouchers.HasNextPage)
             {
-                LoadDtgvReceiveVoucher(++currentPage);
+                LoadDtgvReceiveVoucher(deVouchers.PageNumber + 1, deVouchers.PageSize);
             }
         }
 
@@ -1100,16 +891,20 @@ namespace QuanLyKhoHang
 
                 if (btnCatgory == buttonCategoryCustomer)
                 {
-                    
+                    var customer = dtgvHome.Rows[e.RowIndex].DataBoundItem as Customer;
+                    rowSelectedObj = customer;
                 }
 
                 if (btnCatgory == buttonCategoryReceiveVoucher)
                 {
-                    
+                    var reVoucher = dtgvHome.Rows[e.RowIndex].DataBoundItem as ReceiveVoucherDTO;
+                    rowSelectedObj = reVoucher;
                 }
 
                 if (btnCatgory == buttonCategoryDeliveryVoucher)
                 {
+                    var deVoucher = dtgvHome.Rows[e.RowIndex].DataBoundItem as DeliveryVoucherView;
+                    rowSelectedObj = deVoucher;
                 }
             }
         }
@@ -1126,7 +921,7 @@ namespace QuanLyKhoHang
 
             if (checkBoxDatetimePicker.Checked)
             {
-                searchModel.FromDate = dtpickerFromDate.Value;;
+                searchModel.FromDate = dtpickerFromDate.Value; ;
                 searchModel.ToDate = dtpickerToDate.Value;
             }
 

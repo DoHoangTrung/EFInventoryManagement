@@ -43,7 +43,6 @@ namespace QuanLyKhoHang
             this.label4 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonSearch = new System.Windows.Forms.Button();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.buttonCategoryReport = new System.Windows.Forms.Button();
             this.buttonCategoryCustomer = new System.Windows.Forms.Button();
@@ -55,6 +54,7 @@ namespace QuanLyKhoHang
             this.dtpickerToDate = new System.Windows.Forms.DateTimePicker();
             this.dtpickerFromDate = new System.Windows.Forms.DateTimePicker();
             this.buttonCategoryReceiveVoucher = new System.Windows.Forms.Button();
+            this.buttonSearch = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelPageNumber = new System.Windows.Forms.Label();
             this.btnNext = new System.Windows.Forms.Button();
@@ -69,7 +69,9 @@ namespace QuanLyKhoHang
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonShow = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.productBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.tàiKhoảnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.đổiMậtKhẩuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.đăngXuấtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numUpDownMax)).BeginInit();
@@ -77,7 +79,6 @@ namespace QuanLyKhoHang
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvHome)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -87,7 +88,8 @@ namespace QuanLyKhoHang
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.côngCụToolStripMenuItem,
-            this.càiĐặtToolStripMenuItem});
+            this.càiĐặtToolStripMenuItem,
+            this.tàiKhoảnToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1693, 31);
@@ -117,7 +119,6 @@ namespace QuanLyKhoHang
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.buttonSearch);
             this.panel1.Controls.Add(this.textBoxSearch);
             this.panel1.Controls.Add(this.buttonCategoryReport);
             this.panel1.Controls.Add(this.buttonCategoryCustomer);
@@ -221,16 +222,6 @@ namespace QuanLyKhoHang
             this.label1.Size = new System.Drawing.Size(84, 17);
             this.label1.TabIndex = 5;
             this.label1.Text = "Khoàng giá:";
-            // 
-            // buttonSearch
-            // 
-            this.buttonSearch.Location = new System.Drawing.Point(120, 664);
-            this.buttonSearch.Name = "buttonSearch";
-            this.buttonSearch.Size = new System.Drawing.Size(144, 53);
-            this.buttonSearch.TabIndex = 4;
-            this.buttonSearch.Text = "Tìm kiếm";
-            this.buttonSearch.UseVisualStyleBackColor = true;
-            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
             // 
             // textBoxSearch
             // 
@@ -342,6 +333,16 @@ namespace QuanLyKhoHang
             this.buttonCategoryReceiveVoucher.UseVisualStyleBackColor = false;
             this.buttonCategoryReceiveVoucher.Click += new System.EventHandler(this.buttonCategoryInputVoucher_Click);
             // 
+            // buttonSearch
+            // 
+            this.buttonSearch.Location = new System.Drawing.Point(3, 41);
+            this.buttonSearch.Name = "buttonSearch";
+            this.buttonSearch.Size = new System.Drawing.Size(104, 25);
+            this.buttonSearch.TabIndex = 4;
+            this.buttonSearch.Text = "Tìm kiếm";
+            this.buttonSearch.UseVisualStyleBackColor = true;
+            this.buttonSearch.Click += new System.EventHandler(this.buttonSearch_Click);
+            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -400,6 +401,7 @@ namespace QuanLyKhoHang
             this.dtgvHome.ReadOnly = true;
             this.dtgvHome.RowHeadersWidth = 51;
             this.dtgvHome.RowTemplate.Height = 24;
+            this.dtgvHome.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvHome.Size = new System.Drawing.Size(1210, 540);
             this.dtgvHome.TabIndex = 1;
             this.dtgvHome.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvHome_CellClick);
@@ -435,6 +437,7 @@ namespace QuanLyKhoHang
             this.panel3.Controls.Add(this.buttonDelete);
             this.panel3.Controls.Add(this.buttonUpdate);
             this.panel3.Controls.Add(this.buttonAdd);
+            this.panel3.Controls.Add(this.buttonSearch);
             this.panel3.Controls.Add(this.buttonShow);
             this.panel3.Location = new System.Drawing.Point(437, 34);
             this.panel3.Name = "panel3";
@@ -483,7 +486,8 @@ namespace QuanLyKhoHang
             // 
             // buttonShow
             // 
-            this.buttonShow.Location = new System.Drawing.Point(3, 43);
+            this.buttonShow.Enabled = false;
+            this.buttonShow.Location = new System.Drawing.Point(205, 3);
             this.buttonShow.Name = "buttonShow";
             this.buttonShow.Size = new System.Drawing.Size(77, 23);
             this.buttonShow.TabIndex = 11;
@@ -497,9 +501,26 @@ namespace QuanLyKhoHang
             this.toolTip1.InitialDelay = 100;
             this.toolTip1.ReshowDelay = 100;
             // 
-            // productBindingSource
+            // tàiKhoảnToolStripMenuItem
             // 
-            this.productBindingSource.DataSource = typeof(QuanLyKhoHang.Entity.Product);
+            this.tàiKhoảnToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.đổiMậtKhẩuToolStripMenuItem,
+            this.đăngXuấtToolStripMenuItem});
+            this.tàiKhoảnToolStripMenuItem.Name = "tàiKhoảnToolStripMenuItem";
+            this.tàiKhoảnToolStripMenuItem.Size = new System.Drawing.Size(96, 27);
+            this.tàiKhoảnToolStripMenuItem.Text = "Tài khoản";
+            // 
+            // đổiMậtKhẩuToolStripMenuItem
+            // 
+            this.đổiMậtKhẩuToolStripMenuItem.Name = "đổiMậtKhẩuToolStripMenuItem";
+            this.đổiMậtKhẩuToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.đổiMậtKhẩuToolStripMenuItem.Text = "Đổi mật khẩu";
+            // 
+            // đăngXuấtToolStripMenuItem
+            // 
+            this.đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
+            this.đăngXuấtToolStripMenuItem.Size = new System.Drawing.Size(224, 28);
+            this.đăngXuấtToolStripMenuItem.Text = "Đăng xuất";
             // 
             // FormHome
             // 
@@ -527,7 +548,6 @@ namespace QuanLyKhoHang
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvHome)).EndInit();
             this.panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.productBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -569,10 +589,12 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.Button buttonCategoryReport;
         private System.Windows.Forms.Button buttonPrint;
         private System.Windows.Forms.DataGridView dtgvHome;
-        private System.Windows.Forms.BindingSource productBindingSource;
         private System.Windows.Forms.Label labelPageNumber;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPrevious;
         private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.ToolStripMenuItem tàiKhoảnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem đổiMậtKhẩuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem đăngXuấtToolStripMenuItem;
     }
 }

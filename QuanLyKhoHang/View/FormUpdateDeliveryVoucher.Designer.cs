@@ -1,6 +1,7 @@
-﻿namespace QuanLyKhoHang.View
+﻿
+namespace QuanLyKhoHang.View
 {
-    partial class FormAddDeliveryVoucher
+    partial class FormUpdateDeliveryVoucher
     {
         /// <summary>
         /// Required designer variable.
@@ -39,7 +40,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBoxNote = new System.Windows.Forms.TextBox();
             this.comboBoxIDDeliveryVoucher = new System.Windows.Forms.ComboBox();
-            this.labelInputVoucherIDNotification = new System.Windows.Forms.Label();
             this.dateTimePickerDeliveryDate = new System.Windows.Forms.DateTimePicker();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -65,15 +65,12 @@
             this.buttonAddProduct = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvDeliveryInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryQuantity)).BeginInit();
-            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel3
@@ -85,10 +82,10 @@
             this.panel3.Controls.Add(this.label4);
             this.panel3.Controls.Add(this.labelPhoneCustomer);
             this.panel3.Controls.Add(this.comboBoxNameCustomer);
-            this.panel3.Location = new System.Drawing.Point(673, 0);
+            this.panel3.Location = new System.Drawing.Point(722, 12);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(684, 280);
-            this.panel3.TabIndex = 28;
+            this.panel3.TabIndex = 33;
             // 
             // buttonAddCustomer
             // 
@@ -134,7 +131,6 @@
             this.comboBoxIDCustomer.Name = "comboBoxIDCustomer";
             this.comboBoxIDCustomer.Size = new System.Drawing.Size(198, 24);
             this.comboBoxIDCustomer.TabIndex = 3;
-            this.comboBoxIDCustomer.SelectedValueChanged += new System.EventHandler(this.comboBoxIDCustomer_SelectedValueChanged);
             // 
             // label4
             // 
@@ -169,15 +165,14 @@
             // 
             this.panel1.Controls.Add(this.textBoxNote);
             this.panel1.Controls.Add(this.comboBoxIDDeliveryVoucher);
-            this.panel1.Controls.Add(this.labelInputVoucherIDNotification);
             this.panel1.Controls.Add(this.dateTimePickerDeliveryDate);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(4, 0);
+            this.panel1.Location = new System.Drawing.Point(53, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(663, 282);
-            this.panel1.TabIndex = 27;
+            this.panel1.TabIndex = 32;
             // 
             // textBoxNote
             // 
@@ -195,22 +190,13 @@
             this.comboBoxIDDeliveryVoucher.Size = new System.Drawing.Size(157, 24);
             this.comboBoxIDDeliveryVoucher.TabIndex = 1;
             // 
-            // labelInputVoucherIDNotification
-            // 
-            this.labelInputVoucherIDNotification.AutoSize = true;
-            this.labelInputVoucherIDNotification.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInputVoucherIDNotification.Location = new System.Drawing.Point(259, 42);
-            this.labelInputVoucherIDNotification.Name = "labelInputVoucherIDNotification";
-            this.labelInputVoucherIDNotification.Size = new System.Drawing.Size(389, 18);
-            this.labelInputVoucherIDNotification.TabIndex = 28;
-            this.labelInputVoucherIDNotification.Text = "ID không quá 30 kí tự\\nKhông trùng với ID trong danh sách";
-            // 
             // dateTimePickerDeliveryDate
             // 
+            this.dateTimePickerDeliveryDate.Enabled = false;
             this.dateTimePickerDeliveryDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dateTimePickerDeliveryDate.Location = new System.Drawing.Point(177, 126);
             this.dateTimePickerDeliveryDate.Name = "dateTimePickerDeliveryDate";
-            this.dateTimePickerDeliveryDate.Size = new System.Drawing.Size(338, 22);
+            this.dateTimePickerDeliveryDate.Size = new System.Drawing.Size(276, 22);
             this.dateTimePickerDeliveryDate.TabIndex = 2;
             // 
             // label2
@@ -260,10 +246,10 @@
             this.panel2.Controls.Add(this.buttonUpdateProduct);
             this.panel2.Controls.Add(this.buttonDeleteProduct);
             this.panel2.Controls.Add(this.buttonAddProduct);
-            this.panel2.Location = new System.Drawing.Point(4, 286);
+            this.panel2.Location = new System.Drawing.Point(53, 298);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1353, 404);
-            this.panel2.TabIndex = 26;
+            this.panel2.TabIndex = 31;
             // 
             // dtgvDeliveryInfo
             // 
@@ -280,7 +266,7 @@
             this.dtgvDeliveryInfo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dtgvDeliveryInfo.Size = new System.Drawing.Size(900, 350);
             this.dtgvDeliveryInfo.TabIndex = 30;
-            this.dtgvDeliveryInfo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDeliveryInfo_CellClick);
+            this.dtgvDeliveryInfo.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvDeliveryInfo_CellClick);
             // 
             // numericUpDownDeliveryPrice
             // 
@@ -304,11 +290,6 @@
             this.numericUpDownDeliveryQuantity.Location = new System.Drawing.Point(177, 245);
             this.numericUpDownDeliveryQuantity.Maximum = new decimal(new int[] {
             100000,
-            0,
-            0,
-            0});
-            this.numericUpDownDeliveryQuantity.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
@@ -338,7 +319,6 @@
             this.comboBoxProductType.Name = "comboBoxProductType";
             this.comboBoxProductType.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductType.TabIndex = 6;
-            this.comboBoxProductType.SelectedIndexChanged += new System.EventHandler(this.comboBoxProductType_SelectedIndexChanged);
             // 
             // comboBoxProductID
             // 
@@ -348,7 +328,6 @@
             this.comboBoxProductID.Name = "comboBoxProductID";
             this.comboBoxProductID.Size = new System.Drawing.Size(242, 24);
             this.comboBoxProductID.TabIndex = 6;
-            this.comboBoxProductID.SelectedIndexChanged += new System.EventHandler(this.comboBoxProductID_SelectedIndexChanged);
             // 
             // label9
             // 
@@ -439,7 +418,6 @@
             this.buttonUpdateProduct.TabIndex = 13;
             this.buttonUpdateProduct.Text = "Sửa sản  phẩm";
             this.buttonUpdateProduct.UseVisualStyleBackColor = true;
-            this.buttonUpdateProduct.Click += new System.EventHandler(this.buttonUpdateProduct_Click);
             // 
             // buttonDeleteProduct
             // 
@@ -449,7 +427,6 @@
             this.buttonDeleteProduct.TabIndex = 13;
             this.buttonDeleteProduct.Text = "Xóa sản  phẩm";
             this.buttonDeleteProduct.UseVisualStyleBackColor = true;
-            this.buttonDeleteProduct.Click += new System.EventHandler(this.buttonDeleteProduct_Click);
             // 
             // buttonAddProduct
             // 
@@ -459,62 +436,38 @@
             this.buttonAddProduct.TabIndex = 12;
             this.buttonAddProduct.Text = "Thêm sản phẩm";
             this.buttonAddProduct.UseVisualStyleBackColor = true;
-            this.buttonAddProduct.Click += new System.EventHandler(this.buttonAddProduct_Click);
-            this.buttonAddProduct.MouseLeave += new System.EventHandler(this.buttonAddProduct_MouseLeave);
-            this.buttonAddProduct.MouseHover += new System.EventHandler(this.buttonAddProduct_MouseHover);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(684, 711);
+            this.buttonCancel.Location = new System.Drawing.Point(733, 723);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(266, 38);
-            this.buttonCancel.TabIndex = 25;
+            this.buttonCancel.TabIndex = 30;
             this.buttonCancel.Text = "Thoát";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(374, 711);
+            this.buttonOK.Location = new System.Drawing.Point(423, 723);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(266, 38);
-            this.buttonOK.TabIndex = 24;
+            this.buttonOK.TabIndex = 29;
             this.buttonOK.Text = "Đồng ý";
             this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 763);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1361, 26);
-            this.statusStrip1.TabIndex = 29;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(151, 20);
-            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
-            // 
-            // FormAddDeliveryVoucher
+            // FormUpdateDeliveryVoucher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1361, 789);
-            this.Controls.Add(this.statusStrip1);
+            this.ClientSize = new System.Drawing.Size(1496, 742);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Name = "FormAddDeliveryVoucher";
+            this.Name = "FormUpdateDeliveryVoucher";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Thêm phiếu xuất";
-            this.Load += new System.EventHandler(this.FormAddDeliveryVoucher_Load);
+            this.Text = "FormUpdateDeliveryVoucher";
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -524,10 +477,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dtgvDeliveryInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownDeliveryQuantity)).EndInit();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -538,39 +488,36 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox comboBoxIDCustomer;
+        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelPhoneCustomer;
         private System.Windows.Forms.ComboBox comboBoxNameCustomer;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox textBoxNote;
         private System.Windows.Forms.ComboBox comboBoxIDDeliveryVoucher;
-        private System.Windows.Forms.Label labelInputVoucherIDNotification;
         private System.Windows.Forms.DateTimePicker dateTimePickerDeliveryDate;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBoxNote;
         private System.Windows.Forms.DataGridView dtgvDeliveryInfo;
+        private System.Windows.Forms.NumericUpDown numericUpDownDeliveryPrice;
         private System.Windows.Forms.NumericUpDown numericUpDownDeliveryQuantity;
         private System.Windows.Forms.ComboBox comboBoxProductName;
+        private System.Windows.Forms.ComboBox comboBoxProductType;
         private System.Windows.Forms.ComboBox comboBoxProductID;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label labelAveragePrice;
+        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label labelInventoryNumber;
+        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button buttonUpdateProduct;
         private System.Windows.Forms.Button buttonDeleteProduct;
         private System.Windows.Forms.Button buttonAddProduct;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
-        private System.Windows.Forms.NumericUpDown numericUpDownDeliveryPrice;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label labelAveragePrice;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBoxProductType;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.Button buttonUpdateProduct;
     }
 }

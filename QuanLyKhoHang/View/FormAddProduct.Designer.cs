@@ -32,6 +32,7 @@ namespace QuanLyKhoHang
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.comboBoxProductType = new System.Windows.Forms.ComboBox();
+            this.labelGoodName = new System.Windows.Forms.Label();
             this.comboBoxIDGood = new System.Windows.Forms.ComboBox();
             this.labelNotificationIDGood = new System.Windows.Forms.Label();
             this.buttonAddGood = new System.Windows.Forms.Button();
@@ -42,7 +43,6 @@ namespace QuanLyKhoHang
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.labelGoodName = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,6 +71,15 @@ namespace QuanLyKhoHang
             this.comboBoxProductType.Name = "comboBoxProductType";
             this.comboBoxProductType.Size = new System.Drawing.Size(232, 24);
             this.comboBoxProductType.TabIndex = 6;
+            // 
+            // labelGoodName
+            // 
+            this.labelGoodName.AutoSize = true;
+            this.labelGoodName.Location = new System.Drawing.Point(460, 268);
+            this.labelGoodName.Name = "labelGoodName";
+            this.labelGoodName.Size = new System.Drawing.Size(38, 17);
+            this.labelGoodName.TabIndex = 5;
+            this.labelGoodName.Text = "label";
             // 
             // comboBoxIDGood
             // 
@@ -153,17 +162,9 @@ namespace QuanLyKhoHang
             this.label1.Text = "Mã hàng hóa";
             this.toolTip1.SetToolTip(this.label1, "halosdfa sdad fasdfasdf as");
             // 
-            // labelGoodName
-            // 
-            this.labelGoodName.AutoSize = true;
-            this.labelGoodName.Location = new System.Drawing.Point(460, 268);
-            this.labelGoodName.Name = "labelGoodName";
-            this.labelGoodName.Size = new System.Drawing.Size(38, 17);
-            this.labelGoodName.TabIndex = 5;
-            this.labelGoodName.Text = "label";
-            // 
             // FormAddProduct
             // 
+            this.AcceptButton = this.buttonAddGood;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(735, 696);

@@ -101,7 +101,7 @@ namespace QuanLyKhoHang.DAO
             return check;
         }
 
-        public Product GetProductByID(string id)
+        public Product GetByID(string id)
         {
             return db.Products.Find(id);
         }
