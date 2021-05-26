@@ -25,15 +25,125 @@ namespace QuanLyKhoHang
 
     public partial class FormHome : Form
     {
+        //Fields
+
+        private Button currentBtnCategory;
+        private Random random;
+        private int tempIndex;
+
         private Color colorButtonCategoryWhenClicked;
         private ListViewColumnSorter lvwColumnSorter;
 
         object currentPagedList;
-        object showingDtgv;
+
+        //Constructor
         public FormHome()
         {
             InitializeComponent();
+            random = new Random();
         }
+
+        //Methods
+
+        private Color SelectThemeColor()
+        {
+            int index = random.Next(ThemeColor.ColorList.Count);
+
+            //if selected color == previous color, we random again
+            while(tempIndex == index)
+            {
+                index = random.Next(ThemeColor.ColorList.Count);
+            }
+
+            tempIndex = index;
+            string color = ThemeColor.ColorList[index];
+            return ColorTranslator.FromHtml(color);
+        }
+
+        private void ActiveButton(object btnSender)
+        {
+            if(btnSender != null)
+            {
+                if(currentBtnCategory != (Button)btnSender)
+                {
+                    DisableButton();
+                    currentBtnCategory = (Button)btnSender;
+                    Color color = SelectThemeColor();
+                    currentBtnCategory.BackColor = color;
+                    currentBtnCategory.ForeColor = Color.White;
+                    currentBtnCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+                    panelLogo.BackColor = ThemeColor.ChangeColorBrightness(color,-0.3);
+                    panelTitle.BackColor = color;
+                    lbTitle.Text = currentBtnCategory.Text;
+                    
+                }
+            }
+        }
+
+        private void DisableButton()
+        {
+            foreach (Control btn in panelMenu.Controls)
+            {
+                if(btn.GetType() == typeof(Button))
+                {
+                    btn.BackColor = Color.FromArgb(51, 51, 76);
+                    btn.ForeColor = Color.White;
+                    btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+                }
+            }
+        }
+
+
+
+        #region category button
+
+        private void buttonCategoryGoods_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategoryProduct);
+            ActiveButton(sender);
+        }
+
+        private void buttonCategorySupplier_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategorySupplier);
+            ActiveButton(sender);
+        }
+
+        private void buttonCategoryInputVoucher_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategoryReceiveVoucher);
+            ActiveButton(sender);
+        }
+
+        private void buttonCategoryOutputVoucher_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategoryDeliveryVoucher);
+            ActiveButton(sender);
+        }
+
+        private void buttonCategoryCustomer_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategoryCustomer);
+            ActiveButton(sender);
+        }
+
+        private void buttonCategoryReport_Click(object sender, EventArgs e)
+        {
+            TagThisCategoryButtomToActionButton(buttonCategoryReport);
+            ActiveButton(sender);
+        }
+
+        private void TagThisCategoryButtomToActionButton(Button categoryButton)
+        {
+            buttonAdd.Tag = categoryButton;
+            buttonUpdate.Tag = categoryButton;
+            buttonDelete.Tag = categoryButton;
+            buttonShow.Tag = categoryButton;
+            buttonPrint.Tag = categoryButton;
+        }
+
+        #endregion
 
         private void SetMyCustomeFomateDatetimePicker(string format)
         {
@@ -229,7 +339,6 @@ namespace QuanLyKhoHang
                 lvwColumnSorter.Order = System.Windows.Forms.SortOrder.Ascending;
             }
 
-            listViewGeneral.Sort();
         }
 
         private void dateTimePicker_ValueChanged(object sender, EventArgs e)
@@ -237,133 +346,7 @@ namespace QuanLyKhoHang
             //ReLoadListViewInventory();
         }
 
-        #region category button
 
-        private void buttonCategoryGoods_Click(object sender, EventArgs e)
-        {
-            TagThisCategoryButtomToActionButton(buttonCategoryProduct);
-            ChangeColorCategoryButtonWhenClicked(sender as Button);
-        }
-
-        private void buttonCategorySupplier_Click(object sender, EventArgs e)
-        {
-            TagThisCategoryButtomToActionButton(buttonCategorySupplier);
-            ChangeColorCategoryButtonWhenClicked(sender as Button);
-        }
-
-        private void buttonCategoryInputVoucher_Click(object sender, EventArgs e)
-        {
-            TagThisCategoryButtomToActionButton(buttonCategoryReceiveVoucher);
-            ChangeColorCategoryButtonWhenClicked(sender as Button);
-        }
-
-        private void buttonCategoryOutputVoucher_Click(object sender, EventArgs e)
-        {
-            TagThisCategoryButtomToActionButton(buttonCategoryDeliveryVoucher);
-            ChangeColorCategoryButtonWhenClicked(sender as Button);
-        }
-
-        private void buttonCategoryCustomer_Click(object sender, EventArgs e)
-        {
-            TagThisCategoryButtomToActionButton(buttonCategoryCustomer);
-            ChangeColorCategoryButtonWhenClicked(buttonCategoryCustomer);
-        }
-        private void buttonCategoryReport_Click(object sender, EventArgs e)
-        {
-            TagThisCategoryButtomToActionButton(buttonCategoryReport);
-            ChangeColorCategoryButtonWhenClicked(buttonCategoryReport);
-        }
-        private void ChangeColorCategoryButtonWhenClicked(Button button)
-        {
-            buttonCategoryProduct.BackColor = default;
-            buttonCategorySupplier.BackColor = default;
-            buttonCategoryReceiveVoucher.BackColor = default;
-            buttonCategoryDeliveryVoucher.BackColor = default;
-            buttonCategoryCustomer.BackColor = default;
-            buttonCategoryReport.BackColor = default;
-
-            if (button == buttonCategoryProduct)
-            {
-                buttonCategoryProduct.BackColor = colorButtonCategoryWhenClicked;
-            }
-
-            if (button == buttonCategorySupplier)
-            {
-                buttonCategorySupplier.BackColor = colorButtonCategoryWhenClicked;
-            }
-
-            if (button == buttonCategoryReceiveVoucher)
-            {
-                buttonCategoryReceiveVoucher.BackColor = colorButtonCategoryWhenClicked;
-            }
-
-            if (button == buttonCategoryDeliveryVoucher)
-            {
-                buttonCategoryDeliveryVoucher.BackColor = colorButtonCategoryWhenClicked;
-            }
-
-            if (button == buttonCategoryCustomer)
-            {
-                buttonCategoryCustomer.BackColor = colorButtonCategoryWhenClicked;
-            }
-
-            if (button == buttonCategoryReport)
-            {
-                buttonCategoryReport.BackColor = colorButtonCategoryWhenClicked;
-            }
-        }
-
-        private void TagThisCategoryButtomToActionButton(Button categoryButton)
-        {
-            buttonShow.Tag = categoryButton;
-            buttonAdd.Tag = categoryButton;
-            buttonUpdate.Tag = categoryButton;
-            buttonDelete.Tag = categoryButton;
-            buttonSearch.Tag = categoryButton;
-            buttonPrint.Tag = categoryButton;
-        }
-
-        #endregion
-
-        private void buttonShow_Click(object sender, EventArgs e)
-        {
-            Button categoryButtonTagged = buttonShow.Tag as Button;
-
-            if (categoryButtonTagged == buttonCategoryProduct)
-            {
-                LoadDtgvProduct();
-            }
-
-            if (categoryButtonTagged == buttonCategorySupplier)
-            {
-                LoadDtgvSupplier();
-            }
-
-            if (categoryButtonTagged == buttonCategoryCustomer)
-            {
-                LoadDtgvCustomer();
-            }
-
-            if (categoryButtonTagged == buttonCategoryReceiveVoucher)
-            {
-                LoadDtgvReceiveVoucher();
-            }
-
-            if (categoryButtonTagged == buttonCategoryDeliveryVoucher)
-            {
-                LoadDtgvDeliveryVoucher();
-            }
-
-            if (categoryButtonTagged == buttonCategoryReport)
-            {
-                LoadDtgvReport();
-            }
-
-            if (categoryButtonTagged == null)
-            {
-                MessageBox.Show("Bạn hãy chọn mục muốn hiển thị");
-            }
-        }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -603,83 +586,11 @@ namespace QuanLyKhoHang
             
         }
 
-        private void listViewGeneral_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listViewGeneral.SelectedItems.Count > 0)
-            {
-                Button btnCatgory = buttonShow.Tag as Button;
-
-                ListViewItem lvwItem = listViewGeneral.SelectedItems[0];
-
-                if (btnCatgory == buttonCategoryProduct)
-                {
-                    Product product = new Product();
-                    product.ID = lvwItem.SubItems[0].Text;
-                    product.Name = lvwItem.SubItems[1].Text;
-                    product.Unit = lvwItem.SubItems[2].Text;
-                    product.IdType = ProductTypeDAO.Instance.GetIDByName(lvwItem.SubItems[3].Text);
-                    listViewGeneral.Tag = product as object;
-                }
-
-                if (btnCatgory == buttonCategorySupplier)
-                {
-                    string id, name, addr, phone, email;
-                    id = lvwItem.SubItems[0].Text;
-                    name = lvwItem.SubItems[1].Text;
-                    addr = lvwItem.SubItems[2].Text;
-                    phone = lvwItem.SubItems[3].Text;
-                    email = lvwItem.SubItems[4].Text;
-
-                    Supplier supplier = new Supplier();
-                    supplier.ID = id;
-                    supplier.Name = name;
-                    supplier.Address = addr;
-                    supplier.Phone = phone;
-                    supplier.Email = email;
-
-
-                    listViewGeneral.Tag = supplier as object;
-                }
-
-                if (btnCatgory == buttonCategoryCustomer)
-                {
-                    string id, name, addr, phone, email;
-                    id = lvwItem.SubItems[0].Text;
-                    name = lvwItem.SubItems[1].Text;
-                    addr = lvwItem.SubItems[2].Text;
-                    phone = lvwItem.SubItems[3].Text;
-                    email = lvwItem.SubItems[4].Text;
-
-                    Customer customer = CustomerDAO.Instance.NewCustomer(id, name, addr, phone, email);
-                    customer.ID = id;
-
-                    listViewGeneral.Tag = customer as object;
-                }
-
-                if (btnCatgory == buttonCategoryReceiveVoucher)
-                {
-                    int indexColumnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDReceiveVoucher");
-                    string idReceiveVoucher = lvwItem.SubItems[indexColumnIDVoucher].Text;
-
-                    ReceiveVoucher receiveVoucher = ReceiveVoucherDAO.Instance.GetByID(idReceiveVoucher);
-
-                    listViewGeneral.Tag = receiveVoucher as object;
-                }
-
-                if (btnCatgory == buttonCategoryDeliveryVoucher)
-                {
-                    int columnIDVoucher = listViewGeneral.Columns.IndexOfKey("IDDeliveryVoucher");
-                    string deliveryVoucherID = lvwItem.SubItems[columnIDVoucher].Text;
-
-                    listViewGeneral.Tag = deliveryVoucherID;
-                }
-            }
-        }
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             string keyWord = textBoxSearch.Text;
 
-            Button category = buttonSearch.Tag as Button;
+            Button category = buttonShow.Tag as Button;
 
             if (category == null)
             {
@@ -738,11 +649,11 @@ namespace QuanLyKhoHang
         {
             Button categoryButtonTagged = buttonPrint.Tag as Button;
 
-            if (categoryButtonTagged == buttonCategoryReport && listViewGeneral.Columns.Count > 0)
+            /*if (categoryButtonTagged == buttonCategoryReport && listViewGeneral.Columns.Count > 0)
             {
                 FormReportPrint f = new FormReportPrint(showingDtgv as List<ReportDTO>);
                 f.Show();
-            }
+            }*/
         }
 
         private void btnPrevious_Click(object sender, EventArgs e)
@@ -870,6 +781,7 @@ namespace QuanLyKhoHang
 
 
         object rowSelectedObj;
+
         private void dtgvHome_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex > -1)
@@ -936,5 +848,7 @@ namespace QuanLyKhoHang
 
             return searchModel;
         }
+
+      
     }
 }

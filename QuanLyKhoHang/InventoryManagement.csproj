@@ -131,6 +131,7 @@
     <Compile Include="DTO\ReportDTO.cs" />
     <Compile Include="Helper\SearchModel.cs" />
     <Compile Include="Helper\SortableBindingList.cs" />
+    <Compile Include="Helper\ThemeColor.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="View\FormAddDeliveryVoucher.cs">
       <SubType>Form</SubType>

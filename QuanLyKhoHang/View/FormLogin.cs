@@ -25,11 +25,7 @@ namespace QuanLyKhoHang
 
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult choice = MessageBox.Show("Bạn đồng ý thoát ?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            if (choice != DialogResult.OK)
-            {
-                e.Cancel = true;
-            }
+            
         }
 
         private void buttonSignIn_Click(object sender, EventArgs e)
@@ -105,6 +101,15 @@ namespace QuanLyKhoHang
             textBoxUserName.ForeColor = Color.White;
             panel1.BackColor = Color.White;
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            DialogResult choice = MessageBox.Show("Bạn đồng ý thoát ?", "Thông báo", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (choice == DialogResult.OK)
+            {
+                this.Close();
+            }
         }
     }
 }

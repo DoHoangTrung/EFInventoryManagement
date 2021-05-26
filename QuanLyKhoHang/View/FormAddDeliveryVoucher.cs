@@ -14,6 +14,7 @@ namespace QuanLyKhoHang.View
 {
     public partial class FormAddDeliveryVoucher : Form
     {
+        //Fields
         private List<ProductType> sourceProductType;
 
         private List<ProductCanSellView> sourceProductCanSell;
@@ -26,6 +27,7 @@ namespace QuanLyKhoHang.View
 
         private DTGViewAddDeliveryVoucherDTO rowSelectedObj;
 
+        //Constructor
         public FormAddDeliveryVoucher()
         {
             InitializeComponent();
@@ -36,6 +38,7 @@ namespace QuanLyKhoHang.View
             sourceProductDtgv = new List<DTGViewAddDeliveryVoucherDTO>();
         }
 
+        //Methods
         private void FormAddDeliveryVoucher_Load(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "";
@@ -46,7 +49,6 @@ namespace QuanLyKhoHang.View
             LoadProductType(sourceProductType);
             LoadDTGViewInfo();
         }
-
 
         private void LoadProductType(List<ProductType> types)
         {
@@ -157,6 +159,7 @@ namespace QuanLyKhoHang.View
 
             return deliveryQuantity <= inventoryNumber;
         }
+        
         private void buttonAddProduct_Click(object sender, EventArgs e)
         {
             if (CheckValidDeliveryQuantity())
@@ -245,6 +248,7 @@ namespace QuanLyKhoHang.View
                 MessageBox.Show("Bạn hãy chọn dòng muốn xóa");
             }
         }
+
         private void buttonUpdateProduct_Click(object sender, EventArgs e)
         {
             if(rowSelectedObj != null)
@@ -256,6 +260,7 @@ namespace QuanLyKhoHang.View
                 MessageBox.Show("Bạn hãy chọn dòng muốn sửa");
             }
         }
+
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -280,6 +285,7 @@ namespace QuanLyKhoHang.View
                 return true;
             }
         }
+
         private void buttonOK_Click(object sender, EventArgs e)
         {
             DialogResult action = MessageBox.Show("Bạn đồng ý thêm sản phẩm", "Xác nhận", MessageBoxButtons.OKCancel);

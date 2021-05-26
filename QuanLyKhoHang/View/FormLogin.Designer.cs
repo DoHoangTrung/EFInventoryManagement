@@ -40,6 +40,7 @@ namespace QuanLyKhoHang
             this.picPassWord = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picUserName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPassWord)).BeginInit();
@@ -163,6 +164,19 @@ namespace QuanLyKhoHang
             this.panel2.Size = new System.Drawing.Size(385, 1);
             this.panel2.TabIndex = 14;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.PapayaWhip;
+            this.label1.Location = new System.Drawing.Point(451, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(27, 26);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "X";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
             // FormLogin
             // 
             this.AcceptButton = this.buttonSignIn;
@@ -170,6 +184,7 @@ namespace QuanLyKhoHang
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(128)))), ((int)(((byte)(215)))));
             this.ClientSize = new System.Drawing.Size(478, 672);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.picPassWord);
@@ -207,6 +222,7 @@ namespace QuanLyKhoHang
         private System.Windows.Forms.PictureBox picPassWord;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label1;
     }
 }
 
